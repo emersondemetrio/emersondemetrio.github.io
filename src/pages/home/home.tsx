@@ -37,7 +37,7 @@ export const Home = () => {
                     })}
                     <div className="row text-center"></div>
                 </div>
-            </section >
+            </section>
         </>
     )
 }
