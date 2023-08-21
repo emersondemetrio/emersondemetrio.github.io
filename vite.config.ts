@@ -5,6 +5,9 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig(() => {
   return {
+    build: {
+      outDir: './docs', // This will be overrided to `dist` by qwikVite() setting
+    },
     plugins: [qwikCity(), qwikVite(), tsconfigPaths()],
     preview: {
       headers: {
