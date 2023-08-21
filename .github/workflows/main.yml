@@ -26,8 +26,7 @@ jobs:
 
             - name: Build app
               run: npm run build
-            - name: copy-c-name
-              run: echo "emerson.run" >> CNAME
+
             - name: deploy
               uses: peaceiris/actions-gh-pages@v3
               with:

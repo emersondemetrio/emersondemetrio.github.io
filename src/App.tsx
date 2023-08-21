@@ -40,19 +40,25 @@ export const App = () => {
 				<div className="container">
 					<div className="row">
 						<div className="col-lg-12 text-center">
-							<h2 className="section-heading text-uppercase">
+							<h3 className="section-heading text-uppercase">
 								Links
-							</h2>
+							</h3>
 						</div>
 					</div>
 					{Links.map((link) => {
 						return (
-							<div className="row" key={link.title}>
-
-								<div className="col-lg-12 text-center">
+							<div className="row" key={link.title} style={{
+								marginBottom: 10,
+							}}>
+								<div className="col-lg-12 text-center" >
 									<a
-										className="btn btn-xl text-uppercase js-scroll-trigger"
+										style={{
+											marginBottom: 10,
+											width: 200
+										}}
+										className="btn btn-xl btn-secondary text-uppercase"
 										href={link.url}
+										target='_blank'
 									>
 										{link.title}
 									</a>
@@ -62,13 +68,13 @@ export const App = () => {
 					})}
 					<div className="row text-center"></div>
 				</div>
-			</section>
+			</section >
 			<footer className="footer" id="footer">
 				<div className="container">
 					<div className="row align-items-center">
 						<div className="col-md-4">
 							<span className="copyright">
-								Copyright &copy; <a href='emerson.run'>emerson.run</a> <span>{new Date().getFullYear()}</span>
+								Copyright &copy; <a href='https://emerson.run'>emerson.run</a> <span>{new Date().getFullYear()}</span>
 							</span>
 						</div>
 
