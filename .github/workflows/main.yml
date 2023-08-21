@@ -1,0 +1,31 @@
+name: Deploy React App to GitHub Pages
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+on:
+    push:
+        branches: ['main']
+jobs:
+    web-deploy:
+        name: 🎉 Deploy
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
+        steps:
+            - name: Setup Node.js for use with actions
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 16
+
+            - name: 🚚 Get latest code
+              uses: actions/checkout@v2.5.0
+
+            - name: Build app
+              run: npm run build.client
+
+            - name: deploy
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./dist
