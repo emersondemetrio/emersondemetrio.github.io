@@ -10,7 +10,7 @@ export default component$(() => {
 			>
 				<div class="container">
 					<a class="navbar-brand js-scroll-trigger" href="#page-top">
-						emerson.run
+						home
 					</a>
 					<button
 						class="navbar-toggler navbar-toggler-right"
