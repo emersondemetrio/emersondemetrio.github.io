@@ -2,7 +2,7 @@ import 'react';
 import './App.css';
 import { Links } from './constants';
 
-function App() {
+export const App = () => {
 	return (
 		<>
 			<nav
@@ -14,7 +14,7 @@ function App() {
 						className="navbar-brand js-scroll-trigger"
 						href="#page-top"
 					>
-						home
+						emerson.run
 					</a>
 					<button
 						className="navbar-toggler navbar-toggler-right"
@@ -36,33 +36,22 @@ function App() {
 					</div>
 				</div>
 			</nav>
-			<header className="masthead">
-				<div className="container">
-					<div className="intro-text"></div>
-				</div>
-			</header>
-
 			<section className="page-section" id="services">
 				<div className="container">
 					<div className="row">
 						<div className="col-lg-12 text-center">
 							<h2 className="section-heading text-uppercase">
-								About
+								Links
 							</h2>
 						</div>
-						<div>TODO</div>
 					</div>
 					{Links.map((link) => {
 						return (
 							<div className="row" key={link.title}>
-								<div className="col-lg-12 text-center">
-									<h2 className="section-heading text-uppercase">
-										{link.title}
-									</h2>
-								</div>
+
 								<div className="col-lg-12 text-center">
 									<a
-										className="btn btn-primary btn-xl text-uppercase js-scroll-trigger"
+										className="btn btn-xl text-uppercase js-scroll-trigger"
 										href={link.url}
 									>
 										{link.title}
@@ -95,5 +84,3 @@ function App() {
 		</>
 	);
 }
-
-export default App;
