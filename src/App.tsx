@@ -68,8 +68,7 @@ export const App = () => {
 					<div className="row align-items-center">
 						<div className="col-md-4">
 							<span className="copyright">
-								Copyright &copy; {" "} <a href='emerson.run'>emerson.run</a>
-								{new Date().getFullYear()}
+								Copyright &copy; <a href='emerson.run'>emerson.run</a> <span>{new Date().getFullYear()}</span>
 							</span>
 						</div>
 
