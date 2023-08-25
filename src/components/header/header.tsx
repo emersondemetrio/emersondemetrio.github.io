@@ -1,3 +1,5 @@
+import { HomeUrl } from '../../constants';
+
 const Header = () => {
 	return (
 		<nav
@@ -5,8 +7,11 @@ const Header = () => {
 			id="mainNav"
 		>
 			<div className="container">
-				<a className="navbar-brand js-scroll-trigger" href="/">
-					emerson.run
+				<a
+					className="navbar-brand js-scroll-trigger"
+					href={HomeUrl.url}
+				>
+					{HomeUrl.title}
 				</a>
 			</div>
 		</nav>

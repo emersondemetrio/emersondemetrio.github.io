@@ -38,4 +38,8 @@ export const Links: Array<Link> = [
 		title: 'YouTube',
 		url: 'https://www.youtube.com/@emersondemetrio/videos',
 	},
+	{
+		title: 'Blog',
+		url: 'https://badcompiler.tumblr.com',
+	},
 ];

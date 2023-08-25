@@ -1,6 +1,6 @@
 import 'react';
-
 import { Links } from '../../constants';
+import './home.css';
 
 export const Home = () => {
 	return (
@@ -22,32 +22,18 @@ export const Home = () => {
 							</p>
 						</div>
 					</div>
-					{Links.map((link) => {
-						return (
-							<div
-								className="row"
-								key={link.title}
-								style={{
-									marginBottom: 10,
-								}}
+					<div className="grid-container">
+						{Links.map(({ title, url }) => (
+							<a
+								href={url}
+								key={title}
+								target="_blank"
+								className="grid-item text-uppercase"
 							>
-								<div className="col-lg-12 text-center">
-									<a
-										style={{
-											marginBottom: 10,
-											width: 200,
-										}}
-										className="btn btn-light btn-outline-secondary btn-xl text-uppercase"
-										href={link.url}
-										target="_blank"
-									>
-										{link.title}
-									</a>
-								</div>
-							</div>
-						);
-					})}
-					<div className="row text-center"></div>
+								<div key={title}>{title}</div>
+							</a>
+						))}
+					</div>
 				</div>
 			</section>
 		</>
