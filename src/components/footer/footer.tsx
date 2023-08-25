@@ -1,4 +1,4 @@
-import React from 'react';
+import { HomeUrl } from '../../constants';
 
 const Footer = () => {
 	return (
@@ -8,7 +8,7 @@ const Footer = () => {
 					<div className="col-md-4">
 						<span className="copyright">
 							Copyright &copy;{' '}
-							<a href="https://emerson.run">emerson.run</a>{' '}
+							<a href={HomeUrl.url}>{HomeUrl.title}</a>{' '}
 							<span>{new Date().getFullYear()}</span>
 						</span>
 					</div>

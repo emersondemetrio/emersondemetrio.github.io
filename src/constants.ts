@@ -4,6 +4,11 @@ type Link = {
 	icon?: string;
 };
 
+export const HomeUrl = {
+	title: 'emerson.run',
+	url: 'https://emerson.run',
+};
+
 export const Links: Array<Link> = [
 	{
 		title: 'Instagram',
