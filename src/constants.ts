@@ -1,7 +1,7 @@
 type Link = {
 	title: string;
 	url: string;
-	icon?: string
+	icon?: string;
 };
 
 export const Links: Array<Link> = [
@@ -20,5 +20,17 @@ export const Links: Array<Link> = [
 	{
 		title: 'SoundCloud',
 		url: 'https://soundcloud.com/emersondemetrio/tracks',
+	},
+	{
+		title: 'LinkedIn',
+		url: 'https://www.linkedin.com/in/emersondemetrio/',
+	},
+	{
+		title: 'Gist',
+		url: 'https://gist.github.com/emersondemetrio',
+	},
+	{
+		title: 'YouTube',
+		url: 'https://www.youtube.com/@emersondemetrio/videos',
 	},
 ];
