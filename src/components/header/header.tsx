@@ -6,7 +6,7 @@ const Header = () => {
 			className="navbar navbar-expand-lg navbar-dark fixed-top"
 			id="mainNav"
 		>
-			<div className="container">
+			<div className="container main-nav">
 				<a
 					className="navbar-brand js-scroll-trigger"
 					href={HomeUrl.url}

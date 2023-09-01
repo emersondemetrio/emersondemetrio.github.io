@@ -1,6 +1,19 @@
 import 'react';
-import { Links } from '../../constants';
+import { Link, Links } from '../../constants';
 import './home.css';
+
+const CustomLink = ({ title, url }: Link) => {
+	return (
+		<a
+			href={url}
+			key={title}
+			target="_blank"
+			className="grid-item text-uppercase"
+		>
+			<div key={title}>{title}</div>
+		</a>
+	);
+};
 
 export const Home = () => {
 	return (
@@ -14,24 +27,17 @@ export const Home = () => {
 								marginBottom: 20,
 							}}
 						>
-							<h3 className="section-heading text-primary">
+							<h3 className="section-heading text-primary black-bg">
 								Emerson Demetrio
 							</h3>
-							<p className="text-primary">
+							<p className="text-primary black-bg">
 								I Drink and I know things
 							</p>
 						</div>
 					</div>
 					<div className="grid-container">
 						{Links.map(({ title, url }) => (
-							<a
-								href={url}
-								key={title}
-								target="_blank"
-								className="grid-item text-uppercase"
-							>
-								<div key={title}>{title}</div>
-							</a>
+							<CustomLink key={title} title={title} url={url} />
 						))}
 					</div>
 				</div>
