@@ -35,11 +35,17 @@ export const Home = () => {
 							</p>
 						</div>
 					</div>
+					<div className="black-bg">
+						<h3 className="white-text">Stuff</h3>
+					</div>
 					<div className="grid-container">
 						{Links.map(({ title, url }) => (
 							<CustomLink key={title} title={title} url={url} />
 						))}
 					</div>
+					{/* <div className="black-bg mt5">
+						<h3 className="white-text">Other Stuff</h3>
+					</div> */}
 				</div>
 			</section>
 		</>

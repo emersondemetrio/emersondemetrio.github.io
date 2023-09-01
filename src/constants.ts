@@ -43,3 +43,10 @@ export const Links: Array<Link> = [
 		url: 'https://badcompiler.tumblr.com',
 	},
 ];
+
+export const OtherStuff: Array<Link> = [
+	{
+		title: 'Bad Compiler',
+		url: 'https://badcompiler.tumblr.com',
+	},
+];

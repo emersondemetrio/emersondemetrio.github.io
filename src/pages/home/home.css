@@ -32,6 +32,14 @@
 	border: solid 1px #fff;
 }
 
+.white-text {
+	color: #fff;
+}
+
+.mt5 {
+	margin-top: 5px;
+}
+
 @media (max-width: 768px) {
 	.grid-container {
 		grid-template-columns: 1fr 1fr;
