@@ -31,7 +31,7 @@ export const Home = () => {
 								Emerson Demetrio
 							</h3>
 							<p className="text-primary black-bg">
-								I Drink and I know things
+								Software Engineer and musician.
 							</p>
 						</div>
 					</div>
