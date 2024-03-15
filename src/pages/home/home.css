@@ -4,6 +4,14 @@
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
+.reset {
+	all: unset;
+}
+
+.group-title {
+	font-size: 18px;
+}
+
 .link-item {
 	padding: 10px;
 	margin: 10px;
@@ -24,7 +32,7 @@
 	border: 1px solid #666;
 	font-size: 1.2em;
 	background-color: #fff;
-	color: red;
+	color: var(--black);
 }
 
 .grid-item:hover {
@@ -36,8 +44,24 @@
 	color: #fff;
 }
 
+.pl10 {
+	padding-left: 10px;
+}
+
 .mt5 {
 	margin-top: 5px;
+}
+
+.mb5 {
+	margin-bottom: 5px;
+}
+
+.mt10 {
+	margin-top: 10px;
+}
+
+.mb10 {
+	margin-bottom: 10px;
 }
 
 @media (max-width: 768px) {
