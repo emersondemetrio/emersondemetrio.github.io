@@ -1,6 +1,6 @@
 import 'react';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Home } from './pages/home/home';
 import Footer from './components/footer';
 import Header from './components/header';
@@ -15,7 +15,7 @@ const About = () => {
 
 export const App = () => {
 	return (
-		<>
+		<BrowserRouter basename="/">
 			<Header />
 			<div className="content">
 				<Routes>
@@ -24,6 +24,6 @@ export const App = () => {
 				</Routes>
 			</div>
 			<Footer />
-		</>
+		</BrowserRouter>
 	);
 };
