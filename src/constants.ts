@@ -47,6 +47,11 @@ export const Links: Array<Link> = [
 		category: 'arts'
 	},
 	{
+		title: 'Playlists',
+		url: 'https://www.youtube.com/@emersondemetrio/playlists',
+		category: 'arts'
+	},
+	{
 		title: 'SoundCloud',
 		url: 'https://soundcloud.com/emersondemetrio/tracks',
 		category: 'arts'
