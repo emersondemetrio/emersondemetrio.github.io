@@ -1,6 +1,11 @@
 import 'react';
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {
+	BrowserRouter as Router,
+	Route,
+	Routes,
+	Navigate,
+} from 'react-router-dom';
 import { Home } from './pages/home/home';
 import Footer from './components/footer';
 import Header from './components/header';
@@ -15,15 +20,16 @@ const About = () => {
 
 export const App = () => {
 	return (
-		<BrowserRouter basename="/">
-			<Header />
+		<Router basename={'/'}>
 			<div className="content">
+				<Header />
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/about" element={<About />} />
+					<Route path="*" element={<Navigate to="/" />} />
 				</Routes>
+				<Footer />
 			</div>
-			<Footer />
-		</BrowserRouter>
+		</Router>
 	);
 };
