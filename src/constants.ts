@@ -1,9 +1,6 @@
-export type Link = {
-	title: string;
-	url: string;
-	icon?: string;
-	category: 'social' | 'professional' | 'arts';
-};
+import { CurrencyProvider, Link } from "./types";
+
+export const API_URL = "https://api.exchangerate-api.com/v4/latest/";
 
 export const HomeUrl = {
 	title: 'emerson.run',
@@ -28,7 +25,7 @@ export const Links: Array<Link> = [
 	},
 	{
 		title: 'GitHub',
-		url: 'https://www.github.com/emersondemetrio/',
+		url: 'https://github.com/emersondemetrio?tab=repositories',
 		category: 'professional'
 	},
 	{
@@ -63,3 +60,18 @@ export const Links: Array<Link> = [
 	},
 ];
 
+export const CurrencyProviders: CurrencyProvider[] = [
+	{
+		name: "Wise",
+		nickname: "wis",
+		url: (amount, currency) => {
+			const wiseLikeUrl = `eur-to-${currency}-rate?amount=${amount}`.toLocaleLowerCase();
+			return `https://wise.com/us/currency-converter/${wiseLikeUrl}`
+		}
+	},
+	{
+		name: "Google",
+		nickname: "ggl",
+		url: (amount, currency) => `https://www.google.com/search?q=${amount}+eur+to+${currency}`
+	},
+]
