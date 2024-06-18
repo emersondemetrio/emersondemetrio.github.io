@@ -1,6 +1,6 @@
 import { HomeUrl } from "../../constants";
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer className="footer row center" id="footer">
       <div className="col-md-4">
@@ -12,5 +12,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;

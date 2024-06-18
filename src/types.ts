@@ -1,8 +1,11 @@
+export type LinkCategory = 'social' | 'professional' | 'arts';
+
 export type Link = {
     title: string;
     url: string;
     icon?: string;
-    category: 'social' | 'professional' | 'arts';
+    category: LinkCategory
+    handle: string;
 };
 
 export const TargetCurrencies = ["USD", "GBP", "BRL"];

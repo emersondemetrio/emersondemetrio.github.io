@@ -32,7 +32,7 @@ export const Toggle = ({ children, onChange, style = {} }: ToggleProps) => {
           justifyContent: "left",
         }}
       >
-        <button onClick={handleChange}>
+        <button className="btn btn-secondary" onClick={handleChange}>
           Currency Tools {visible ? "↑" : "↓"}
         </button>
       </div>

@@ -3,6 +3,7 @@ import { formatToCurrency, useCurrencyNow } from "../../hooks/use-currency-now";
 import { Loading } from "../loading/loading";
 import { Badge } from "../badge/badge";
 import { CurrencyProviders } from "../../constants";
+import "./currency-now.css";
 
 export const CurrencyNow = () => {
   const { data, isLoading, error } = useCurrencyNow();
