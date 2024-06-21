@@ -1,5 +1,5 @@
 import "react";
-import * as ReactModal from "react-modal";
+import Modal from "react-modal";
 
 const customStyles = {
   overlay: {
@@ -26,9 +26,14 @@ type ModalProps = {
   children: React.ReactNode;
 };
 
-export const Modal = ({ title, visible, onClose, children }: ModalProps) => {
+export const CustomModal = ({
+  title,
+  visible,
+  onClose,
+  children,
+}: ModalProps) => {
   return (
-    <ReactModal
+    <Modal
       isOpen={visible}
       onRequestClose={onClose}
       style={customStyles}
@@ -52,6 +57,6 @@ export const Modal = ({ title, visible, onClose, children }: ModalProps) => {
           close
         </button>
       </div>
-    </ReactModal>
+    </Modal>
   );
 };
