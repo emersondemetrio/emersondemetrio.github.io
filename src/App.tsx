@@ -7,8 +7,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { Home } from "./pages/home/home";
-import Footer from "./components/footer";
-import Header from "./components/header";
+import { Footer } from "./components/footer/footer";
 
 const About = () => {
   return (
@@ -22,7 +21,6 @@ export const App = () => {
   return (
     <Router basename={"/"}>
       <div className="content">
-        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
