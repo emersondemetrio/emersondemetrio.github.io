@@ -15,7 +15,7 @@ export const Page = ({
 }: PageProps): JSX.Element => {
     if (name && description) {
         return (
-            <section className="page-section" id="services" style={style}>
+            <section style={style}>
                 <div className="home-container">
                     <h2>{name}</h2>
                     <p>{description}</p>
@@ -25,7 +25,7 @@ export const Page = ({
     }
 
     return (
-        <section className="page-section" id="services" style={style}>
+        <section style={style}>
             <div className="home-container">
                 {children}
             </div>
