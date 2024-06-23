@@ -78,6 +78,7 @@ h6 {
 
 .content {
   flex: 1;
+  height: 100vh;
 }
 
 .footer {
@@ -107,4 +108,12 @@ h6 {
   flex: 1;
   flex-direction: column;
   width: 100%;
+}
+
+.p10 {
+  padding: 10px;
+}
+
+.m10 {
+  margin: 10px;
 }
