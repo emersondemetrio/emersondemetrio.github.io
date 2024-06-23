@@ -44,6 +44,15 @@
   flex-direction: column;
 }
 
+.terminal-item-active {
+  border: solid 1px #fff
+}
+
+.terminal-item-inactive {
+  background-color: #3d4347;
+  opacity: 0.75;
+}
+
 .terminal-item-content {
   height: 100%;
   display: flex;
