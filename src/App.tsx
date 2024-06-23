@@ -1,10 +1,10 @@
 import "react";
 import "./App.css";
 import {
-  BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
+  HashRouter
 } from "react-router-dom";
 import { Home } from "./pages/home/home";
 import { Footer } from "./components/footer/footer";
@@ -19,7 +19,7 @@ const About = () => {
 
 export const App = () => {
   return (
-    <Router basename={"/"}>
+    <HashRouter basename={"/"}>
       <div className="content">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -28,6 +28,6 @@ export const App = () => {
         </Routes>
         <Footer />
       </div>
-    </Router>
+    </HashRouter>
   );
 };
