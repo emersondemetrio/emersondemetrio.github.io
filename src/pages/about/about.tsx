@@ -1,5 +1,5 @@
 import "react";
-import { Page } from "@/components/page/Page";
+import { Page } from "@/components/page/page";
 
 export const About = () => {
   return (
