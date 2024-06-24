@@ -1,5 +1,5 @@
-import { Page } from '@/components/page/page';
-import { useEffect, useRef, useState } from 'react';
+import { Page } from "@/components/page/page";
+import { useEffect, useRef, useState } from "react";
 
 const MIN_DISTANCE = 25;
 
@@ -9,19 +9,24 @@ type Element = {
   dx: number; // delta x for movement
   dy: number; // delta y for movement
   type: ElementTypes;
-}
+};
 
-type ElementTypes = 'rock' | 'paper' | 'scissors';
+type ElementTypes = "rock" | "paper" | "scissors";
 
-const addImageToCanvas = (ctx: CanvasRenderingContext2D, x: number, y: number, name: ElementTypes) => {
+const addImageToCanvas = (
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  name: ElementTypes
+) => {
   const image = new Image();
   image.src = `images/${name}.png`;
   ctx.drawImage(image, x, y, 30, 30);
 };
 
 const drawRock = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
-  ctx.fillStyle = 'red';
-  addImageToCanvas(ctx, x, y, 'rock');
+  ctx.fillStyle = "red";
+  addImageToCanvas(ctx, x, y, "rock");
 };
 
 const drawScissors = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
@@ -29,35 +34,34 @@ const drawScissors = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
   ctx.translate(x + 15, y + 15); // Move the rotation point to the center of the image
   ctx.rotate(Math.PI); // Rotate 180 degrees (upside down)
   ctx.translate(-15, -15); // Move the image back
-  addImageToCanvas(ctx, -15, -15, 'scissors');
+  addImageToCanvas(ctx, -15, -15, "scissors");
   ctx.restore();
 };
 
 const drawPaper = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
-  ctx.fillStyle = 'green';
-  addImageToCanvas(ctx, x, y, 'paper');
+  ctx.fillStyle = "green";
+  addImageToCanvas(ctx, x, y, "paper");
 };
 
 const calculateWinner = (elementRef: Element[]) => {
-  const rockCount = elementRef.filter(e => e.type === 'rock').length;
-  const paperCount = elementRef.filter(e => e.type === 'paper').length;
-  const scissorsCount = elementRef.filter(e => e.type === 'scissors').length;
+  const rockCount = elementRef.filter((e) => e.type === "rock").length;
+  const paperCount = elementRef.filter((e) => e.type === "paper").length;
+  const scissorsCount = elementRef.filter((e) => e.type === "scissors").length;
 
   if (rockCount > paperCount && rockCount > scissorsCount) {
-    return 'Rock';
+    return "Rock";
   }
 
   if (paperCount > rockCount && paperCount > scissorsCount) {
-    return 'Paper';
+    return "Paper";
   }
 
   if (scissorsCount > rockCount && scissorsCount > paperCount) {
-    return 'Scissors';
+    return "Scissors";
   }
 
-  return 'Tie';
-}
-
+  return "Tie";
+};
 
 export const CanvasGame = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -84,18 +88,18 @@ export const CanvasGame = () => {
       const element: Element = {
         x: Math.random() * width,
         y: Math.random() * height,
-        dx: (Math.random() * 4 - 2), // random speed between -2 and 2 (faster)
-        dy: (Math.random() * 4 - 2),
+        dx: Math.random() * 4 - 2, // random speed between -2 and 2 (faster)
+        dy: Math.random() * 4 - 2,
         type,
       };
 
-      if (type === 'rock') {
+      if (type === "rock") {
         element.x = width * 0.1; // Place rocks on top left
         element.y = height * 0.1;
-      } else if (type === 'paper') {
+      } else if (type === "paper") {
         element.x = width * 0.9; // Place papers on top right
         element.y = height * 0.1;
-      } else if (type === 'scissors') {
+      } else if (type === "scissors") {
         element.x = width * 0.9; // Place scissors on bottom right
         element.y = height * 0.9;
       }
@@ -106,9 +110,9 @@ export const CanvasGame = () => {
 
   const resetGame = () => {
     elementsRef.current = [
-      ...generateElements('rock'),
-      ...generateElements('paper'),
-      ...generateElements('scissors'),
+      ...generateElements("rock"),
+      ...generateElements("paper"),
+      ...generateElements("scissors"),
     ];
     setRockCount(numberOfElements);
     setPaperCount(numberOfElements);
@@ -122,7 +126,7 @@ export const CanvasGame = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const width = canvas.width;
@@ -157,12 +161,15 @@ export const CanvasGame = () => {
           if (element !== other) {
             const distanceX = Math.abs(element.x - other.x);
             const distanceY = Math.abs(element.y - other.y);
-            const isColliding = distanceX < MIN_DISTANCE && distanceY < MIN_DISTANCE;
+            const isColliding =
+              distanceX < MIN_DISTANCE && distanceY < MIN_DISTANCE;
 
             if (isColliding) {
-              if ((element.type === 'rock' && other.type === 'paper') ||
-                (element.type === 'scissors' && other.type === 'rock') ||
-                (element.type === 'paper' && other.type === 'scissors')) {
+              if (
+                (element.type === "rock" && other.type === "paper") ||
+                (element.type === "scissors" && other.type === "rock") ||
+                (element.type === "paper" && other.type === "scissors")
+              ) {
                 shouldKeep = false;
                 audioRef.current?.play();
               }
@@ -175,9 +182,15 @@ export const CanvasGame = () => {
       });
 
       // Update the counts
-      const rockCount = filteredElements.filter(e => e.type === 'rock').length;
-      const paperCount = filteredElements.filter(e => e.type === 'paper').length;
-      const scissorsCount = filteredElements.filter(e => e.type === 'scissors').length;
+      const rockCount = filteredElements.filter(
+        (e) => e.type === "rock"
+      ).length;
+      const paperCount = filteredElements.filter(
+        (e) => e.type === "paper"
+      ).length;
+      const scissorsCount = filteredElements.filter(
+        (e) => e.type === "scissors"
+      ).length;
 
       setRockCount(rockCount);
       setPaperCount(paperCount);
@@ -185,20 +198,20 @@ export const CanvasGame = () => {
 
       // Check if there is a winner
       if (rockCount === 0 && paperCount === 0) {
-        setWinner('Scissors');
+        setWinner("Scissors");
       } else if (rockCount === 0 && scissorsCount === 0) {
-        setWinner('Paper');
+        setWinner("Paper");
       } else if (paperCount === 0 && scissorsCount === 0) {
-        setWinner('Rock');
+        setWinner("Rock");
       }
 
       elementsRef.current = filteredElements;
 
       // Draw elements
       filteredElements.forEach((element) => {
-        if (element.type === 'paper') {
+        if (element.type === "paper") {
           drawPaper(ctx, element.x, element.y);
-        } else if (element.type === 'rock') {
+        } else if (element.type === "rock") {
           drawRock(ctx, element.x, element.y);
         } else {
           drawScissors(ctx, element.x, element.y);
@@ -221,10 +234,7 @@ export const CanvasGame = () => {
         cancelAnimationFrame(animationID);
         setGameStarted(false);
 
-
-        setWinner(
-          calculateWinner(elementsRef.current)
-        );
+        setWinner(calculateWinner(elementsRef.current));
         return; // Exit the animation loop if there's a winner or time is up
       }
 
@@ -240,48 +250,76 @@ export const CanvasGame = () => {
     };
   }, [gameStarted, winner]);
 
-
   return (
-    <Page style={{
-      height: '100%',
-      flexDirection: 'column',
-      backgroundColor: '#001000',
-      color: 'white',
-    }}>
-      <div style={{ textAlign: 'center', marginTop: '10px', marginBottom: '10px' }}>
+    <Page>
+      <div
+        style={{ textAlign: "center", marginTop: "10px", marginBottom: "10px" }}
+      >
         <h3>Rock, Paper, Scissors</h3>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: "400px",
-          padding: 5,
-          border: "solid 1px white",
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "400px",
+            padding: 5,
+            border: "solid 1px white",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <span>Time</span>
-            <input disabled={gameStarted} type='number' min='1' max='50' value={runFor} onChange={(e) => {
-              const value = parseInt(e.target.value);
-              setRunFor(value);
-              setRemainingTime(value);
-            }} />
+            <input
+              disabled={gameStarted}
+              type="number"
+              min="1"
+              max="50"
+              value={runFor}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                setRunFor(value);
+                setRemainingTime(value);
+              }}
+            />
             <span>s</span>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <span>Pieces</span>
-            <input disabled={gameStarted} type='range' min='1' max='50' value={numberOfElements} onChange={(e) => {
-              const value = parseInt(e.target.value);
-              setNumberOfElements(value);
-              setRockCount(value);
-              setPaperCount(value);
-              setScissorsCount(value);
-            }} />
+            <input
+              disabled={gameStarted}
+              type="range"
+              min="1"
+              max="50"
+              value={numberOfElements}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                setNumberOfElements(value);
+                setRockCount(value);
+                setPaperCount(value);
+                setScissorsCount(value);
+              }}
+            />
           </div>
         </div>
       </div>
-      <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-        <audio src='/sounds/impact.mp3' ref={audioRef} style={{ display: 'none' }} />
+      <div style={{ textAlign: "center", marginBottom: "10px" }}>
+        <audio
+          src="/sounds/impact.mp3"
+          ref={audioRef}
+          style={{ display: "none" }}
+        />
         <div>Remaining Time: {remainingTime} seconds</div>
         <div>Rock Count: {rockCount}</div>
         <div>Paper Count: {paperCount}</div>
@@ -295,16 +333,23 @@ export const CanvasGame = () => {
         width={600}
         height={400}
         style={{
-          border: '1px solid black',
-          borderRadius: '5px',
-          margin: 'auto',
-          display: 'block',
-          backgroundColor: 'white',
-        }} />
-      <div className='p10'>
-        <a style={{
-          textDecoration: 'underline',
-        }} target='blank' href='https://www.instagram.com/p/C48bvLiIXM0/'>Based on this</a>
+          border: "1px solid black",
+          borderRadius: "5px",
+          margin: "auto",
+          display: "block",
+          backgroundColor: "white",
+        }}
+      />
+      <div className="p10">
+        <a
+          style={{
+            textDecoration: "underline",
+          }}
+          target="blank"
+          href="https://www.instagram.com/p/C48bvLiIXM0/"
+        >
+          Based on this
+        </a>
       </div>
     </Page>
   );
