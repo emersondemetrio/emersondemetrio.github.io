@@ -110,6 +110,16 @@ h6 {
   width: 100%;
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
 .p10 {
   padding: 10px;
 }
@@ -120,9 +130,6 @@ h6 {
 
 .page {
   min-height: 100%;
-  flex-direction: column;
-  background-color: #001000;
-  color: white;
   height: 100%;
   flex-direction: column;
   background-color: #001000;
