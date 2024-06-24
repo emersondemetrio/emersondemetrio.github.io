@@ -9,31 +9,46 @@ export const useRemoveBackground = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [progress, setProgress] = useState<string | null>(null);
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-  const remove = async (image: ImageSource, output: string = "no-bg") => {
+  const remove = async ({
+    file,
+    output = "no-bg",
+    download = false
+  }: {
+    file: ImageSource,
+    output?: string,
+    download?: boolean
+  }) => {
     try {
       setProgress("Started.")
       setIsLoading(true);
 
-      const blob = await removeBackground(image, {
-        device: "gpu",
+      const blob = await removeBackground(file, {
+        device: isMobile ? "cpu" : "gpu",
         progress: (key, current, total) => {
           setProgress(`Downloading ${key}: ${current} of ${total}`);
         }
       });
 
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${output}-${randomUUID()}.png`;
-      document.body.appendChild(link);
-      link.click();
-
-      document.body.removeChild(link);
-      URL.revokeObjectURL(link.href);
       setIsLoading(false);
       setProgress("Finished.");
 
+      if (download) {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${output}-${randomUUID()}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+      }
+
+      return {
+        name: `${output}-${randomUUID()}.png`,
+        url
+      }
     } catch (error) {
       setError(error);
       setIsLoading(false);

@@ -117,3 +117,10 @@ h6 {
 .m10 {
   margin: 10px;
 }
+
+.page {
+  height: 100%;
+  flex-direction: column;
+  background-color: #001000;
+  color: white;
+}
