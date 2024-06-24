@@ -10,7 +10,11 @@ export const Home = () => {
   const [showCurrency, setShowCurrency] = useState(false);
 
   return (
-    <Page>
+    <Page
+      style={{
+        backgroundColor: "rgba(0, 0, 0, 0)",
+      }}
+    >
       <Terminal
         links={Links}
         tools={[
