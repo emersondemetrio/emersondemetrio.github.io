@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "type:check": "tsc --noEmit"
+    "type:check": "tsc --noEmit",
+    "cli": "node scripts/cli.mjs"
   },
   "dependencies": {
     "@imgly/background-removal": "^1.5.3",

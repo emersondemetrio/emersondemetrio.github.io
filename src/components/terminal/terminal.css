@@ -6,6 +6,7 @@
   grid-row-gap: 30px;
   width: 80%;
   margin: 0 20%;
+  margin-bottom: 120px;
 }
 
 @media (max-width: 1200px) {
@@ -42,6 +43,7 @@
   border-radius: 10px;
   justify-content: space-between;
   flex-direction: column;
+  max-width: 3  00px;
 }
 
 .terminal-item-active {
