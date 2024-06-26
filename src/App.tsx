@@ -1,11 +1,6 @@
 import "react";
 import "./index.css";
-import {
-  Route,
-  Routes,
-  Navigate,
-  HashRouter
-} from "react-router-dom";
+import { Route, Routes, Navigate, HashRouter } from "react-router-dom";
 import { Footer } from "./components/footer/footer";
 import { Header } from "@/components/app-header/app-header";
 import { Home } from "@/pages/home/home";

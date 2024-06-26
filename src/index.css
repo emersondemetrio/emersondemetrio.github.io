@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --text-color: #fff;
   --accent-color: #ddd;
@@ -35,34 +39,6 @@ h6 {
   font-family: "Inconsolata", monospace;
 }
 
-.btn {
-  font-family: "Inconsolata", monospace;
-  font-weight: 700;
-}
-
-.btn-xl {
-  font-size: 18px;
-  padding: 20px 40px;
-}
-
-.btn-primary {
-  background-color: var(--text-color);
-  border-color: var(--text-color);
-}
-
-.btn-primary:active,
-.btn-primary:focus,
-.btn-primary:hover {
-  background-color: #fec810 !important;
-  border-color: #fec810 !important;
-  color: white;
-}
-
-.btn-primary:active,
-.btn-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(254, 209, 55, 0.5) !important;
-}
-
 .Modal {
   position: absolute;
   top: 40px;
@@ -72,23 +48,9 @@ h6 {
   background-color: red;
 }
 
-#footer {
-  margin-top: 100px;
-}
-
 .content {
   flex: 1;
   height: 100vh;
-}
-
-.footer {
-  background-color: #000;
-  color: #fff;
-  padding: 20px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
 
 .black-bg,
