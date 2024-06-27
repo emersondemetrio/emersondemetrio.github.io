@@ -1,11 +1,17 @@
 import "react";
 import { Link } from "react-router-dom";
+import { Toggle } from "../toggle/toggle";
+const isMobile = window.innerWidth < 768;
 
 export const Header = () => {
     const appRoutes = [
         {
             label: "Home",
             link: "/",
+        },
+        {
+            label: "Experiments",
+            link: "/experiments",
         },
         {
             label: "About",
@@ -38,27 +44,67 @@ export const Header = () => {
                 </Link>
                 <p className="text-primary black-bg">Software Engineer and musician.</p>
             </div>
-            <div
+            {
+                !isMobile && (
+                    <div
+                        className="col-lg-12 text-center"
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "center",
+                        }}
+                    >
+                        {appRoutes.map((route, index) => (
+                            <Link
+                                key={index}
+                                to={route.link}
+                                style={{
+                                    margin: "10px",
+                                    minWidth: "100px",
+                                }}
+                                className="text-light black-bg p10"
+                            >
+                                {route.label}
+                            </Link>
+                        ))}
+                    </div>
+                )
+            }
+            {isMobile && (<div
                 className="col-lg-12 text-center"
                 style={{
                     display: "flex",
+                    flexDirection: "row",
                     justifyContent: "center",
                 }}
             >
-                {appRoutes.map((route, index) => (
-                    <Link
-                        key={index}
-                        to={route.link}
+                <Toggle title="Menu" style={{
+                    marginLeft: "10px",
+                }}>
+                    <div
+                        className="col-lg-12 text-center"
                         style={{
-                            margin: 10,
-                            width: "100px",
+                            display: "flex",
+                            flexDirection: isMobile ? "column" : "row",
+                            justifyContent: "center",
                         }}
-                        className="text-light black-bg p10"
                     >
-                        {route.label}
-                    </Link>
-                ))}
-            </div>
+                        {appRoutes.map((route, index) => (
+                            <Link
+                                key={index}
+                                to={route.link}
+                                style={{
+                                    margin: isMobile ? "5px" : "10px",
+                                    minWidth: "100px",
+                                }}
+                                className="text-light black-bg p10"
+                            >
+                                {route.label}
+                            </Link>
+                        ))}
+                    </div>
+                </Toggle>
+            </div>)}
         </div>
     );
 };

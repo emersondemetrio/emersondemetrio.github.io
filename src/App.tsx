@@ -13,6 +13,7 @@ import { About } from "@/pages/about/about";
 import { Blog } from "@/pages/blog/blog";
 import { RemoveBackground } from "@/pages/remove-background/remove-background";
 import { CanvasGame } from "@/pages/canvas-game/canvas-game";
+import { Experiments } from "@/pages/experiments/experiments";
 
 export const App = () => {
   return (
@@ -25,6 +26,7 @@ export const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/experiments" element={<Experiments />} />
           <Route path="/bg" element={<RemoveBackground />} />
           <Route path="/game" element={<CanvasGame />} />
           <Route path="*" element={<Navigate to="/" />} />
