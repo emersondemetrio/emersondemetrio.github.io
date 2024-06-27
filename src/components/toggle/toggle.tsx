@@ -2,15 +2,18 @@ import React, { useState } from "react";
 
 type ToggleProps = {
   children: React.ReactNode;
-  onChange: (visible: boolean) => void;
+  title: string;
+  onChange?: (visible: boolean) => void;
   style?: React.CSSProperties;
 };
 
-export const Toggle = ({ children, onChange, style = {} }: ToggleProps) => {
+export const Toggle = ({ children, title, onChange, style = {} }: ToggleProps) => {
   const [visible, setVisible] = useState(false);
 
   const handleChange = () => {
     setVisible(!visible);
+    if (typeof onChange !== "function") return;
+
     onChange(!visible);
   };
 
@@ -33,7 +36,7 @@ export const Toggle = ({ children, onChange, style = {} }: ToggleProps) => {
         }}
       >
         <button className="btn btn-secondary" onClick={handleChange}>
-          Currency Tools {visible ? "↑" : "↓"}
+          {title} {visible ? "↑" : "↓"}
         </button>
       </div>
       <div style={{}}>{visible && children}</div>
