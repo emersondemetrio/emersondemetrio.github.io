@@ -11,22 +11,46 @@ type ProcessingFile = {
   url: string;
 };
 
+type ActionRowProps = {
+  index: number;
+  file: File;
+  result?: ProcessingFile;
+};
+
+const ActionRow = ({ file, index, result }: ActionRowProps) => {
+  return (
+    <tr key={file.name}>
+      <th scope="row">{index + 1}</th>
+      <td>{file.name}</td>
+      <td>
+        {result && (
+          <a
+            href={result.url}
+            className="btn btn-dark"
+            download={result.download}
+          >
+            Download
+          </a>
+        )}
+        {!result && <Loading />}
+      </td>
+    </tr>
+  );
+};
+
 export const RemoveBackground = () => {
   const { removeBackground, isLoading, progress } = useRemoveBackground();
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [pastedFile, setPastedFile] = useState<ProcessingFile | null>(null);
   const [urls, setUrls] = useState<ProcessingFile[]>([]);
 
   const handleFileChange = async (files: FileList | null) => {
     if (files) {
       setSelectedFiles(files);
       for (const file of files) {
-        const result = await removeBackground({
-          file,
-        });
+        const result = await removeBackground({ file });
 
-        if (!result) {
-          return;
-        }
+        if (!result) return;
 
         setUrls((prev) => [
           ...prev,
@@ -48,9 +72,16 @@ export const RemoveBackground = () => {
           const file = item.getAsFile();
 
           if (file) {
-            await removeBackground({
+            const result = await removeBackground({
               file,
-              download: true,
+            });
+
+            if (!result) return;
+
+            setPastedFile({
+              fileName: file.name,
+              download: result.name,
+              url: result.url,
             });
           }
         }
@@ -86,27 +117,23 @@ export const RemoveBackground = () => {
             </tr>
           </thead>
           <tbody>
+            {pastedFile && (
+              <ActionRow
+                index={1}
+                file={new File([], pastedFile.fileName)}
+                result={pastedFile}
+              />
+            )}
             {selectedFiles &&
               Array.from(selectedFiles).map((file, index) => {
                 const result = urls.find((u) => u.fileName === file.name);
-
                 return (
-                  <tr key={file.name}>
-                    <th scope="row">{index + 1}</th>
-                    <td>{file.name}</td>
-                    <td>
-                      {result && (
-                        <a
-                          className="btn btn-dark"
-                          href={result.url}
-                          download={result.download}
-                        >
-                          Download
-                        </a>
-                      )}
-                      {!result && <Loading />}
-                    </td>
-                  </tr>
+                  <ActionRow
+                    key={file.name}
+                    file={file}
+                    index={index}
+                    result={result}
+                  />
                 );
               })}
           </tbody>

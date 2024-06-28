@@ -21,9 +21,6 @@ export const Page = ({
 
   useEffect(() => {
     if (!isMobile && pageRef.current) {
-      pageRef.current.focus();
-      pageRef.current.click();
-
       const handlePaste = (event: ClipboardEvent) => {
         onPaste(event as unknown as React.ClipboardEvent);
       };
