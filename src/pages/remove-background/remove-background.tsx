@@ -5,18 +5,22 @@ import { useRemoveBackground } from "@/hooks/use-remove-background/use-remove-ba
 import { Loading } from "@/components/loading/loading";
 import { useState } from "react";
 
+type ProcessingFile = {
+  fileName: string;
+  download: string;
+  url: string;
+};
+
 export const RemoveBackground = () => {
-  const { remove, isLoading, progress } = useRemoveBackground();
+  const { removeBackground, isLoading, progress } = useRemoveBackground();
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-  const [urls, setUrls] = useState<
-    { fileName: string; download: string; url: string }[]
-  >([]);
+  const [urls, setUrls] = useState<ProcessingFile[]>([]);
 
   const handleFileChange = async (files: FileList | null) => {
     if (files) {
       setSelectedFiles(files);
       for (const file of files) {
-        const result = await remove({
+        const result = await removeBackground({
           file,
         });
 
@@ -44,7 +48,7 @@ export const RemoveBackground = () => {
           const file = item.getAsFile();
 
           if (file) {
-            await remove({
+            await removeBackground({
               file,
               download: true,
             });

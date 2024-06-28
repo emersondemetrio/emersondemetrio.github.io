@@ -1,17 +1,26 @@
-import { ImageSource, removeBackground } from "@imgly/background-removal";
+import {
+  preload,
+  ImageSource,
+  removeBackground as removeBackgroundFromImage
+} from "@imgly/background-removal";
 import { useState } from "react";
+import { useIsMobile } from "../use-is-mobile/use-is-mobile";
+import { randomUUID } from "@/utils/utils";
 
-const randomUUID = () => {
-  return Math.random().toString(36).substring(2, 15);
-}
+const REMOVE_MASK_MODEL = "isnet";
+
+preload({
+  model: REMOVE_MASK_MODEL,
+  device: "cpu"
+});
 
 export const useRemoveBackground = () => {
+  const isMobile = useIsMobile();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [progress, setProgress] = useState<string | null>(null);
-  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-  const remove = async ({
+  const removeBackground = async ({
     file,
     output = "no-bg",
     download = false
@@ -24,7 +33,8 @@ export const useRemoveBackground = () => {
       setProgress("Started.")
       setIsLoading(true);
 
-      const blob = await removeBackground(file, {
+      const blob = await removeBackgroundFromImage(file, {
+        model: REMOVE_MASK_MODEL,
         device: isMobile ? "cpu" : "gpu",
         progress: (key, current, total) => {
           setProgress(`Downloading ${key}: ${current} of ${total}`);
@@ -34,11 +44,12 @@ export const useRemoveBackground = () => {
       const url = URL.createObjectURL(blob);
       setIsLoading(false);
       setProgress("Finished.");
+      const outputFileName = `${output}-${randomUUID()}.png`;
 
       if (download) {
         const link = document.createElement('a');
         link.href = url;
-        link.download = `${output}-${randomUUID()}.png`;
+        link.download = outputFileName;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -46,7 +57,7 @@ export const useRemoveBackground = () => {
       }
 
       return {
-        name: `${output}-${randomUUID()}.png`,
+        name: outputFileName,
         url
       }
     } catch (error) {
@@ -56,7 +67,7 @@ export const useRemoveBackground = () => {
   }
 
   return {
-    remove,
+    removeBackground,
     progress,
     isLoading,
     error
