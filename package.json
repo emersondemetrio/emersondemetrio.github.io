@@ -14,6 +14,8 @@
     "type:check": "tsc --noEmit",
     "cli": "node scripts/cli.mjs",
     "cli:new:page": "yarn cli page",
+    "css": "yarn generate:css",
+    "css:w": "yarn generate:css:watch",
     "generate:css": "./node_modules/.bin/tailwindcss -i ./src/index.css -o public/css/app.css",
     "generate:css:watch": "./node_modules/.bin/tailwindcss -i ./src/index.css -o public/css/app.css --watch"
   },

@@ -51,11 +51,9 @@ const getToday = () => {
 
 export const Timezones = () => {
   return (
-    <Page style={{
-      backgroundColor: "#f8f9fa"
-    }}>
+    <Page>
+      <h1 className="text-dark">Timezones</h1>
       <div className="container">
-        <h1 className="text-dark">Timezones</h1>
         <table className="table table-bordered timezones-table">
           <thead>
             <tr>

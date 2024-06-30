@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Toggle } from "../toggle/toggle";
 import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
 
-<<<<<<< HEAD
 export const Header = () => {
   const isMobile = useIsMobile();
 
@@ -25,18 +24,6 @@ export const Header = () => {
       link: "/blog",
     },
   ]
-=======
-type HeaderProps = {
-  routes: {
-    label: string;
-    link: string;
-  }[];
-}
-
-export const Header = (
-  { routes }: HeaderProps
-) => {
->>>>>>> 9165f18 ([0000] Add resume)
 
   return (
     <div
@@ -47,16 +34,11 @@ export const Header = (
       }}
     >
       <div
-<<<<<<< HEAD
-        className="col-md-12 col-sm-12 text-center"
-=======
-        className="col-lg-12 text-center"
->>>>>>> 9165f18 ([0000] Add resume)
+        className="col-sm-12 text-center"
         style={{
           marginTop: 20,
         }}
       >
-<<<<<<< HEAD
         {
           isMobile ? (
             <div style={{
@@ -80,7 +62,7 @@ export const Header = (
               >
                 <Toggle title="Menu">
                   <div
-                    className="col-md-12 text-center"
+                    className="text-center"
                     style={{
                       display: "flex",
                       flexDirection: "column",
@@ -117,8 +99,7 @@ export const Header = (
       {
         !isMobile && (
           <div
-
-            className="col-md-12 text-center"
+            className="text-center"
             style={{
               display: "flex",
               flexDirection: "row",
@@ -141,36 +122,6 @@ export const Header = (
           </div>
         )
       }
-=======
-        <Link to={"/"}>
-          <h3 className="section-heading text-primary black-bg">
-            ~ Emerson Demetrio
-          </h3>
-        </Link>
-        <p className="text-primary black-bg">Software Engineer and musician.</p>
-      </div>
-      <div
-        className="col-lg-12 text-center"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        {routes.map((route, index) => (
-          <Link
-            key={index}
-            to={route.link}
-            style={{
-              margin: 10,
-              width: "100px",
-            }}
-            className="text-light black-bg p10"
-          >
-            {route.label}
-          </Link>
-        ))}
-      </div>
->>>>>>> 9165f18 ([0000] Add resume)
     </div>
   );
 };

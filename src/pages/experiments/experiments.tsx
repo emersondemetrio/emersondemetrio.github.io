@@ -1,24 +1,27 @@
 import "react";
 import { Page } from "@/components/page/page";
 import { Link } from "react-router-dom";
+
+const githubBaseUrl = "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/src"
+
 const experiments = [
   {
     title: "Remove Background",
     description: "Remove background from images 🖼️",
     link: "/experiments/bg",
-    repo: "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/src/pages/remove-background/remove-background.tsx",
+    repo: `${githubBaseUrl}/pages/remove-background/remove-background.tsx`
   },
   {
     title: "Canvas Game",
     description: "Simple game using canvas 🪨✂️📜",
     link: "/experiments/game",
-    repo: "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/src/pages/canvas-game/canvas-game.tsx",
+    repo: `${githubBaseUrl}/pages/canvas-game/canvas-game.tsx`
   },
   {
     title: "Timezones",
     description: "Timezones 🕰️",
     link: "/experiments/tz",
-    repo: "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/src/pages/timezones/timezones.tsx",
+    repo: `${githubBaseUrl}/pages/timezones/timezones.tsx`
   }
 ];
 
@@ -33,47 +36,27 @@ export const Experiments = () => {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "center",
+          justifyContent: "space-around",
           alignItems: "center",
           flexWrap: "wrap",
           padding: 20,
         }}
       >
         {experiments.map((item) => (
-          <div
-            key={item.title}
-            style={{
-              border: "solid 1px #ddd",
-              margin: 5,
-              padding: 5,
-              borderRadius: 5,
-              width: "400px",
-              height: "250px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              alignContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <h2>{item.title}</h2>
-            <p>{item.description}</p>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                padding: 10,
-                alignItems: "center",
-              }}
-            >
-              <Link className="btn btn-light" to={item.link}>
-                See live: {item.title}
-              </Link>
-              <br />
-              <Link className="btn btn-secondary" to={item.repo}>
-                Show me the code
-              </Link>
+          <div className="card lg:card-side bg-base-100 shadow-xl" key={item.title}>
+            <figure>
+              <img
+                src="images/exp.svg"
+                alt="Album"
+                style={{ width: 200, background: '#fff' }} />
+            </figure>
+            <div className="card-body">
+              <h2 className="card-title">{item.title}</h2>
+              <p>{item.description}</p>
+              <div className="card-actions justify-end">
+                <Link className="btn btn-primary" to={item.link}>View</Link>
+                <Link className="btn btn-ghost" to={item.repo}>Code</Link>
+              </div>
             </div>
           </div>
         ))}

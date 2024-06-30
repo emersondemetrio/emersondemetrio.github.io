@@ -11,18 +11,14 @@ export const FilePicker = ({ onFileChange }: FilePickerProps) => {
 
   return (
     <div className="container">
-      <form>
-        <div className="form-group mb-3">
-          <label htmlFor="fileInput">Select File(s)</label>
-          <input
-            multiple
-            type="file"
-            id="fileInput"
-            className="form-control"
-            onChange={handleFileChange}
-          />
-        </div>
-      </form>
+      <label htmlFor="fileInput">Select File(s)</label>
+      <input
+        multiple
+        type="file"
+        id="fileInput"
+        className="file-input w-full max-w-xs"
+        onChange={handleFileChange}
+      />
     </div>
   );
 };

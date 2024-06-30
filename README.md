@@ -4,6 +4,6 @@
 
 ## Stack
 
-- Bootstrap
+- [Tailwind/DaisyUI](https://daisyui.com/components/)
 - React
 - github actions for deploy

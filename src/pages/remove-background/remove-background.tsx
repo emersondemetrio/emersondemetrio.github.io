@@ -90,13 +90,7 @@ export const RemoveBackground = () => {
   };
 
   return (
-    <Page
-      onPaste={handlePaste}
-      style={{
-        backgroundColor: "#f5f5f5",
-        color: "#333",
-      }}
-    >
+    <Page onPaste={handlePaste} className="table">
       <h2>Remove Background</h2>
       {progress && <span>{progress}</span>}
       {isLoading && <Loading />}
