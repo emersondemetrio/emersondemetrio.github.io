@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { CurrencyProvider } from "../../types";
 
 type BadgeProps = {
@@ -7,13 +8,9 @@ type BadgeProps = {
 };
 
 export const Badge = ({ amount, currency, provider }: BadgeProps) => {
-  const openProvider = () => {
-    window.open(provider.url(amount, currency));
-  };
-
   return (
-    <small className="currency-f" onClick={openProvider}>
+    <Link target="_blank" className="badge badge-primary" to={provider.url(amount, currency)}>
       {provider.nickname}
-    </small>
+    </Link>
   );
 };

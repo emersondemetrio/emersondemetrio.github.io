@@ -34,7 +34,7 @@ export const Header = () => {
       }}
     >
       <div
-        className="col-md-12 col-sm-12 text-center"
+        className="col-sm-12 text-center"
         style={{
           marginTop: 20,
         }}
@@ -62,7 +62,7 @@ export const Header = () => {
               >
                 <Toggle title="Menu">
                   <div
-                    className="col-md-12 text-center"
+                    className="text-center"
                     style={{
                       display: "flex",
                       flexDirection: "column",
@@ -99,8 +99,7 @@ export const Header = () => {
       {
         !isMobile && (
           <div
-
-            className="col-md-12 text-center"
+            className="text-center"
             style={{
               display: "flex",
               flexDirection: "row",

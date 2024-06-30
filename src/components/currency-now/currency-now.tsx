@@ -3,7 +3,6 @@ import { formatToCurrency, useCurrencyNow } from "../../hooks/use-currency-now";
 import { Loading } from "../loading/loading";
 import { Badge } from "../badge/badge";
 import { CurrencyProviders } from "../../constants";
-import "./currency-now.css";
 
 export const CurrencyNow = () => {
   const { data, isLoading, error } = useCurrencyNow();
@@ -44,46 +43,52 @@ export const CurrencyNow = () => {
 
   return (
     <div className="currency-now">
-      <div className="currency-item">
+      <div className="overflow-x-auto">
         <input
           type="number"
           max={999999}
-          placeholder="Currency"
+          placeholder="Type (EUR)"
           value={userInput ?? ""}
           onChange={handleChange}
+          className="input input-bordered input-md w-full max-w-xs"
         />
-      </div>
-      {Object.entries(data.rates).map(([currency, rate]) => {
-        const asEuros = formatToCurrency(userInput || 1, "eur");
-        const asCurrency = formatToCurrency(userInput, currency, rate);
+        <table className="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Conversion</th>
+              <th>Rate</th>
+              <th>Sources</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(data.rates).map(([currency, rate], index) => {
+              const asEuros = formatToCurrency(userInput || 1, "eur");
+              const asCurrency = formatToCurrency(userInput, currency, rate);
 
-        return (
-          <div className="currency-item" key={currency}>
-            <span
-              title={currency}
-              style={{ flex: 1 }}
-              onClick={copy(`${asEuros} = ${asCurrency}`)}
-            >
-              {asEuros} = {asCurrency}
-            </span>
-            <div
-              style={{
-                display: "flex",
-                gap: "0.1rem",
-              }}
-            >
-              {CurrencyProviders.map((provider) => (
-                <Badge
-                  key={provider.name}
-                  currency={currency}
-                  amount={userInput || 1}
-                  provider={provider}
-                />
-              ))}
-            </div>
-          </div>
-        );
-      })}
+              return (
+                <tr key={currency} title={currency} onClick={copy(`${asEuros} = ${asCurrency}`)}>
+                  <th>{index + 1}</th>
+                  <td>EUR to {currency}</td>
+                  <td>
+                    {asEuros} = {asCurrency}
+                  </td>
+                  <td>
+                    {CurrencyProviders.map((provider) => (
+                      <Badge
+                        key={provider.name}
+                        currency={currency}
+                        amount={userInput || 1}
+                        provider={provider}
+                      />
+                    ))}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

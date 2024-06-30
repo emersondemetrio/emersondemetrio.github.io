@@ -1,0 +1,25 @@
+.ResumeViewer {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px #ddd;
+    width: 80%;
+    padding: 10px;
+    justify-content: center;
+}
+
+.SectionFieldViewer {
+
+    border: solid 1px blue;
+}
+
+.RecordViewer {
+    padding: 10px;
+    border: solid 1px yellow;
+}
+
+.SectionViewer {
+
+    border: solid 1px white;
+}
+
+.ResumeViewer {}

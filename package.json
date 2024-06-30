@@ -5,7 +5,7 @@
   "type": "module",
   "homepage": "https://emerson.run",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite && generate:css:watch",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
@@ -13,7 +13,11 @@
     "deploy": "gh-pages -d dist",
     "type:check": "tsc --noEmit",
     "cli": "node scripts/cli.mjs",
-    "cli:new:page": "yarn cli page"
+    "cli:new:page": "yarn cli page",
+    "css": "yarn generate:css",
+    "css:w": "yarn generate:css:watch",
+    "generate:css": "./node_modules/.bin/tailwindcss -i ./src/index.css -o public/css/app.css",
+    "generate:css:watch": "./node_modules/.bin/tailwindcss -i ./src/index.css -o public/css/app.css --watch"
   },
   "dependencies": {
     "@imgly/background-removal": "^1.5.3",
@@ -29,11 +33,14 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
+    "daisyui": "^4.12.8",
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "gh-pages": "^6.0.0",
+    "tailwindcss": "^3.4.4",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "postcss": "^8"
   }
 }

@@ -1,23 +1,4 @@
-import "react";
-import Modal from "react-modal";
-
-const customStyles = {
-  overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.75)",
-  },
-  content: {
-    backgroundColor: "#000",
-    left: "50%",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    top: "50%",
-    right: "50%",
-    bottom: "auto",
-    display: "flex",
-    flex: 1,
-    width: "80%",
-  },
-};
+import { randomUUID } from "@/utils/utils";
 
 type ModalProps = {
   title: string;
@@ -26,37 +7,25 @@ type ModalProps = {
   children: React.ReactNode;
 };
 
-export const CustomModal = ({
+export const Modal = ({
   title,
   visible,
   onClose,
   children,
 }: ModalProps) => {
+  const modalId = randomUUID();
+
   return (
-    <Modal
-      isOpen={visible}
-      onRequestClose={onClose}
-      style={customStyles}
-      contentLabel={title}
-    >
-      <div
-        style={{
-          flex: 1,
-          width: "80%",
-        }}
-      >
-        <div
-          style={{
-            backgroundColor: "#fff",
-          }}
-        >
-          <h2>{title}</h2>
-        </div>
+    <dialog id={modalId} className={visible ? "modal modal-open" : "modal"}>
+      <div className="modal-box w-11/12 max-w-5xl">
+        <h3 className="font-bold text-lg">{title}</h3>
         {children}
-        <button className="btn btn-dark" onClick={onClose}>
-          close
-        </button>
+        <div className="modal-action">
+          <form method="dialog">
+            <button className="btn" onClick={onClose}>Close</button>
+          </form>
+        </div>
       </div>
-    </Modal>
-  );
-};
+    </dialog>
+  )
+}

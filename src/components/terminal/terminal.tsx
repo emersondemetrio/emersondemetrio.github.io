@@ -17,20 +17,25 @@ type TerminalProps = {
   }>;
 };
 
-const TerminalBadge = ({ name, onFocus, onFocusLost }: {
+const TerminalBadge = ({
+  name,
+  onFocus,
+  onFocusLost,
+}: {
   name: string;
   onFocus: (name: string) => void;
   onFocusLost: () => void;
 }) => {
   return (
-    <div className="terminal-item-tag-container"
+    <div
+      className="terminal-item-tag-container"
       onMouseEnter={() => onFocus(name)}
-      onMouseLeave={onFocusLost}>
-      <span className="badge badge-light">{name}</span>
+      onMouseLeave={onFocusLost}
+    >
+      <span className="badge badge-outline">{name}</span>
     </div>
   );
-}
-
+};
 
 export const Terminal = ({ links, tools = [] }: TerminalProps) => {
   const [activeBadge, setActiveBadge] = useState<string | null>(null);
@@ -44,16 +49,17 @@ export const Terminal = ({ links, tools = [] }: TerminalProps) => {
   };
 
   const getItemClass = (category: string) => {
-    const base = activeBadge === category
-      ? "terminal-item terminal-item-active"
-      : "terminal-item";
+    const base =
+      activeBadge === category
+        ? "terminal-item terminal-item-active"
+        : "terminal-item";
 
     if (activeBadge) {
       return category === activeBadge ? base : `${base} terminal-item-inactive`;
     }
 
     return base;
-  }
+  };
 
   return (
     <div className="terminal-container">
@@ -70,7 +76,8 @@ export const Terminal = ({ links, tools = [] }: TerminalProps) => {
             <TerminalBadge
               name={category}
               onFocus={handleBadgeMouseEnter}
-              onFocusLost={handleBadgeMouseLeave} />
+              onFocusLost={handleBadgeMouseLeave}
+            />
           </div>
         );
       })}
@@ -87,7 +94,8 @@ export const Terminal = ({ links, tools = [] }: TerminalProps) => {
             <TerminalBadge
               name={tool.category}
               onFocus={handleBadgeMouseEnter}
-              onFocusLost={handleBadgeMouseLeave} />
+              onFocusLost={handleBadgeMouseLeave}
+            />
           </div>
         );
       })}

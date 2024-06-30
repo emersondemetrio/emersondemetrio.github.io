@@ -1,7 +1,7 @@
 import "react";
 import { useState } from "react";
 import { CurrencyNow } from "@/components/currency-now/currency-now";
-import { CustomModal } from "@/components/modal/modal";
+import { Modal } from "@/components/modal/modal";
 import { Terminal } from "@/components/terminal/terminal";
 import { Links } from "@/constants";
 import { Page } from "@/components/page/page";
@@ -30,13 +30,13 @@ export const Home = () => {
           },
         ]}
       />
-      <CustomModal
+      <Modal
         title="Currency Tools"
         visible={showCurrency}
         onClose={() => setShowCurrency(false)}
       >
         <CurrencyNow />
-      </CustomModal>
+      </Modal>
     </Page>
   );
 };

@@ -7,6 +7,7 @@ type PageProps = {
   children?: React.ReactNode;
   style?: React.CSSProperties;
   onPaste?: (event: React.ClipboardEvent) => void;
+  className?: string;
 };
 
 export const Page = ({
@@ -15,6 +16,7 @@ export const Page = ({
   children,
   style = {},
   onPaste = () => { },
+  className = ""
 }: PageProps): JSX.Element => {
   const isMobile = useIsMobile();
   const pageRef = useRef<HTMLDivElement>(null);
@@ -39,7 +41,7 @@ export const Page = ({
     return (
       <section
         style={style}
-        className="page"
+        className={`page container p-8 mx-auto xl:px-0 ${className}`}
         onPaste={onPaste}
         ref={pageRef}
         tabIndex={-1}
@@ -56,7 +58,7 @@ export const Page = ({
   return (
     <section
       style={style}
-      className="page"
+      className={`page container p-8 mx-auto xl:px-0 ${className}`}
       onPaste={onPaste}
       ref={pageRef}
       tabIndex={-1}
