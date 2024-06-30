@@ -1,4 +1,5 @@
 import { Page } from "@/components/page/page";
+import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
 import { useEffect, useRef, useState } from "react";
 
 const MIN_DISTANCE = 25;
@@ -69,6 +70,8 @@ const calculateWinner = (elementRef: Element[]) => {
 };
 
 export const CanvasGame = () => {
+  const isMobile = useIsMobile();
+
   const audioRef = useRef<HTMLAudioElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const elementsRef = useRef<Element[]>([]);
@@ -256,101 +259,95 @@ export const CanvasGame = () => {
 
   return (
     <Page>
-      <div
-        className="container"
-        style={{ textAlign: "center", marginTop: "10px", marginBottom: "10px" }}
-      >
-        <h1>Rock, Paper, Scissors</h1>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "400px",
-            padding: 5,
-            border: "solid 1px white",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <span>Time</span>
+      <audio
+        src="/sounds/impact.mp3"
+        ref={audioRef}
+        style={{ display: "none" }}
+      />
+      <div className="container mx-auto text-center my-10">
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold">Rock, Paper, Scissors</h1>
+        </div>
+        <ul className="list-none space-y-4">
+          {/* Run For Input */}
+          <li className="flex items-center gap-2">
+            <label className="inline-block text-sm mr-2">Run For (s)</label>
             <input
-              disabled={gameStarted}
               type="number"
-              min="1"
-              max="50"
+              disabled={gameStarted}
               value={runFor}
-              className="input input-bordered w-full max-w-xs"
               onChange={(e) => {
                 const value = parseInt(e.target.value);
                 setRunFor(value);
                 setRemainingTime(value);
               }}
+              className="grow input input-sm"
+              placeholder="Daisy"
             />
-            <span>s</span>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <span>Pieces</span>
-            <input
-              disabled={gameStarted}
-              type="range"
-              min="1"
-              max="50"
-              value={numberOfElements}
-              onChange={(e) => {
-                const value = parseInt(e.target.value);
-                setNumberOfElements(value);
-                setRockCount(value);
-                setPaperCount(value);
-                setScissorsCount(value);
-              }}
-            />
+          </li>
+          <li className="flex items-center justify-between">
+            <label className="inline-block text-sm mr-2">Number of Elements</label>
+            <div className="flex items-center space-x-2">
+              <input
+                disabled={gameStarted}
+                min={10}
+                step="0"
+                max="50"
+                type="range"
+                value={numberOfElements}
+                className="range input-sm"
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  setNumberOfElements(value);
+                  setRockCount(value);
+                  setPaperCount(value);
+                  setScissorsCount(value);
+                }}
+              />
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div className="flex flex-col-reverse md:flex-row md:items-center">
+        <div className="justify-self-end w-52 md:w-full">
+          <div>
+            <table className="table">
+              <tbody>
+                <tr>
+                  <td className="text-right">Rock Count</td>
+                  <td>{rockCount}</td>
+                </tr>
+                <tr>
+                  <td className="text-right">Paper Count</td>
+                  <td>{paperCount}</td>
+                </tr>
+                <tr>
+                  <td className="text-right">Scissors Count</td>
+                  <td>{scissorsCount}</td>
+                </tr>
+              </tbody>
+            </table>
+            {winner && <div>Winner: {winner}</div>}
+            <button className="btn btn-primary mt-4" onClick={resetGame}>Reset Game</button>
           </div>
         </div>
-      </div>
-      <div style={{ textAlign: "center", marginBottom: "10px" }}>
-        <audio
-          src="/sounds/impact.mp3"
-          ref={audioRef}
-          style={{ display: "none" }}
-        />
-        <div>Remaining Time: {remainingTime} seconds</div>
-        <div>Rock Count: {rockCount}</div>
-        <div>Paper Count: {paperCount}</div>
-        <div>Scissors Count: {scissorsCount}</div>
-        {winner && <div>Winner: {winner}</div>}
-        <button className="btn btn-primary" onClick={resetGame}>Reset Game</button>
+        <div className="justify-self-start w-full md:w-1/2">
+          <canvas
+            ref={canvasRef}
+            width={!isMobile ? 600 : "auto"}
+            height={!isMobile ? 400 : "auto"}
+            style={{ objectFit: "contain" }}
+            className="mx-auto block border border-black rounded-lg bg-white"
+          />
+        </div>
       </div>
 
-      <canvas
-        ref={canvasRef}
-        width={600}
-        height={400}
-        style={{
-          border: "1px solid black",
-          borderRadius: "5px",
-          margin: "auto",
-          display: "block",
-          backgroundColor: "white",
-        }}
-      />
-      <div className="p10">
+      <div className="flex mt-4">
+        <h3>Remaining Time: {remainingTime}</h3>
+      </div>
+      <div className="text-center p-10">
         <a
-          style={{
-            textDecoration: "underline",
-          }}
+          className="underline"
           target="blank"
           href="https://www.instagram.com/p/C48bvLiIXM0/"
         >
