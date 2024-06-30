@@ -1,5 +1,4 @@
 import { Page } from "@/components/page/page";
-import { data } from "./data";
 import "react";
 import "./resume.css";
 
@@ -82,7 +81,7 @@ export const Resume = () => {
                 <div className={
                   `${direction} mb-10`
                 }>
-                  <time className="font-mono">{item.year}</time>
+                  <time className="font-mono">{year}</time>
                   <div className="text-lg font-black">{item.title}</div>
                   {item.description}
                 </div>

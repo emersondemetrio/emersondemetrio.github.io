@@ -78,7 +78,7 @@ export type AdditionalSection = {
   key: string;
   fields: AdditionalSectionField[];
   movable: boolean;
-  records: any[];
+  records: unknown[];
   repeatable: boolean;
   destroyable: boolean;
   placeholder?: string;
@@ -106,7 +106,7 @@ export type CustomSection = {
   key: string;
   fields: CustomSectionField[];
   movable: boolean;
-  records: any[];
+  records: unknown[];
   repeatable: boolean;
   destroyable: boolean;
   customSectionName: string;
@@ -125,7 +125,7 @@ export type DefaultSection = {
   key: string;
   fields: SectionField[];
   movable: boolean;
-  records: any[];
+  records: unknown[];
   repeatable: boolean;
   destroyable: boolean;
   additionalFields: boolean;
@@ -150,8 +150,7 @@ export type CroppedAreaPixels = {
   height: number;
 }
 
-export type Signature = {
-}
+export type Signature = unknown
 
 export type TemplateOptions = {
   color: string;
