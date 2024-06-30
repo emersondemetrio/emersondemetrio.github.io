@@ -14,6 +14,7 @@ import { Blog } from "@/pages/blog/blog";
 import { RemoveBackground } from "@/pages/remove-background/remove-background";
 import { CanvasGame } from "@/pages/canvas-game/canvas-game";
 import { Experiments } from "@/pages/experiments/experiments";
+import { Timezones } from "./pages/timezones/timezones";
 
 export const App = () => {
   return (
@@ -26,9 +27,18 @@ export const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
+
+          {/* Experiments */}
           <Route path="/experiments" element={<Experiments />} />
-          <Route path="/bg" element={<RemoveBackground />} />
-          <Route path="/game" element={<CanvasGame />} />
+          <Route path="/experiments/bg" element={<RemoveBackground />} />
+          <Route path="/experiments/game" element={<CanvasGame />} />
+          <Route path="/experiments/tz" element={<Timezones />} />
+
+          {/* Old routes */}
+          <Route path="/bg" element={<Navigate to="/experiments/bg" />} />
+          <Route path="/game" element={<Navigate to="/experiments/game" />} />
+
+          {/* Defaults */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <Footer />

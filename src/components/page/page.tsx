@@ -14,7 +14,7 @@ export const Page = ({
   description,
   children,
   style = {},
-  onPaste = () => {},
+  onPaste = () => { },
 }: PageProps): JSX.Element => {
   const isMobile = useIsMobile();
   const pageRef = useRef<HTMLDivElement>(null);
@@ -35,7 +35,7 @@ export const Page = ({
     }
   }, [isMobile, onPaste]);
 
-  if (name && description) {
+  if (!children && name && description) {
     return (
       <section
         style={style}

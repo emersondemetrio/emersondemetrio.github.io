@@ -12,7 +12,8 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "type:check": "tsc --noEmit",
-    "cli": "node scripts/cli.mjs"
+    "cli": "node scripts/cli.mjs",
+    "cli:new:page": "yarn cli page"
   },
   "dependencies": {
     "@imgly/background-removal": "^1.5.3",

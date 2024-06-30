@@ -119,8 +119,13 @@ h6 {
 }
 
 .page {
+  min-height: 100%;
+  flex-direction: column;
+  background-color: #001000;
+  color: white;
   height: 100%;
   flex-direction: column;
   background-color: #001000;
   color: white;
+  padding-top: 40px;
 }
