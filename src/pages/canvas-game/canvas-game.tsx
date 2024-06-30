@@ -43,10 +43,15 @@ const drawPaper = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
   addImageToCanvas(ctx, x, y, "paper");
 };
 
+const itsA = (type: ElementTypes, { type: eType }: Element,) => eType === type;
+
+const countFor = (type: ElementTypes, elementRef: Element[]) =>
+  elementRef.filter((e) => itsA(type, e)).length;
+
 const calculateWinner = (elementRef: Element[]) => {
-  const rockCount = elementRef.filter((e) => e.type === "rock").length;
-  const paperCount = elementRef.filter((e) => e.type === "paper").length;
-  const scissorsCount = elementRef.filter((e) => e.type === "scissors").length;
+  const rockCount = countFor("rock", elementRef)
+  const paperCount = countFor("paper", elementRef)
+  const scissorsCount = countFor("scissors", elementRef)
 
   if (rockCount > paperCount && rockCount > scissorsCount) {
     return "Rock";
@@ -114,12 +119,14 @@ export const CanvasGame = () => {
       ...generateElements("paper"),
       ...generateElements("scissors"),
     ];
+
     setRockCount(numberOfElements);
     setPaperCount(numberOfElements);
     setScissorsCount(numberOfElements);
     setRemainingTime(runFor);
     setWinner(null);
-    setGameStarted(true); // Start the game animation loop
+
+    setGameStarted(true);
   };
 
   useEffect(() => {
@@ -146,6 +153,7 @@ export const CanvasGame = () => {
         if (element.x + 10 > width || element.x - 10 < 0) {
           element.dx *= -1;
         }
+
         if (element.y + 10 > height || element.y - 10 < 0) {
           element.dy *= -1;
         }
@@ -153,7 +161,6 @@ export const CanvasGame = () => {
         return element;
       });
 
-      // Check for collisions and filter out collided elements based on rock-paper-scissors rules
       const filteredElements = newElements.filter((element) => {
         let shouldKeep = true;
 
@@ -166,9 +173,9 @@ export const CanvasGame = () => {
 
             if (isColliding) {
               if (
-                (element.type === "rock" && other.type === "paper") ||
-                (element.type === "scissors" && other.type === "rock") ||
-                (element.type === "paper" && other.type === "scissors")
+                (itsA("rock", element) && itsA("paper", other)) ||
+                (itsA("scissors", element) && itsA("rock", other)) ||
+                (itsA("paper", element) && itsA("scissors", other))
               ) {
                 shouldKeep = false;
                 audioRef.current?.play();
@@ -177,20 +184,12 @@ export const CanvasGame = () => {
           }
         });
 
-        // Only keep the element if it didn't collide in a losing interaction
         return shouldKeep;
       });
 
-      // Update the counts
-      const rockCount = filteredElements.filter(
-        (e) => e.type === "rock"
-      ).length;
-      const paperCount = filteredElements.filter(
-        (e) => e.type === "paper"
-      ).length;
-      const scissorsCount = filteredElements.filter(
-        (e) => e.type === "scissors"
-      ).length;
+      const rockCount = countFor("rock", filteredElements);
+      const paperCount = countFor("paper", filteredElements);
+      const scissorsCount = countFor("scissors", filteredElements);
 
       setRockCount(rockCount);
       setPaperCount(paperCount);
@@ -207,7 +206,6 @@ export const CanvasGame = () => {
 
       elementsRef.current = filteredElements;
 
-      // Draw elements
       filteredElements.forEach((element) => {
         if (element.type === "paper") {
           drawPaper(ctx, element.x, element.y);
@@ -221,21 +219,28 @@ export const CanvasGame = () => {
 
     let animationID: number;
     let startTime: null | number = null;
+
     const animate = (time: number) => {
       if (!startTime) {
         startTime = time;
       }
+
       const elapsedTime = (time - startTime) / 1000;
       const remaining = runFor - elapsedTime;
       setRemainingTime(Math.max(remaining, 0).toFixed(2));
 
-      // Check if winner exists or animation time has elapsed
+
+      if (winner) {
+        window.cancelAnimationFrame(animationID);
+        return;
+      }
+
       if (remaining <= 0) {
         cancelAnimationFrame(animationID);
         setGameStarted(false);
 
         setWinner(calculateWinner(elementsRef.current));
-        return; // Exit the animation loop if there's a winner or time is up
+        return;
       }
 
       draw();
@@ -245,7 +250,6 @@ export const CanvasGame = () => {
     animationID = requestAnimationFrame(animate);
 
     return () => {
-      // Cleanup function to stop animation on unmount
       window.cancelAnimationFrame(animationID);
     };
   }, [gameStarted, winner]);
@@ -253,9 +257,10 @@ export const CanvasGame = () => {
   return (
     <Page>
       <div
+        className="container"
         style={{ textAlign: "center", marginTop: "10px", marginBottom: "10px" }}
       >
-        <h3>Rock, Paper, Scissors</h3>
+        <h1>Rock, Paper, Scissors</h1>
         <div
           style={{
             display: "flex",
@@ -281,6 +286,7 @@ export const CanvasGame = () => {
               min="1"
               max="50"
               value={runFor}
+              className="input input-bordered w-full max-w-xs"
               onChange={(e) => {
                 const value = parseInt(e.target.value);
                 setRunFor(value);
@@ -325,7 +331,7 @@ export const CanvasGame = () => {
         <div>Paper Count: {paperCount}</div>
         <div>Scissors Count: {scissorsCount}</div>
         {winner && <div>Winner: {winner}</div>}
-        <button onClick={resetGame}>Reset Game</button>
+        <button className="btn btn-primary" onClick={resetGame}>Reset Game</button>
       </div>
 
       <canvas

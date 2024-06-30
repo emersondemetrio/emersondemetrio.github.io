@@ -33,7 +33,7 @@ export const Toggle = ({ children, title, onChange, style = {} }: ToggleProps) =
           justifyContent: "left",
         }}
       >
-        <button className="btn btn-secondary" onClick={handleChange}>
+        <button className="btn btn-primary" onClick={handleChange}>
           {title} {visible ? "↑" : "↓"}
         </button>
       </div>
