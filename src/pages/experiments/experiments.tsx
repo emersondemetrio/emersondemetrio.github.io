@@ -5,15 +5,21 @@ const experiments = [
   {
     title: "Remove Background",
     description: "Remove background from images 🖼️",
-    link: "/bg",
+    link: "/experiments/bg",
     repo: "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/src/pages/remove-background/remove-background.tsx",
   },
   {
     title: "Canvas Game",
     description: "Simple game using canvas 🪨✂️📜",
-    link: "/game",
+    link: "/experiments/game",
     repo: "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/src/pages/canvas-game/canvas-game.tsx",
   },
+  {
+    title: "Timezones",
+    description: "Timezones 🕰️",
+    link: "/experiments/tz",
+    repo: "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/src/pages/timezones/timezones.tsx",
+  }
 ];
 
 export const Experiments = () => {
@@ -41,8 +47,8 @@ export const Experiments = () => {
               margin: 5,
               padding: 5,
               borderRadius: 5,
-              width: "500px",
-              height: "300px",
+              width: "400px",
+              height: "250px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",

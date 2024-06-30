@@ -22,7 +22,6 @@ export const Toggle = ({ children, title, onChange, style = {} }: ToggleProps) =
       style={{
         display: "flex",
         flex: 1,
-        marginBottom: 10,
         flexDirection: "column",
         ...style,
       }}
@@ -31,7 +30,6 @@ export const Toggle = ({ children, title, onChange, style = {} }: ToggleProps) =
         style={{
           flex: 1,
           display: "flex",
-          marginBottom: 10,
           justifyContent: "left",
         }}
       >
