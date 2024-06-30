@@ -362,7 +362,7 @@ export const data: ResumeType = {
                   "Feb 2010",
                   "July 2018"
                 ],
-                "<li>Obtained the BSc degree with \"Music Genres Classification Using Artificial Intelligence\"</li>"
+                `<li>Obtained the BSc degree with "Music Genres Classification Using Artificial Intelligence"</li>`
               ]
             }
           ],
@@ -402,7 +402,7 @@ export const data: ResumeType = {
             {
               "key": "4c9dde5b-7108-4895-ae8f-5568059953d3",
               "values": [
-                `<ul><li style=\"text-align: left;\">Mobile Applications / IOT</li><li style=\"text-align: left;\">Artificial Intelligence</li><li style=\"text-align: left;\">Functional Programming</li><li style=\"text-align: left;\">Data Security</li><li style=\"text-align: left;\">Music &amp; Poetry</li>
+                `<ul><li style="text-align: left;">Mobile Applications / IOT</li><li style="text-align: left;">Artificial Intelligence</li><li style="text-align: left;">Functional Programming</li><li style="text-align: left;">Data Security</li><li style="text-align: left;">Music &amp; Poetry</li>
               </ul>`
               ]
             }
