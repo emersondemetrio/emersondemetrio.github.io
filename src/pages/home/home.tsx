@@ -11,9 +11,8 @@ export const Home = () => {
 
   return (
     <Page
-      style={{
-        backgroundColor: "rgba(0, 0, 0, 0)",
-      }}
+      name="Home"
+      withoutName
     >
       <Terminal
         links={Links}

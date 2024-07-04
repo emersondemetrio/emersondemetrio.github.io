@@ -44,15 +44,15 @@ const drawPaper = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
   addImageToCanvas(ctx, x, y, "paper");
 };
 
-const itsA = (type: ElementTypes, { type: eType }: Element,) => eType === type;
+const itsA = (type: ElementTypes, { type: eType }: Element) => eType === type;
 
 const countFor = (type: ElementTypes, elementRef: Element[]) =>
   elementRef.filter((e) => itsA(type, e)).length;
 
 const calculateWinner = (elementRef: Element[]) => {
-  const rockCount = countFor("rock", elementRef)
-  const paperCount = countFor("paper", elementRef)
-  const scissorsCount = countFor("scissors", elementRef)
+  const rockCount = countFor("rock", elementRef);
+  const paperCount = countFor("paper", elementRef);
+  const scissorsCount = countFor("scissors", elementRef);
 
   if (rockCount > paperCount && rockCount > scissorsCount) {
     return "Rock";
@@ -232,7 +232,6 @@ export const CanvasGame = () => {
       const remaining = runFor - elapsedTime;
       setRemainingTime(Math.max(remaining, 0).toFixed(2));
 
-
       if (winner) {
         window.cancelAnimationFrame(animationID);
         return;
@@ -258,16 +257,13 @@ export const CanvasGame = () => {
   }, [gameStarted, winner]);
 
   return (
-    <Page>
+    <Page name="Canvas Game (Rock, Paper, Scissors)">
       <audio
         src="/sounds/impact.mp3"
         ref={audioRef}
         style={{ display: "none" }}
       />
       <div className="container mx-auto text-center my-10">
-        <div className="mb-10">
-          <h1 className="text-3xl font-bold">Rock, Paper, Scissors</h1>
-        </div>
         <ul className="list-none space-y-4">
           {/* Run For Input */}
           <li className="flex items-center gap-2">
@@ -286,7 +282,9 @@ export const CanvasGame = () => {
             />
           </li>
           <li className="flex items-center justify-between">
-            <label className="inline-block text-sm mr-2">Number of Elements</label>
+            <label className="inline-block text-sm mr-2">
+              Number of Elements
+            </label>
             <div className="flex items-center space-x-2">
               <input
                 disabled={gameStarted}
@@ -328,7 +326,9 @@ export const CanvasGame = () => {
               </tbody>
             </table>
             {winner && <div>Winner: {winner}</div>}
-            <button className="btn btn-primary mt-4" onClick={resetGame}>Reset Game</button>
+            <button className="btn btn-primary mt-4" onClick={resetGame}>
+              Reset Game
+            </button>
           </div>
         </div>
         <div className="justify-self-start w-full md:w-1/2">
