@@ -90,7 +90,7 @@ export const RemoveBackground = () => {
   };
 
   return (
-    <Page onPaste={handlePaste} className="table">
+    <Page name="Remove Background" onPaste={handlePaste} className="table">
       <h2>Remove Background</h2>
       {progress && <span>{progress}</span>}
       {isLoading && <Loading />}

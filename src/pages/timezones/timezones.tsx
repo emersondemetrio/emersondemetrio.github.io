@@ -6,53 +6,51 @@ import "./timezones.css";
 type Timezone = {
   name: string;
   offset: number;
-}
+};
 
 const timezones: Timezone[] = [
   {
     name: "UTC",
-    offset: 0
+    offset: 0,
   },
   {
     name: "CET",
-    offset: 1
+    offset: 1,
   },
   {
     name: "EET",
-    offset: 2
+    offset: 2,
   },
   {
     name: "MSK",
-    offset: 3
+    offset: 3,
   },
   {
     name: "IST",
-    offset: 5.5
+    offset: 5.5,
   },
   {
     name: "SGT",
-    offset: 8
+    offset: 8,
   },
   {
     name: "JST",
-    offset: 9
+    offset: 9,
   },
   {
     name: "AEDT",
-    offset: 11
-  }
-]
-
+    offset: 11,
+  },
+];
 
 const getToday = () => {
   const today = new Date();
   return today.toLocaleDateString("en-GB");
-}
+};
 
 export const Timezones = () => {
   return (
-    <Page>
-      <h1 className="text-dark">Timezones</h1>
+    <Page name="Timezones App">
       <div className="container">
         <table className="table table-bordered timezones-table">
           <thead>
@@ -60,11 +58,9 @@ export const Timezones = () => {
               <th scope="col">Name</th>
               <th scope="col">Offset</th>
               <th scope="col">{getToday()}</th>
-              {
-                Array.from({ length: 10 }, (_, i) => i).map((i) => (
-                  <th className="ruler" key={i} />
-                ))
-              }
+              {Array.from({ length: 10 }, (_, i) => i).map((i) => (
+                <th className="ruler" key={i} />
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -72,17 +68,15 @@ export const Timezones = () => {
               <tr key={index}>
                 <td>{tz.name}</td>
                 <td>{tz.offset}</td>
-                {
-                  Array.from({ length: 10 }, (_, i) => i).map((i) => (
-                    <td key={i}>
-                      {
-                        <div key={i} className="ruler-item col">
-                          <span className="badge badge-secondary">{i}</span>
-                        </div>
-                      }
-                    </td>
-                  ))
-                }
+                {Array.from({ length: 10 }, (_, i) => i).map((i) => (
+                  <td key={i}>
+                    {
+                      <div key={i} className="ruler-item col">
+                        <span className="badge badge-secondary">{i}</span>
+                      </div>
+                    }
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
@@ -91,7 +85,10 @@ export const Timezones = () => {
           <Link
             target="_blank"
             to="https://www.worldtimebuddy.com/"
-            className="btn btn-secondary">Inspired by this tool</Link>
+            className="btn btn-secondary"
+          >
+            Inspired by this tool
+          </Link>
         </div>
       </div>
     </Page>

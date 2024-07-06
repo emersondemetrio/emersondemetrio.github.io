@@ -10,16 +10,16 @@ export default {
     themes: [
       {
         "emerson.run": {
-          "primary": "#0068ff",
+          primary: "#0068ff",
           "primary-content": "#ffffff",
 
-          "secondary": "#6f9600",
+          secondary: "#6f9600",
           "secondary-content": "#ffffff",
 
-          "accent": "#007200",
+          accent: "#007200",
           "accent-content": "#ffffff",
 
-          "neutral": "#003335",
+          neutral: "#003335",
           "neutral-content": "#ffffff",
 
           "base-100": "#000000",
@@ -27,17 +27,17 @@ export default {
           "base-300": "#333333",
           "base-content": "#ffffff",
 
-          "info": "#00e3ff",
+          info: "#00e3ff",
           "info-content": "#000000",
 
-          "success": "#1cb024",
+          success: "#1cb024",
           "success-content": "#000000",
 
-          "warning": "#fab000",
+          warning: "#fab000",
           "warning-content": "#000000",
 
-          "error": "#ff4c57",
-          "error-content": "#000000"
+          error: "#ff4c57",
+          "error-content": "#000000",
         },
       },
     ],

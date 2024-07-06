@@ -83,6 +83,8 @@ const ResumeViewer: React.FC<{ resume: ResumeType }> = ({ resume }) => {
 export const Resume = () => {
   return (
     <Page
+      name="Resume"
+      description="My resume"
       style={{
         paddingBottom: "100px",
       }}
