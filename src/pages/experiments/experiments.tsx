@@ -23,6 +23,12 @@ const experiments = [
     link: "/labs/timezones",
     repo: `${githubBaseUrl}/pages/timezones/timezones.tsx`,
   },
+  {
+    title: "Weather App",
+    description: "Weather App 🌦️",
+    link: "/experiments/weather",
+    repo: `${githubBaseUrl}/pages/weather-app/weather-app.tsx`,
+  },
 ];
 
 export const Experiments = () => {

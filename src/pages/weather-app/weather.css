@@ -1,0 +1,126 @@
+body {
+  margin: 0;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+html,
+body {
+  background-color: #181818;
+}
+.App {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+header {
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+}
+
+header h3 {
+  padding: 10px 80px;
+  background-color: #1a697a;
+}
+
+.row {
+  width: 70%;
+  justify-content: flex-start;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.place {
+  box-shadow: 1px 1px 6px #ccc;
+  width: 15em;
+  height: auto;
+  border-radius: 3px;
+  padding: 2em;
+  margin: 1em;
+  overflow: hidden;
+  position: relative;
+  flex: auto;
+  background-color: #181818;
+  height: 250px;
+}
+
+.place img {
+  max-width: 100%;
+  height: auto !important;
+  text-align: center;
+}
+
+.place_inner {
+  display: flex;
+  align-items: center;
+  flex-flow: column wrap;
+}
+
+h1,
+h2,
+h3,
+button,
+p {
+  color: rgb(181, 198, 201);
+}
+
+.place_inner button,
+.place_inner img {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  border-radius: 3px;
+  background: none;
+  cursor: pointer;
+  transition: background ease-in 0.25s;
+  width: 80px;
+  height: 80px;
+  background-color: rgb(32, 66, 74);
+}
+
+.place_inner button:hover {
+  background: white;
+  color: #2b2d42;
+}
+
+.place_overlay h2 {
+  color: rgba(43, 45, 66, 0.7);
+  font-size: 1.2em;
+  margin: 1em 0;
+}
+
+.info,
+.place-info {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: space-around;
+}
+
+.place-info {
+  min-width: 300px;
+  justify-content: space-evenly;
+}
+
+.highlighted {
+  background-color: #1a697a;
+}
+
+.date-diff {
+  color: #1a697a;
+}
+
+.date-diff[data-content^="-"] {
+  color: #d93333;
+}
+
+.condition-img {
+  cursor: default !important;
+}
