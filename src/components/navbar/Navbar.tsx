@@ -22,8 +22,9 @@ const appRoutes = [
 ];
 
 export const Navbar = () => {
+  const currentScreen = window.screen.width;
   const isMobile = useIsMobile();
-  const [navbarOpen, setNavbarOpen] = useState(!isMobile);
+  const [navbarOpen, setNavbarOpen] = useState(!isMobile && currentScreen > 1024);
 
   return (
     <nav id="header" className="fixed w-full z-30 top-0 text-white">

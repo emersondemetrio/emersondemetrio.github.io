@@ -9,6 +9,7 @@ type PageProps = {
   onPaste?: (event: React.ClipboardEvent) => void;
   className?: string;
   withoutName?: boolean;
+  isHome?: boolean;
 };
 
 export const Page = ({
@@ -19,6 +20,7 @@ export const Page = ({
   onPaste = () => { },
   className = "",
   withoutName = false,
+  isHome = false,
 }: PageProps): JSX.Element => {
   const isMobile = useIsMobile();
   const pageRef = useRef<HTMLDivElement>(null);
@@ -46,7 +48,7 @@ export const Page = ({
       ref={pageRef}
       tabIndex={-1}
       data-page={`page-${name.toLowerCase().replace(/\s/g, "-")}`}
-      className={`min-h-screen border-b py-8 ${className}`}
+      className={`${isHome ? '' : 'page'} min-h-screen border-b py-8 ${className}`}
     >
       <div className="container mx-auto flex flex-wrap pt-4 pb-12">
         {withoutName ? null : (

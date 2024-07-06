@@ -5,15 +5,18 @@ import { Modal } from "@/components/modal/modal";
 import { Terminal } from "@/components/terminal/terminal";
 import { Links } from "@/constants";
 import { Page } from "@/components/page/page";
+import { Hero } from "@/components/hero/hero";
 
 export const Home = () => {
   const [showCurrency, setShowCurrency] = useState(false);
 
   return (
     <Page
+      isHome
       name="Home"
       withoutName
     >
+      <Hero />
       <Terminal
         links={Links}
         tools={[

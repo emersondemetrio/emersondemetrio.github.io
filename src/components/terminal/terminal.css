@@ -17,6 +17,11 @@
   .terminal-container {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .terminal-item {
+    width: 100% !important;
+    padding: 10%;
+  }
 }
 
 @media (max-width: 600px) {
@@ -25,7 +30,8 @@
   }
 
   .terminal-item {
-    width: 100%;
+    width: 80% !important;
+    margin: 0 10%;
   }
 }
 

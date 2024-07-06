@@ -26,9 +26,7 @@ const oldRoutes = [
     to: "/labs/timezones",
   },
 ].map(({ from, to }) => {
-  if (typeof from === "string") {
-    return { from, to };
-  }
+  if (typeof from === "string") return { from, to };
 
   return from.map((path) => ({ from: path, to }));
 }).flat();
@@ -39,7 +37,7 @@ export const App = () => {
   return (
     <HashRouter basename={"/"}>
       <Navbar />
-      <div className={isMobile ? ' ' : "pt-24"}>
+      <div className={isMobile ? '' : "pt-24"}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<Resume />} />
