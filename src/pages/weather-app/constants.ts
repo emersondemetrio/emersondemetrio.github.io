@@ -1,7 +1,10 @@
+import { isCurrentLocalTimeZone } from "./utils";
+
 type Place = {
   name: string;
   city: string;
   timeZone: string;
+  current: boolean;
 }
 
 export const places: Place[] = [
@@ -10,10 +13,9 @@ export const places: Place[] = [
     "city": "San Francisco, California, USA",
     "timeZone": "America/Los_Angeles"
   },
-
   {
     "name": "Florianópolis/Brazil",
-    "city": "Florianópolis, Santa Catarina, Brasil",
+    "city": "Florianópolis, Santa Catarina, Brazil",
     "timeZone": "America/Sao_Paulo"
   },
   {
@@ -36,4 +38,7 @@ export const places: Place[] = [
     "city": "Gothenburg, Sweden",
     "timeZone": "Europe/Stockholm"
   }
-]
+].map(place => ({
+  ...place,
+  current: isCurrentLocalTimeZone(place.timeZone)
+})).sort((a) => a.current ? -1 : 1);

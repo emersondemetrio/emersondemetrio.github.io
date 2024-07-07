@@ -7,7 +7,6 @@ import { Blog } from "@/pages/blog/blog";
 import { RemoveBackground } from "@/pages/remove-background/remove-background";
 import { CanvasGame } from "@/pages/canvas-game/canvas-game";
 import { Experiments } from "@/pages/experiments/experiments";
-import { Timezones } from "./pages/timezones/timezones";
 import { Resume } from "@/pages/resume/resume";
 import { Navbar } from "./components/navbar/Navbar";
 import { useIsMobile } from "./hooks/use-is-mobile/use-is-mobile";
@@ -49,7 +48,7 @@ export const App = () => {
           <Route path="/labs" element={<Experiments />} />
           <Route path="/labs/background" element={<RemoveBackground />} />
           <Route path="/labs/game" element={<CanvasGame />} />
-          <Route path="/labs/timezones" element={<Timezones />} />
+          <Route path="/labs/timezones" element={<WeatherApp />} />
           <Route path="/experiments/weather" element={<WeatherApp />} />
 
           {/* Old routes */}

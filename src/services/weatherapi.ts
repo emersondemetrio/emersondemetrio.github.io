@@ -1,6 +1,6 @@
 const API_KEY = import.meta.env.VITE_API_KEY
 const BASE_URL = 'https://api.weatherapi.com/v1/current.json';
-const DEFAULT_PLACE = 'Florianópolis, Santa Catarina, Brasil';
+const DEFAULT_PLACE = 'Florianópolis, Santa Catarina, Brazil';
 
 const fetchJson = async (url: string, options: RequestInit) => {
   return await fetch(url, options).then((d) => d.json());
@@ -26,6 +26,16 @@ export type WeatherAPIResult = {
     feelslike_c: number;
   };
 };
+
+const createHourlyCacheForWeatherUsingLocalStorage = (weather: WeatherAPIResult) => {
+  const hourlyCache: Record<string, WeatherAPIResult> = JSON.parse(
+    localStorage.getItem('hourlyCache') || '{}'
+  );
+
+  hourlyCache[Date.now().toString()] = weather;
+
+  localStorage.setItem('hourlyCache', JSON.stringify(hourlyCache));
+}
 
 export const getWeatherOf = async <T>(place: string) => {
   const searchURL = getSearchString(place);

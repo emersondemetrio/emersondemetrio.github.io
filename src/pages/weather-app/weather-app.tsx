@@ -1,16 +1,15 @@
 import { Page } from "@/components/page/page";
+import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
 import Place from "./components/place/Place";
 import { places } from "./constants";
-import "./weather.css";
+import { REPOS } from "@/constants";
 
 export const WeatherApp = () => {
-  return (
-    <Page className="App">
-      <header>
-        <h3>Time Zones</h3>
-      </header>
+  const isMobile = useIsMobile();
 
-      <div className="row">
+  return (
+    <Page name="Weather" withoutPadding={isMobile} repo={REPOS.timezones.url}>
+      <div className="flex flex-col w-full">
         {places.map((place) => (
           <Place {...place} key={place.timeZone} />
         ))}

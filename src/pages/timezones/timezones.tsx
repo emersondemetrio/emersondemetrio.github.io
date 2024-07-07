@@ -2,6 +2,7 @@ import "react";
 import { Page } from "@/components/page/page";
 import { Link } from "react-router-dom";
 import "./timezones.css";
+import { REPOS } from "@/constants";
 
 type Timezone = {
   name: string;
@@ -50,7 +51,7 @@ const getToday = () => {
 
 export const Timezones = () => {
   return (
-    <Page name="Timezones App">
+    <Page name="Timezones App" repo={REPOS.timezones.url}>
       <div className="container">
         <table className="table table-bordered timezones-table">
           <thead>
