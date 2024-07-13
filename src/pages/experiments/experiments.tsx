@@ -23,6 +23,12 @@ const experiments = [
     link: "/experiments/weather",
     repo: `${githubBaseUrl}/pages/weather-app/weather-app.tsx`,
   },
+  {
+    title: "Code Pens",
+    description: "Code Pens 🖊 ️",
+    link: "/experiments/code-pen",
+    repo: `${githubBaseUrl}/pages/code-pen/code-pen.tsx`,
+  },
 ];
 
 export const Experiments = () => {

@@ -96,5 +96,13 @@ export const REPOS: Record<string, Repo> = {
   timezones: {
     name: 'Timezones',
     url: `${GITHUB_URL}src/pages/timezones/timezones.tsx`,
-  }
+  },
+  weather: {
+    name: 'Weather App',
+    url: `${GITHUB_URL}src/pages/weather-app/weather-app.tsx`,
+  },
+  codepen: {
+    name: 'Code Pen',
+    url: `${GITHUB_URL}src/pages/code-pen/pens`,
+  },
 }
