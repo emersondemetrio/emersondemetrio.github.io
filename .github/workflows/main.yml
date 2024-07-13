@@ -10,7 +10,7 @@ on:
 
 #Allow repo secrets
 env:
-  VITE_OPEN_AI_API_KEY: ${{ secrets.VITE_OPEN_AI_API_KEY }}
+  VITE_WEATHER_API_KEY: ${{ secrets.VITE_WEATHER_API_KEY }}
 
 jobs:
   web-deploy:
