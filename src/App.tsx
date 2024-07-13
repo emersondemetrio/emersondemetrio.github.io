@@ -11,6 +11,7 @@ import { Resume } from "@/pages/resume/resume";
 import { Navbar } from "./components/navbar/Navbar";
 import { useIsMobile } from "./hooks/use-is-mobile/use-is-mobile";
 import { WeatherApp } from "./pages/weather-app/weather-app";
+import { CodePen } from "./pages/code-pen/code-pen";
 
 const oldRoutes = [
   {
@@ -50,6 +51,7 @@ export const App = () => {
           <Route path="/labs/game" element={<CanvasGame />} />
           <Route path="/labs/timezones" element={<WeatherApp />} />
           <Route path="/experiments/weather" element={<WeatherApp />} />
+          <Route path="/experiments/code-pen" element={<CodePen />} />
 
           {/* Old routes */}
           {oldRoutes.map(({ from, to }) => (
