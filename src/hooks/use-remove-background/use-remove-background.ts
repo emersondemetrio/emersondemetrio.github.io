@@ -1,5 +1,4 @@
 import {
-  preload,
   ImageSource,
   removeBackground as removeBackgroundFromImage
 } from "@imgly/background-removal";
@@ -7,18 +6,14 @@ import { useState } from "react";
 import { useIsMobile } from "../use-is-mobile/use-is-mobile";
 import { randomUUID } from "@/utils/utils";
 
-const REMOVE_MASK_MODEL = "isnet";
-
-preload({
-  model: REMOVE_MASK_MODEL,
-  device: "cpu"
-});
 
 export const useRemoveBackground = () => {
   const isMobile = useIsMobile();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [progress, setProgress] = useState<string | null>(null);
+
+  const REMOVE_MASK_MODEL = "isnet";
 
   const removeBackground = async ({
     file,

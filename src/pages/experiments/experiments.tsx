@@ -18,10 +18,10 @@ const experiments = [
     repo: `${githubBaseUrl}/pages/canvas-game/canvas-game.tsx`,
   },
   {
-    title: "Timezones",
-    description: "Timezones 🕰️",
-    link: "/labs/timezones",
-    repo: `${githubBaseUrl}/pages/timezones/timezones.tsx`,
+    title: "Weather App",
+    description: "Weather App 🌦️",
+    link: "/experiments/weather",
+    repo: `${githubBaseUrl}/pages/weather-app/weather-app.tsx`,
   },
 ];
 
@@ -31,38 +31,16 @@ export const Experiments = () => {
       name="Labs"
       description="Some experiments I've been working on"
     >
-      <div
-        className="row"
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-          alignItems: "center",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {experiments.map((item) => (
-          <div
-            className="w-full md:w-1/3 flex flex-col flex-grow flex-shrink bg-gray-50 py-6"
-            key={item.title}
-          >
-            <div className="flex-1 rounded-t rounded-b-none overflow-hidden shadow">
-              <div className="flex flex-wrap no-underline hover:no-underline">
-                <p className="w-full text-gray-600 text-xs md:text-sm px-6">
-                  {item.title}
-                </p>
-                <div className="w-full font-bold text-xl text-gray-800 px-6">
-                  {item.description}
-                </div>
+          <div key={item.title} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div className="flex flex-col items-center pt-4 pb-10">
+              <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{item.title}</h5>
+              <span className="text-sm text-gray-500 dark:text-gray-400">{item.description}</span>
+              <div className="flex mt-4 md:mt-6">
+                <Link to={item.link} className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</Link>
+                <Link to={item.repo} className="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Code</Link>
               </div>
-            </div>
-            <div className="flex mt-auto rounded-b rounded-t-none overflow-hidden shadow p-6">
-              <Link className="btn btn-primary" to={item.link}>
-                View
-              </Link>
-              <Link className="btn btn-dark" to={item.repo}>
-                Code
-              </Link>
             </div>
           </div>
         ))}

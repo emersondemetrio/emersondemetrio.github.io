@@ -29,3 +29,8 @@ export type CurrencyProvider = {
   nickname: string;
   url: (amount: number, currency: string) => string;
 };
+
+export type Repo = {
+  name: string;
+  url: string;
+}

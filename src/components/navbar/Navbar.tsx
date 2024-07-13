@@ -27,7 +27,7 @@ export const Navbar = () => {
   const [navbarOpen, setNavbarOpen] = useState(!isMobile && currentScreen > 1024);
 
   return (
-    <nav id="header" className="fixed w-full z-30 top-0 text-white">
+    <nav id="header" className="fixed w-full z-30 top-0 text-white bg-black" >
       <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
         <div className="pl-4 flex items-center">
           <Link
@@ -58,7 +58,6 @@ export const Navbar = () => {
         <div
           style={{
             height: !isMobile ? 80 : 'auto',
-            background: isMobile ? '#000' : 'transparent',
           }}
           className={
             "w-full flex-grow lg:flex lg:items-center lg:w-auto lg:block mt-2 lg:mt-0 lg:bg-transparent text-black p-4 lg:p-0 z-20" +

@@ -1,5 +1,5 @@
-import { CurrencyProvider, Link } from "./types";
-
+import { CurrencyProvider, Link, Repo } from "./types";
+export const GITHUB_URL = "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/"
 export const API_URL = "https://api.exchangerate-api.com/v4/latest/";
 
 export const HomeUrl = {
@@ -91,3 +91,10 @@ export const CurrencyProviders: CurrencyProvider[] = [
     url: (amount, currency) => `https://google.com/search?q=${amount}+eur+to+${currency}`
   },
 ]
+
+export const REPOS: Record<string, Repo> = {
+  timezones: {
+    name: 'Timezones',
+    url: `${GITHUB_URL}src/pages/timezones/timezones.tsx`,
+  }
+}
