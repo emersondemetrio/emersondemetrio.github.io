@@ -34,3 +34,22 @@ export type Repo = {
   name: string;
   url: string;
 }
+
+
+// Weather API types
+export type WeatherAPIResult = {
+  current: {
+    condition: {
+      text: string;
+      icon: string;
+    };
+    temp_c: number;
+    feelslike_c: number;
+  };
+  source: "cache" | "api";
+  error: {
+    code: number;
+    message: string;
+  }
+};
+

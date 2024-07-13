@@ -5,22 +5,7 @@ const BASE_URL = 'https://api.weatherapi.com/v1/current.json';
 const DEFAULT_PLACE = 'Florianópolis, Santa Catarina, Brazil';
 
 import { getFromCache, dateToTimestamp, setCache } from "./weather-cache";
-
-export type WeatherAPIResult = {
-  current: {
-    condition: {
-      text: string;
-      icon: string;
-    };
-    temp_c: number;
-    feelslike_c: number;
-  };
-  source: "cache" | "api";
-  error: {
-    code: number;
-    message: string;
-  }
-};
+import { WeatherAPIResult } from "@/types";
 
 const fetchJson = async (url: string, options: RequestInit) => {
   return await fetch(url, options).then((d) => d.json());

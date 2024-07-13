@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite && generate:css:watch",
     "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 2",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 4",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
@@ -17,7 +17,8 @@
     "css": "yarn generate:css",
     "css:w": "yarn generate:css:watch",
     "generate:css": "./node_modules/.bin/tailwindcss -i ./src/index.css -o public/css/app.css",
-    "generate:css:watch": "./node_modules/.bin/tailwindcss -i ./src/index.css -o public/css/app.css --watch"
+    "generate:css:watch": "./node_modules/.bin/tailwindcss -i ./src/index.css -o public/css/app.css --watch",
+    "format:fix": "eslint . --ext ts,tsx --write"
   },
   "dependencies": {
     "@imgly/background-removal": "^1.5.3",

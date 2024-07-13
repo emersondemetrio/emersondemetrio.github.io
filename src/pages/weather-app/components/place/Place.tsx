@@ -1,11 +1,10 @@
-import { WeatherAPIResult } from "@/services/weatherapi";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo } from "react";
 import { useWeather } from "../../hooks/useWeather";
-import { formatDate, getNewsURL } from "../../utils";
+import { getNewsURL } from "../../utils";
+import Clock from "../clock";
 import { Info } from "../icons/Info";
 import { Reload } from "../icons/Reload";
-import { changeH } from "@/utils/date";
-import Clock from "../clock";
+import { WeatherAPIResult } from "@/types";
 
 type PlaceProps = {
   name: string;
