@@ -37,7 +37,7 @@ export const Experiments = () => {
       name="Labs"
       description="Some experiments I've been working on"
     >
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="flex flex-col md:flex-row gap-6">
         {experiments.map((item) => (
           <div key={item.title} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div className="flex flex-col items-center pt-4 pb-10">
