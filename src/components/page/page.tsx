@@ -59,7 +59,7 @@ export const Page = ({
     >
       <div className="container mx-auto flex flex-wrap pt-4 pb-12">
         {withoutName ? <></> : (
-          <div className="w-full flex justify-between items-center">
+          <div className="w-full flex justify-between items-center flex-col md:flex-row gap-6">
             <h2 className="my-2 text-5xl font-bold leading-tight text-center text-white-800">
               {name}
             </h2>

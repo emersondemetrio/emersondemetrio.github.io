@@ -5,7 +5,7 @@ export const Hero = () => {
 
   if (isMobile) {
     return <div>
-      <h1 className="my-4 text-2xl font-bold leading-tight">
+      <h1 className="my-4 text-2xl font-bold leading-tight text-center">
         ~/emersondemetrio
       </h1>
     </div>

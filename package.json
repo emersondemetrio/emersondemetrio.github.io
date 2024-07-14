@@ -18,7 +18,7 @@
     "css:w": "yarn generate:css:watch",
     "generate:css": "./node_modules/.bin/tailwindcss -i ./src/index.css -o public/css/app.css",
     "generate:css:watch": "./node_modules/.bin/tailwindcss -i ./src/index.css -o public/css/app.css --watch",
-    "format:fix": "eslint . --ext ts,tsx --write"
+    "format:fix": "eslint . --ext ts,tsx"
   },
   "dependencies": {
     "@imgly/background-removal": "^1.5.3",

@@ -9,14 +9,19 @@ type Place = {
 
 export const places: Place[] = [
   {
-    "name": "San Francisco/USA",
-    "city": "San Francisco, California, USA",
-    "timeZone": "America/Los_Angeles"
-  },
-  {
     "name": "Florianópolis/Brazil",
     "city": "Florianópolis, Santa Catarina, Brazil",
     "timeZone": "America/Sao_Paulo"
+  },
+  {
+    "name": "Munich/Germany",
+    "city": "Munich, Germany",
+    "timeZone": "Europe/Berlin"
+  },
+  {
+    "name": "San Francisco/USA",
+    "city": "San Francisco, California, USA",
+    "timeZone": "America/Los_Angeles"
   },
   {
     "name": "Lisbon/Portugal",
@@ -29,11 +34,6 @@ export const places: Place[] = [
     "city": "Dublin, Ireland"
   },
   {
-    "name": "Munich/Germany",
-    "city": "Munich, Germany",
-    "timeZone": "Europe/Berlin"
-  },
-  {
     "name": "Europe/Gothenburg",
     "city": "Gothenburg, Sweden",
     "timeZone": "Europe/Stockholm"
@@ -41,4 +41,4 @@ export const places: Place[] = [
 ].map(place => ({
   ...place,
   current: isCurrentLocalTimeZone(place.timeZone)
-})).sort((a) => a.current ? -1 : 1);
+}));

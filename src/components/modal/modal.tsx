@@ -17,7 +17,7 @@ export const Modal = ({
 
   return (
     <dialog id={modalId} className={visible ? "modal modal-open" : "modal"}>
-      <div className="modal-box w-11/12 max-w-5xl">
+      <div className="modal-box w-full">
         <h3 className="font-bold text-lg">{title}</h3>
         {children}
         <div className="modal-action">

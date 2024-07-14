@@ -8,7 +8,7 @@ export const WeatherApp = () => {
   const isMobile = useIsMobile();
 
   return (
-    <Page name="Weather" withoutPadding={isMobile} repo={REPOS.timezones.url}>
+    <Page name="Weather" withoutPadding={isMobile} repo={REPOS.weather.url}>
       <div className="flex flex-col w-full">
         {places.map((place) => (
           <Place {...place} key={place.timeZone} />

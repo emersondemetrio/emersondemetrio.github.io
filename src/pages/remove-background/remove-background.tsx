@@ -4,6 +4,7 @@ import { FilePicker } from "@/components/file-picker/file-picker";
 import { useRemoveBackground } from "@/hooks/use-remove-background/use-remove-background";
 import { Loading } from "@/components/loading/loading";
 import { useState } from "react";
+import ImageViewer from "./image-viewer";
 
 type ProcessingFile = {
   fileName: string;
@@ -31,6 +32,15 @@ const ActionRow = ({ file, index, result }: ActionRowProps) => {
           >
             Download
           </a>
+        )}
+        {!result && <Loading />}
+      </td>
+      <td>
+        {result && (
+          <ImageViewer
+            download={result.download}
+            src={result.url}
+            alt={file.name} />
         )}
         {!result && <Loading />}
       </td>
@@ -90,9 +100,17 @@ export const RemoveBackground = () => {
   };
 
   return (
-    <Page name="Remove Background" onPaste={handlePaste} className="table">
-      <h2>Remove Background</h2>
-      {progress && <span>{progress}</span>}
+    <Page
+      className="table"
+      onPaste={handlePaste}
+      name="Remove Background"
+      description="Select a file or paste it"
+    >
+      {progress && (
+        <div className="mt-2">
+          <span>{progress}</span>
+        </div>
+      )}
       {isLoading && <Loading />}
       <FilePicker onFileChange={handleFileChange} />
       <div
@@ -108,6 +126,7 @@ export const RemoveBackground = () => {
               <th scope="col">#</th>
               <th scope="col">File Name</th>
               <th scope="col">Actions</th>
+              <th scope="col">Preview</th>
             </tr>
           </thead>
           <tbody>
