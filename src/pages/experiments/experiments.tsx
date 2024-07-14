@@ -29,13 +29,19 @@ const experiments = [
     link: '/experiments/code-pen',
     repo: `${githubBaseUrl}/pages/code-pen/code-pen.tsx`,
   },
+  {
+    title: "Countdown",
+    description: "Countdown ⏳",
+    link: "/experiments/countdown",
+    repo: `${githubBaseUrl}/pages/countdown/countdown.tsx`,
+  },
 ];
 
 export const Experiments = () => {
   return (
     <Page name="Labs" description="Some experiments I've been working on">
       <div className="flex flex-col md:flex-row gap-6">
-        {experiments.map(item => (
+        {experiments.map((item) => (
           <div
             key={item.title}
             className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
