@@ -1,11 +1,11 @@
-import "react";
-import "react-day-picker/dist/style.css";
-import { Page } from "@/components/page/page";
-import { useParams } from "react-router-dom";
-import { ViewCountdown } from "./view-countdown";
-import { useState } from "react";
-import { DateRange, DayPicker } from "react-day-picker";
-import { createCountdownId } from "./utils";
+import 'react';
+import 'react-day-picker/dist/style.css';
+import { Page } from '@/components/page/page';
+import { useParams } from 'react-router-dom';
+import { ViewCountdown } from './view-countdown';
+import { useState } from 'react';
+import { DateRange, DayPicker } from 'react-day-picker';
+import { createCountdownId } from './utils';
 
 export const Countdown = () => {
   const { id } = useParams();
@@ -33,11 +33,12 @@ export const Countdown = () => {
 
   return (
     <Page name="Countdown">
+      <div className="flex flex-col"></div>
       <DayPicker mode="range" selected={range} onSelect={setRange} />
       <p>
         {range?.from && range?.to
           ? `Selected from ${range.from.toDateString()} to ${range.to.toDateString()}`
-          : "Please select a range"}
+          : 'Please select a range'}
       </p>
       <button
         disabled={!hasRange}

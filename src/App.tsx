@@ -1,18 +1,18 @@
-import "react";
-import "./index.css";
-import { Route, Routes, Navigate, HashRouter } from "react-router-dom";
-import { Footer } from "./components/footer/footer";
-import { Home } from "@/pages/home/home";
-import { Blog } from "@/pages/blog/blog";
-import { RemoveBackground } from "@/pages/remove-background/remove-background";
-import { CanvasGame } from "@/pages/canvas-game/canvas-game";
-import { Experiments } from "@/pages/experiments/experiments";
-import { Resume } from "@/pages/resume/resume";
-import { Navbar } from "./components/navbar/Navbar";
-import { useIsMobile } from "./hooks/use-is-mobile/use-is-mobile";
-import { WeatherApp } from "./pages/weather-app/weather-app";
-import { CodePen } from "./pages/code-pen/code-pen";
-import { Countdown } from "./pages/countdown/countdown";
+import 'react';
+import './index.css';
+import { Route, Routes, Navigate, HashRouter } from 'react-router-dom';
+import { Footer } from './components/footer/footer';
+import { Home } from '@/pages/home/home';
+import { Blog } from '@/pages/blog/blog';
+import { RemoveBackground } from '@/pages/remove-background/remove-background';
+import { CanvasGame } from '@/pages/canvas-game/canvas-game';
+import { Experiments } from '@/pages/experiments/experiments';
+import { Resume } from '@/pages/resume/resume';
+import { Navbar } from './components/navbar/Navbar';
+import { useIsMobile } from './hooks/use-is-mobile/use-is-mobile';
+import { WeatherApp } from './pages/weather-app/weather-app';
+import { CodePen } from './pages/code-pen/code-pen';
+import { Countdown } from './pages/countdown/countdown';
 
 const oldRoutes = [
   {
@@ -29,9 +29,9 @@ const oldRoutes = [
   },
 ]
   .map(({ from, to }) => {
-    if (typeof from === "string") return { from, to };
+    if (typeof from === 'string') return { from, to };
 
-    return from.map((path) => ({ from: path, to }));
+    return from.map(path => ({ from: path, to }));
   })
   .flat();
 
@@ -41,7 +41,7 @@ export const App = () => {
   return (
     <HashRouter basename={'/'}>
       <Navbar />
-      <div className={isMobile ? "" : "pt-24"}>
+      <div className={isMobile ? '' : 'pt-24'}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<Resume />} />

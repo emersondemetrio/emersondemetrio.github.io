@@ -1,30 +1,32 @@
-export const dateToBase64 = (date: Date): string => {
-    const dateString = date.toISOString();
-    return btoa(dateString);
+const DELIMITER = '_';
+
+export const dateToQueryParam = (date: Date): string => {
+  return encodeURIComponent(date.toISOString());
 };
 
-export const base64ToDate = (base64: string): Date | null => {
-    const dateString = atob(base64);
-    const date = new Date(dateString);
+export const queryToDate = (param: string): Date | null => {
+  const date = new Date(decodeURIComponent(param));
 
-    if (isNaN(date.getTime())) {
-        return null;
-    }
+  if (isNaN(date.getTime())) {
+    return null;
+  }
 
-    return date;
+  return date;
 };
 
 export const createCountdownId = (d1: Date, d2: Date): string => {
-    return `${dateToBase64(d1)}-${dateToBase64(d2)}`;
+  return `${dateToQueryParam(d1)}${DELIMITER}${dateToQueryParam(d2)}`;
 };
 
-export const getIntervalFromId = (id: string): [Date, Date, string] | [null, null] => {
-    const [d1, d2] = id.split('-').map(base64ToDate);
-    if (!d1 || !d2) {
-        return [null, null];
-    }
+export const getIntervalFromId = (
+  id: string,
+): [Date, Date, string] | [null, null, null] => {
+  const [d1, d2] = id.split(DELIMITER).map(queryToDate);
+  if (!d1 || !d2) {
+    return [null, null, null];
+  }
 
-    const description = `Countdown from ${d1.toDateString()} to ${d2.toDateString()}`;
+  const description = `Countdown from ${d1.toDateString()} to ${d2.toDateString()}`;
 
-    return [d1, d2, description];
+  return [d1, d2, description];
 };
