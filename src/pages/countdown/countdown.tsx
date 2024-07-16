@@ -6,7 +6,14 @@ import 'react-day-picker/dist/style.css';
 import { Link, useParams } from 'react-router-dom';
 import { dateToQueryParam, getIntervalFromId } from './utils';
 import { ViewCountdown } from './view-countdown';
-import { replaceNotWords } from '@/regex';
+import { replaceNotHexDecimal } from '@/regex';
+import { limitString } from '@/utils/utils';
+
+const sanitize = (str?: string) => {
+  if (!str) return '';
+
+  return limitString(replaceNotHexDecimal(str), 30);
+};
 
 export const Countdown = () => {
   const { id, countdownName } = useParams();
@@ -31,7 +38,11 @@ export const Countdown = () => {
     }
 
     return (
-      <ViewCountdown end={d2} name={countdownName} description={description} />
+      <ViewCountdown
+        end={d2}
+        name={sanitize(countdownName)}
+        description={description}
+      />
     );
   }
 
@@ -45,7 +56,7 @@ export const Countdown = () => {
     const dateStr = dateToQueryParam(`${year}-${month}-${day} ${time}`);
 
     const redirect =
-      `#/experiments/countdown/${dateStr}` + (name ? `/${name}` : '');
+      `#/experiments/countdown/${dateStr}` + (name ? `/${sanitize(name)}` : '');
 
     setEnd(undefined);
     setName('');
@@ -60,10 +71,12 @@ export const Countdown = () => {
             type="text"
             id="first_name"
             value={name}
-            onChange={e => setName(replaceNotWords(e.target.value))}
+            onChange={e => setName(sanitize(e.target.value))}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Countdown Name"
             required
+            max={30}
+            min={5}
           />
         </div>
         <DayPicker mode="single" selected={end} onSelect={setEnd} />
