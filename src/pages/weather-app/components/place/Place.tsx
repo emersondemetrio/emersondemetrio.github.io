@@ -14,22 +14,26 @@ type PlaceProps = {
 };
 
 const openNews = (newsUrl: string) => window.open(newsUrl);
-const dateDiffInHours = (timeZone: string, relativeTo = new Date()) => {
-  const diff =
-    new Date(
-      relativeTo.toLocaleString('en-US', {
-        timeZone,
-      }),
-    ).getHours() - relativeTo.getHours();
+const dateDiffInHours = (timeZone: string) => {
+  const localTime = new Date();
+  const targetTime = new Date(new Date().toLocaleString('en-US', { timeZone }));
 
-  if (diff === 0) {
+  const diffInMillis = targetTime.getTime() - localTime.getTime();
+  const diffInHours = Math.abs(
+    parseInt((diffInMillis / (1000 * 60 * 60)).toFixed(2)),
+  );
+
+  console.log(`diffInHours`, diffInHours);
+
+  if (diffInHours === 0) {
     return 'Same as local';
   }
-  if (diff > 0) {
-    return `${diff}h ahead`;
+
+  if (diffInHours > 0) {
+    return `${diffInHours}h ahead`;
   }
 
-  return `${-diff}h behind`;
+  return `${diffInHours}h behind`;
 };
 
 const feelsLike = (current: WeatherAPIResult['current']) => {
