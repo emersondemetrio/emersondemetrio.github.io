@@ -1,35 +1,26 @@
 import 'react';
 import { Page } from '@/components/page/page';
-import { getIntervalFromId } from './utils';
 import { Link } from 'react-router-dom';
 import { useIntervalCountdown } from './use-interval-countdown';
+import { formatDate } from 'date-fns';
 
 type ViewCountdownProps = {
-  id: string;
+  end: Date;
+  name?: string;
+  description: string;
 };
 
-export const ViewCountdown = ({ id }: ViewCountdownProps) => {
-  const [d1, d2, description] = getIntervalFromId(id);
-  const { timeLeft, expired } = useIntervalCountdown(d1, d2);
-
-  if (!d1 || !d2) {
-    return (
-      <Page name="View Countdown" description="Invalid countdown">
-        <Link
-          to="/experiments/countdown"
-          className="btn btn-black text-blue-600"
-        >
-          Create one here.
-        </Link>
-      </Page>
-    );
-  }
+export const ViewCountdown = ({
+  end,
+  name,
+  description,
+}: ViewCountdownProps) => {
+  const { durationString } = useIntervalCountdown(end);
 
   return (
-    <Page name="View Countdown">
-      <div>{description}</div>
-
-      <div>{timeLeft}</div>
+    <Page name={`Countdown to ${name || formatDate(end, 'dd/MM/yyyy')}`}>
+      <p>{description}</p>
+      {durationString && <div>{durationString}</div>}
       <Link to="/experiments/countdown" className="btn btn-black text-blue-600">
         Create one here.
       </Link>

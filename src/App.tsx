@@ -56,7 +56,10 @@ export const App = () => {
           <Route path="/experiments/weather" element={<WeatherApp />} />
           <Route path="/experiments/code-pen" element={<CodePen />} />
           <Route path="/experiments/countdown" element={<Countdown />} />
-          <Route path="/experiments/countdown/:id" element={<Countdown />} />
+          <Route
+            path="/experiments/countdown/:id/:countdownName?"
+            element={<Countdown />}
+          />
 
           {/* Old routes */}
           {oldRoutes.map(({ from, to }) => (
