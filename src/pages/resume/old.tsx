@@ -1,10 +1,10 @@
-import { Page } from "@/components/page/page";
-import "react";
-import React from "react";
-import { data } from "./data";
-import "./resume.css";
+import { Page } from '@/components/page/page';
+import 'react';
+import React from 'react';
+import { data } from './data';
+import './resume.css';
 
-import { Photo, Record, ResumeType, Section, SectionField } from "./types";
+import { Photo, Record, ResumeType, Section, SectionField } from './types';
 
 // Component to display photo
 const PhotoViewer: React.FC<{ photo: Photo }> = ({ photo }) => (
@@ -12,8 +12,8 @@ const PhotoViewer: React.FC<{ photo: Photo }> = ({ photo }) => (
     src={photo.dataCropped}
     alt="Profile"
     style={{
-      width: "20%",
-      height: "10%",
+      width: '20%',
+      height: '10%',
     }}
   />
 );
@@ -50,10 +50,10 @@ const RecordViewer: React.FC<{ record: Record }> = ({ record }) => (
 const SectionViewer: React.FC<{ section: Section }> = ({ section }) => (
   <div className="SectionViewer">
     <h3>{section.customSectionName || section.key}</h3>
-    {section.fields.map((field) => (
+    {section.fields.map(field => (
       <SectionFieldViewer key={field.key} field={field} />
     ))}
-    {section.records.map((record) => (
+    {section.records.map(record => (
       <RecordViewer key={record.key} record={record} />
     ))}
   </div>
@@ -70,7 +70,7 @@ const ResumeViewer: React.FC<{ resume: ResumeType }> = ({ resume }) => {
       <h2>{generatedTitle}</h2>
       <div className="flex row">
         <div className="flex column">
-          {content.sections.map((section) => (
+          {content.sections.map(section => (
             <SectionViewer key={section.key} section={section} />
           ))}
         </div>
@@ -86,7 +86,7 @@ export const Resume = () => {
       name="Resume"
       description="My resume"
       style={{
-        paddingBottom: "100px",
+        paddingBottom: '100px',
       }}
     >
       <ResumeViewer resume={data} />

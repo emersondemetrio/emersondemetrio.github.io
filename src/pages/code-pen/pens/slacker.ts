@@ -1,17 +1,16 @@
 const transformMap: { [key: string]: string } = {
-  'á': 'a',
-  'à': 'a',
-  'ó': 'o',
-  'é': 'e',
-  'ç': 'c',
-  'ã': 'a',
+  á: 'a',
+  à: 'a',
+  ó: 'o',
+  é: 'e',
+  ç: 'c',
+  ã: 'a',
   '¿': '?',
-  'o': 'o',
-  'a': 'a',
-}
+  o: 'o',
+  a: 'a',
+};
 
-const transform = (l: string) =>
-  (transformMap[l] ?? l).toLowerCase();
+const transform = (l: string) => (transformMap[l] ?? l).toLowerCase();
 
 const to = (l: string, color = 'yellow') => {
   if (l === ' ') return '  ';
@@ -25,8 +24,11 @@ const to = (l: string, color = 'yellow') => {
     return l;
   }
 
-  return `:alphabet-${color}-${pure}:`
-}
+  return `:alphabet-${color}-${pure}:`;
+};
 
-export const createSlackAlphabet = (w: string) => (w.split('').map(l => to(l)).join(''));
-
+export const createSlackAlphabet = (w: string) =>
+  w
+    .split('')
+    .map(l => to(l))
+    .join('');

@@ -1,11 +1,11 @@
-import "react";
-import "./terminal.css";
-import { Link } from "../../types";
-import { TerminalHeader } from "./terminal-header";
-import { Actions } from "./types";
-import { useState } from "react";
+import 'react';
+import './terminal.css';
+import { Link } from '../../types';
+import { TerminalHeader } from './terminal-header';
+import { Actions } from './types';
+import { useState } from 'react';
 
-const openUrl = (url: string) => window.open(url, "_blank");
+const openUrl = (url: string) => window.open(url, '_blank');
 
 type TerminalProps = {
   links: Link[];
@@ -51,8 +51,8 @@ export const Terminal = ({ links, tools = [] }: TerminalProps) => {
   const getItemClass = (category: string) => {
     const base =
       activeBadge === category
-        ? "terminal-item terminal-item-active"
-        : "terminal-item";
+        ? 'terminal-item terminal-item-active'
+        : 'terminal-item';
 
     if (activeBadge) {
       return category === activeBadge ? base : `${base} terminal-item-inactive`;

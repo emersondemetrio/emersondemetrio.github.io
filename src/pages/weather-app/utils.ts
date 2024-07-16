@@ -1,16 +1,15 @@
-
 export const genericDateOptions = {
-  year: "numeric",
-  month: "numeric",
-  day: "numeric",
-  hour: "numeric",
-  minute: "numeric",
-  second: "numeric",
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
   hour12: false,
 } as Intl.DateTimeFormatOptions;
 
 export const formatDate = (timeZone: string, date: Date) =>
-  new Intl.DateTimeFormat("pt-BR", {
+  new Intl.DateTimeFormat('pt-BR', {
     ...genericDateOptions,
     timeZone,
   }).format(date);

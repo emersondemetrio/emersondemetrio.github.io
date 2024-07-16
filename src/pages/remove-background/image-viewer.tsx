@@ -1,5 +1,5 @@
-import { Modal } from "@/components/modal/modal";
-import { useState } from "react";
+import { Modal } from '@/components/modal/modal';
+import { useState } from 'react';
 
 type ImageViewerProps = {
   src: string;
@@ -7,11 +7,7 @@ type ImageViewerProps = {
   download: string;
 };
 
-const ImageViewer = ({
-  src,
-  alt,
-  download
-}: ImageViewerProps) => {
+const ImageViewer = ({ src, alt, download }: ImageViewerProps) => {
   const [showImage, setShowImage] = useState<boolean>(false);
 
   return (
@@ -28,17 +24,13 @@ const ImageViewer = ({
           <figure>
             <img src={src} alt={alt} />
           </figure>
-          <a
-            href={src}
-            className="btn btn-dark"
-            download={download}
-          >
+          <a href={src} className="btn btn-dark" download={download}>
             Download
           </a>
         </div>
       </Modal>
     </div>
   );
-}
+};
 
 export default ImageViewer;

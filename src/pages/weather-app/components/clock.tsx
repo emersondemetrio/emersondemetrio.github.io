@@ -24,11 +24,7 @@ const Clock: React.FC<ClockProps> = ({ timeZone }) => {
     };
   }, [timeZone]);
 
-  return (
-    <div>
-      {time}
-    </div>
-  );
+  return <div>{time}</div>;
 };
 
 export default Clock;

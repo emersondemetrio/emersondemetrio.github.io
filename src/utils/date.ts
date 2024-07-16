@@ -1,12 +1,23 @@
-export const changeTime = (direction: 'f' | 'p', amount: number, type: 's' | 'm' | 'h', relativeTo: Date) => {
+export const changeTime = (
+  direction: 'f' | 'p',
+  amount: number,
+  type: 's' | 'm' | 'h',
+  relativeTo: Date,
+) => {
   const newDate = new Date(relativeTo);
 
   if (type === 'h') {
-    newDate.setHours(newDate.getHours() + (direction === 'f' ? amount : -amount));
+    newDate.setHours(
+      newDate.getHours() + (direction === 'f' ? amount : -amount),
+    );
   } else if (type === 'm') {
-    newDate.setMinutes(newDate.getMinutes() + (direction === 'f' ? amount : -amount));
+    newDate.setMinutes(
+      newDate.getMinutes() + (direction === 'f' ? amount : -amount),
+    );
   } else {
-    newDate.setSeconds(newDate.getSeconds() + (direction === 'f' ? amount : -amount));
+    newDate.setSeconds(
+      newDate.getSeconds() + (direction === 'f' ? amount : -amount),
+    );
   }
 
   return newDate;

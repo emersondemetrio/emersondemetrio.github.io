@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { formatToCurrency, useCurrencyNow } from "../../hooks/use-currency-now";
-import { Loading } from "../loading/loading";
-import { Badge } from "../badge/badge";
-import { CurrencyProviders } from "../../constants";
+import { useState } from 'react';
+import { formatToCurrency, useCurrencyNow } from '../../hooks/use-currency-now';
+import { Loading } from '../loading/loading';
+import { Badge } from '../badge/badge';
+import { CurrencyProviders } from '../../constants';
 
 export const CurrencyNow = () => {
   const { data, isLoading, error } = useCurrencyNow();
@@ -14,7 +14,7 @@ export const CurrencyNow = () => {
 
   const copy = (message: string) => () => {
     navigator.clipboard.writeText(message);
-    alert("Copied to clipboard!");
+    alert('Copied to clipboard!');
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +48,7 @@ export const CurrencyNow = () => {
           type="number"
           max={999999}
           placeholder="Type (EUR)"
-          value={userInput ?? ""}
+          value={userInput ?? ''}
           onChange={handleChange}
           className="input input-bordered input-md w-full max-w-xs"
         />
@@ -63,18 +63,22 @@ export const CurrencyNow = () => {
           </thead>
           <tbody>
             {Object.entries(data.rates).map(([currency, rate], index) => {
-              const asEuros = formatToCurrency(userInput || 1, "eur");
+              const asEuros = formatToCurrency(userInput || 1, 'eur');
               const asCurrency = formatToCurrency(userInput, currency, rate);
 
               return (
-                <tr key={currency} title={currency} onClick={copy(`${asEuros} = ${asCurrency}`)}>
+                <tr
+                  key={currency}
+                  title={currency}
+                  onClick={copy(`${asEuros} = ${asCurrency}`)}
+                >
                   <th>{index + 1}</th>
                   <td>EUR to {currency}</td>
                   <td>
                     {asEuros} = {asCurrency}
                   </td>
                   <td>
-                    {CurrencyProviders.map((provider) => (
+                    {CurrencyProviders.map(provider => (
                       <Badge
                         key={provider.name}
                         currency={currency}

@@ -1,9 +1,9 @@
-import { Page } from "@/components/page/page";
-import "react";
-import "./resume.css";
+import { Page } from '@/components/page/page';
+import 'react';
+import './resume.css';
 
-import { reverseRange } from "@/utils/utils";
-import { Toggle } from "@/components/toggle/toggle";
+import { reverseRange } from '@/utils/utils';
+import { Toggle } from '@/components/toggle/toggle';
 
 type Experience = {
   year: number;
@@ -26,12 +26,12 @@ type Resume = Map<number, ResumeItem>;
 
 const resume: Resume = new Map();
 
-reverseRange(2008, 2024).map((year) => {
+reverseRange(2008, 2024).map(year => {
   resume.set(year, {
     experiences: [
       {
         year: year,
-        title: "Software Engineer",
+        title: 'Software Engineer',
         description: `Developed software for the company.
 Developed software for the company.
 Developed software for the company.
@@ -41,8 +41,8 @@ Developed software for the company.`,
     education: [
       {
         year: year,
-        title: "Computer Science",
-        description: "Learned computer science.",
+        title: 'Computer Science',
+        description: 'Learned computer science.',
       },
     ],
   });
@@ -70,7 +70,7 @@ export const Resume = () => {
         <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
           {Array.from(resume).map(([year, item], index) => {
             const direction =
-              index % 2 === 0 ? "timeline-start md:text-end" : "timeline-end";
+              index % 2 === 0 ? 'timeline-start md:text-end' : 'timeline-end';
 
             return item.experiences.map((item, index) => (
               <li key={index}>

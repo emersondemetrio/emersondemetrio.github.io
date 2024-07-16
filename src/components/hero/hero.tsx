@@ -1,14 +1,16 @@
-import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
+import { useIsMobile } from '@/hooks/use-is-mobile/use-is-mobile';
 
 export const Hero = () => {
   const isMobile = useIsMobile();
 
   if (isMobile) {
-    return <div>
-      <h1 className="my-4 text-2xl font-bold leading-tight text-center">
-        ~/emersondemetrio
-      </h1>
-    </div>
+    return (
+      <div>
+        <h1 className="my-4 text-2xl font-bold leading-tight text-center">
+          ~/emersondemetrio
+        </h1>
+      </div>
+    );
   }
 
   return (

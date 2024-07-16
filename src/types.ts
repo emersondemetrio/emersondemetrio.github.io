@@ -4,25 +4,25 @@ export type Link = {
   title: string;
   url: string;
   icon?: string;
-  category: LinkCategory
+  category: LinkCategory;
   handle: string;
 };
 
-export const TargetCurrencies = ["USD", "GBP", "BRL"];
+export const TargetCurrencies = ['USD', 'GBP', 'BRL'];
 
-export type BaseCurrency = "USD" | "EUR" | "GBP" | "CAD";
+export type BaseCurrency = 'USD' | 'EUR' | 'GBP' | 'CAD';
 
 export type Currency = {
-  provider: string,
-  time_last_updated: number,
-  rates: Record<string, number>
-}
+  provider: string;
+  time_last_updated: number;
+  rates: Record<string, number>;
+};
 
 export type UseCurrencyHook = {
-  data: Currency | null,
-  isLoading: boolean,
-  error: Error | null
-}
+  data: Currency | null;
+  isLoading: boolean;
+  error: Error | null;
+};
 
 export type CurrencyProvider = {
   name: string;
@@ -33,8 +33,7 @@ export type CurrencyProvider = {
 export type Repo = {
   name: string;
   url: string;
-}
-
+};
 
 // Weather API types
 export type WeatherAPIResult = {
@@ -46,10 +45,9 @@ export type WeatherAPIResult = {
     temp_c: number;
     feelslike_c: number;
   };
-  source: "cache" | "api";
+  source: 'cache' | 'api';
   error: {
     code: number;
     message: string;
-  }
+  };
 };
-

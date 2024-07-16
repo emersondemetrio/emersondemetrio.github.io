@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 const BASE_URL = 'https://api.weatherapi.com/v1/current.json';
 const DEFAULT_PLACE = 'Florianópolis, Santa Catarina, Brazil';
 
-import { getFromCache, dateToTimestamp, setCache } from "./weather-cache";
-import { WeatherAPIResult } from "@/types";
+import { getFromCache, dateToTimestamp, setCache } from './weather-cache';
+import { WeatherAPIResult } from '@/types';
 
 const fetchJson = async (url: string, options: RequestInit) => {
-  return await fetch(url, options).then((d) => d.json());
+  return await fetch(url, options).then(d => d.json());
 };
 
 export const getSearchString = (place: string) => {
@@ -17,7 +17,7 @@ export const getSearchString = (place: string) => {
   }
 
   return `${BASE_URL}?key=${API_KEY}&q=${encodeURIComponent(
-    place || DEFAULT_PLACE
+    place || DEFAULT_PLACE,
   )}&aqi=yes`;
 };
 
@@ -31,7 +31,7 @@ const fetchWeather = async (place: string) => {
     },
   };
 
-  return await fetchJson(searchURL, options) as WeatherAPIResult;
+  return (await fetchJson(searchURL, options)) as WeatherAPIResult;
 };
 
 type UseWeatherApiHook = {
@@ -62,7 +62,7 @@ export const useWeather = (placeName: string): UseWeatherApiHook => {
     }
 
     fetchWeather(cityName)
-      .then((weatherData) => {
+      .then(weatherData => {
         if (!weatherData.error) {
           setData({
             ...weatherData,
@@ -73,7 +73,7 @@ export const useWeather = (placeName: string): UseWeatherApiHook => {
 
         setIsLoading(false);
       })
-      .catch((error) => {
+      .catch(error => {
         setError(error);
         setIsLoading(false);
       });
@@ -87,6 +87,6 @@ export const useWeather = (placeName: string): UseWeatherApiHook => {
     data,
     isLoading,
     error,
-    refetch: (cityName) => getWeather(cityName, true),
+    refetch: cityName => getWeather(cityName, true),
   };
 };

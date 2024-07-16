@@ -1,6 +1,6 @@
 export type ResumeType = {
   document: Document;
-}
+};
 
 export type Document = {
   id: string;
@@ -17,13 +17,13 @@ export type Document = {
   createdAt: Date;
   updatedAt: Date;
   documentConfiguration: DocumentConfiguration;
-}
+};
 
 export type Content = {
   locale: string;
   version: string;
   sections: Section[];
-}
+};
 
 export type Section = {
   key: string;
@@ -34,7 +34,7 @@ export type Section = {
   destroyable: boolean;
   additionalFields?: boolean;
   customSectionName?: string;
-}
+};
 
 export type SectionField = {
   key: string;
@@ -46,11 +46,23 @@ export type SectionField = {
   linkedFieldsKey?: string;
   minor?: boolean;
   options?: string[];
-}
+};
 
-export type FieldType = "composite" | "text" | "date" | "richtext" | "month" | "level";
+export type FieldType =
+  | 'composite'
+  | 'text'
+  | 'date'
+  | 'richtext'
+  | 'month'
+  | 'level';
 
-export type Role = "value" | "richtextValue" | "header" | "subheader" | "period" | "level";
+export type Role =
+  | 'value'
+  | 'richtextValue'
+  | 'header'
+  | 'subheader'
+  | 'period'
+  | 'level';
 
 export type PurpleSubField = {
   key: string;
@@ -60,19 +72,19 @@ export type PurpleSubField = {
   groupedFieldsKey?: string;
   suggestions?: string;
   presentOption?: boolean;
-}
+};
 
 export type Record = {
   key: string;
   values: Array<string[] | null | string>;
-}
+};
 
 export type DocumentConfiguration = {
   translationLocales: string[];
   defaultSections: DefaultSection[];
   additionalSections: AdditionalSection[];
   customSections: CustomSection[];
-}
+};
 
 export type AdditionalSection = {
   key: string;
@@ -82,7 +94,7 @@ export type AdditionalSection = {
   repeatable: boolean;
   destroyable: boolean;
   placeholder?: string;
-}
+};
 
 export type AdditionalSectionField = {
   key: string;
@@ -93,14 +105,14 @@ export type AdditionalSectionField = {
   presentOption?: boolean;
   suggestions?: string;
   options?: string[];
-}
+};
 
 export type FluffySubField = {
   key: string;
   fieldType: FieldType;
   suggestions?: string;
   presentOption?: boolean;
-}
+};
 
 export type CustomSection = {
   key: string;
@@ -110,7 +122,7 @@ export type CustomSection = {
   repeatable: boolean;
   destroyable: boolean;
   customSectionName: string;
-}
+};
 
 export type CustomSectionField = {
   key: string;
@@ -119,7 +131,7 @@ export type CustomSectionField = {
   format?: string;
   subFields?: FluffySubField[];
   options?: string[];
-}
+};
 
 export type DefaultSection = {
   key: string;
@@ -129,29 +141,29 @@ export type DefaultSection = {
   repeatable: boolean;
   destroyable: boolean;
   additionalFields: boolean;
-}
+};
 
 export type Photo = {
   metadata: Metadata;
   keyCropped: string;
   keyOriginal: string;
   dataCropped: string;
-}
+};
 
 export type Metadata = {
   rotation: number;
   croppedAreaPixels: CroppedAreaPixels;
-}
+};
 
 export type CroppedAreaPixels = {
   x: number;
   y: number;
   width: number;
   height: number;
-}
+};
 
-export type Signature = unknown
+export type Signature = unknown;
 
 export type TemplateOptions = {
   color: string;
-}
+};

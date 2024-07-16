@@ -10,7 +10,7 @@ export const url2JSON = (source: string) => {
     source,
     props: {},
     keysList: [],
-    valuesList: []
+    valuesList: [],
   };
 
   const arr = source.split('?');

@@ -1,6 +1,6 @@
-import { Links } from "@/constants";
-import { Link } from "react-router-dom";
-import { iconOf } from "@/components/social-icons/social-icons";
+import { Links } from '@/constants';
+import { Link } from 'react-router-dom';
+import { iconOf } from '@/components/social-icons/social-icons';
 
 export const Footer = () => {
   return (
@@ -18,21 +18,24 @@ export const Footer = () => {
           <div className="flex-1">
             <p className="uppercase text-gray-500 md:mb-6">Links</p>
             <ul className="list-reset mb-6">
-              <li className="mt-2 inline-block mr-2 md:block md:mr-0" >
+              <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                 <Link
-                  to='/'
+                  to="/"
                   className="btn  no-underline hover:underline text-white-800 hover:text-gray-500"
                 >
                   Home
                 </Link>
               </li>
-              {['about', 'labs', 'blog'].map((footerLink) => (
-                <li className="mt-2 inline-block mr-2 md:block md:mr-0" key={footerLink}>
+              {['about', 'labs', 'blog'].map(footerLink => (
+                <li
+                  className="mt-2 inline-block mr-2 md:block md:mr-0"
+                  key={footerLink}
+                >
                   <Link
                     to={footerLink}
                     className="btn no-underline hover:underline text-white-800 hover:text-gray-500"
                   >
-                    {(footerLink).charAt(0).toUpperCase() + footerLink.slice(1)}
+                    {footerLink.charAt(0).toUpperCase() + footerLink.slice(1)}
                   </Link>
                 </li>
               ))}
@@ -41,8 +44,11 @@ export const Footer = () => {
           <div className="flex-1">
             <p className="uppercase text-gray-500 md:mb-6">Social</p>
             <ul className="list-reset mb-6">
-              {Links.filter(s => s.category === 'social').map((social) => (
-                <li className="mt-2 inline-block mr-2 md:block md:mr-0" key={social.url}>
+              {Links.filter(s => s.category === 'social').map(social => (
+                <li
+                  className="mt-2 inline-block mr-2 md:block md:mr-0"
+                  key={social.url}
+                >
                   <Link
                     target="_blank"
                     to={social.url}

@@ -1,10 +1,10 @@
-import "react";
-import { Page } from "@/components/page/page";
-import { FilePicker } from "@/components/file-picker/file-picker";
-import { useRemoveBackground } from "@/hooks/use-remove-background/use-remove-background";
-import { Loading } from "@/components/loading/loading";
-import { useState } from "react";
-import ImageViewer from "./image-viewer";
+import 'react';
+import { Page } from '@/components/page/page';
+import { FilePicker } from '@/components/file-picker/file-picker';
+import { useRemoveBackground } from '@/hooks/use-remove-background/use-remove-background';
+import { Loading } from '@/components/loading/loading';
+import { useState } from 'react';
+import ImageViewer from './image-viewer';
 
 type ProcessingFile = {
   fileName: string;
@@ -40,7 +40,8 @@ const ActionRow = ({ file, index, result }: ActionRowProps) => {
           <ImageViewer
             download={result.download}
             src={result.url}
-            alt={file.name} />
+            alt={file.name}
+          />
         )}
         {!result && <Loading />}
       </td>
@@ -62,7 +63,7 @@ export const RemoveBackground = () => {
 
         if (!result) return;
 
-        setUrls((prev) => [
+        setUrls(prev => [
           ...prev,
           {
             fileName: file.name,
@@ -78,7 +79,7 @@ export const RemoveBackground = () => {
     const items = event.clipboardData?.items;
     if (items) {
       for (const item of items) {
-        if (item.kind === "file") {
+        if (item.kind === 'file') {
           const file = item.getAsFile();
 
           if (file) {
@@ -116,8 +117,8 @@ export const RemoveBackground = () => {
       <div
         className="container"
         style={{
-          display: "flex",
-          marginTop: "1rem",
+          display: 'flex',
+          marginTop: '1rem',
         }}
       >
         <table className="table table-light">
@@ -139,7 +140,7 @@ export const RemoveBackground = () => {
             )}
             {selectedFiles &&
               Array.from(selectedFiles).map((file, index) => {
-                const result = urls.find((u) => u.fileName === file.name);
+                const result = urls.find(u => u.fileName === file.name);
                 return (
                   <ActionRow
                     key={file.name}

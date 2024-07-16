@@ -1,8 +1,8 @@
-import "react";
-import { Page } from "@/components/page/page";
-import { Link } from "react-router-dom";
-import "./timezones.css";
-import { REPOS } from "@/constants";
+import 'react';
+import { Page } from '@/components/page/page';
+import { Link } from 'react-router-dom';
+import './timezones.css';
+import { REPOS } from '@/constants';
 
 type Timezone = {
   name: string;
@@ -11,42 +11,42 @@ type Timezone = {
 
 const timezones: Timezone[] = [
   {
-    name: "UTC",
+    name: 'UTC',
     offset: 0,
   },
   {
-    name: "CET",
+    name: 'CET',
     offset: 1,
   },
   {
-    name: "EET",
+    name: 'EET',
     offset: 2,
   },
   {
-    name: "MSK",
+    name: 'MSK',
     offset: 3,
   },
   {
-    name: "IST",
+    name: 'IST',
     offset: 5.5,
   },
   {
-    name: "SGT",
+    name: 'SGT',
     offset: 8,
   },
   {
-    name: "JST",
+    name: 'JST',
     offset: 9,
   },
   {
-    name: "AEDT",
+    name: 'AEDT',
     offset: 11,
   },
 ];
 
 const getToday = () => {
   const today = new Date();
-  return today.toLocaleDateString("en-GB");
+  return today.toLocaleDateString('en-GB');
 };
 
 export const Timezones = () => {
@@ -59,7 +59,7 @@ export const Timezones = () => {
               <th scope="col">Name</th>
               <th scope="col">Offset</th>
               <th scope="col">{getToday()}</th>
-              {Array.from({ length: 10 }, (_, i) => i).map((i) => (
+              {Array.from({ length: 10 }, (_, i) => i).map(i => (
                 <th className="ruler" key={i} />
               ))}
             </tr>
@@ -69,7 +69,7 @@ export const Timezones = () => {
               <tr key={index}>
                 <td>{tz.name}</td>
                 <td>{tz.offset}</td>
-                {Array.from({ length: 10 }, (_, i) => i).map((i) => (
+                {Array.from({ length: 10 }, (_, i) => i).map(i => (
                   <td key={i}>
                     {
                       <div key={i} className="ruler-item col">

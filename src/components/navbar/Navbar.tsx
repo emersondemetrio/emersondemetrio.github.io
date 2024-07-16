@@ -1,33 +1,35 @@
-import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useIsMobile } from '@/hooks/use-is-mobile/use-is-mobile';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const appRoutes = [
   {
-    label: "Home",
-    link: "/",
+    label: 'Home',
+    link: '/',
   },
   {
-    label: "Labs 🧪",
-    link: "/labs",
+    label: 'Labs 🧪',
+    link: '/labs',
   },
   {
-    label: "About",
-    link: "/about",
+    label: 'About',
+    link: '/about',
   },
   {
-    label: "Blog",
-    link: "/blog",
+    label: 'Blog',
+    link: '/blog',
   },
 ];
 
 export const Navbar = () => {
   const currentScreen = window.screen.width;
   const isMobile = useIsMobile();
-  const [navbarOpen, setNavbarOpen] = useState(!isMobile && currentScreen > 1024);
+  const [navbarOpen, setNavbarOpen] = useState(
+    !isMobile && currentScreen > 1024,
+  );
 
   return (
-    <nav id="header" className="fixed w-full z-30 top-0 text-white bg-black" >
+    <nav id="header" className="fixed w-full z-30 top-0 text-white bg-black">
       <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
         <div className="pl-4 flex items-center">
           <Link
@@ -60,8 +62,8 @@ export const Navbar = () => {
             height: !isMobile ? 80 : 'auto',
           }}
           className={
-            "w-full flex-grow lg:flex lg:items-center lg:w-auto lg:block mt-2 lg:mt-0 lg:bg-transparent text-black p-4 lg:p-0 z-20" +
-            (navbarOpen ? " block" : " hidden")
+            'w-full flex-grow lg:flex lg:items-center lg:w-auto lg:block mt-2 lg:mt-0 lg:bg-transparent text-black p-4 lg:p-0 z-20' +
+            (navbarOpen ? ' block' : ' hidden')
           }
           id="nav-content"
         >

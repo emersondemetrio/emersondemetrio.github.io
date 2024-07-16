@@ -1,5 +1,5 @@
-import { TerminalHeaderProps } from "./types";
-import { TerminalActions } from "./terminal-actions";
+import { TerminalHeaderProps } from './types';
+import { TerminalActions } from './terminal-actions';
 
 export const TerminalHeader = ({ title, actions }: TerminalHeaderProps) => {
   return (

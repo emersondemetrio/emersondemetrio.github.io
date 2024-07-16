@@ -60,4 +60,4 @@ export const iconOf = (title: string): JSX.Element => {
     default:
       return <></>;
   }
-}
+};
