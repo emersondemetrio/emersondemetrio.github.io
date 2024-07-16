@@ -29,6 +29,12 @@ const experiments = [
     link: '/experiments/code-pen',
     repo: `${githubBaseUrl}/pages/code-pen/code-pen.tsx`,
   },
+  {
+    title: 'Countdown',
+    description: 'Countdown ⏳',
+    link: '/experiments/countdown',
+    repo: `${githubBaseUrl}/pages/countdown/countdown.tsx`,
+  },
 ];
 
 export const Experiments = () => {

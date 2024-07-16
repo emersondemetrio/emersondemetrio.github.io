@@ -12,6 +12,7 @@ import { Navbar } from './components/navbar/Navbar';
 import { useIsMobile } from './hooks/use-is-mobile/use-is-mobile';
 import { WeatherApp } from './pages/weather-app/weather-app';
 import { CodePen } from './pages/code-pen/code-pen';
+import { Countdown } from './pages/countdown/countdown';
 
 const oldRoutes = [
   {
@@ -54,6 +55,11 @@ export const App = () => {
           <Route path="/labs/timezones" element={<WeatherApp />} />
           <Route path="/experiments/weather" element={<WeatherApp />} />
           <Route path="/experiments/code-pen" element={<CodePen />} />
+          <Route path="/experiments/countdown" element={<Countdown />} />
+          <Route
+            path="/experiments/countdown/:id/:countdownName?"
+            element={<Countdown />}
+          />
 
           {/* Old routes */}
           {oldRoutes.map(({ from, to }) => (
