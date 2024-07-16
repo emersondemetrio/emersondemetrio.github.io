@@ -23,8 +23,6 @@ const dateDiffInHours = (timeZone: string) => {
     parseInt((diffInMillis / (1000 * 60 * 60)).toFixed(2)),
   );
 
-  console.log(`diffInHours`, diffInHours);
-
   if (diffInHours === 0) {
     return 'Same as local';
   }
