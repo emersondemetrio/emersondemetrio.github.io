@@ -93,7 +93,7 @@ const Place = ({ name, timeZone, city, current }: PlaceProps) => {
       >
         <Clock timeZone={timeZone} />
         <span>
-          {dateDiffInHours(timeZone, new Date())}
+          {dateDiffInHours(timeZone)}
           {current && ', Current'}
         </span>
       </div>
