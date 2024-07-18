@@ -48,6 +48,8 @@ export const Page = ({
 
   const padding = withoutPadding ? '' : 'py-8';
 
+  className = isMobile && !isHome ? `mt-10 ${className}` : className;
+
   return (
     <section
       style={style}
@@ -55,9 +57,9 @@ export const Page = ({
       ref={pageRef}
       tabIndex={-1}
       data-page={`page-${name.toLowerCase().replace(/\s/g, '-')}`}
-      className={`${isHome ? '' : 'page'} min-h-screen border-b ${padding} ${className}`}
+      className={`grid place-items-center py-20 text-center ${padding} ${className}`}
     >
-      <div className="container mx-auto flex flex-wrap pt-4 pb-12">
+      <div className="container mx-auto flex flex-wrap">
         {withoutName ? (
           <></>
         ) : (

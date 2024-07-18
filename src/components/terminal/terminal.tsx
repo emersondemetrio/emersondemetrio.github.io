@@ -62,7 +62,7 @@ export const Terminal = ({ links, tools = [] }: TerminalProps) => {
   };
 
   return (
-    <div className="terminal-container">
+    <div className="terminal-container mb-5">
       {links.map(({ handle, title, url, category }) => {
         return (
           <div className={getItemClass(category)} key={`${category}/${title}`}>

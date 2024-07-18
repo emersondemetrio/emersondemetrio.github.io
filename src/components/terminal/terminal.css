@@ -4,7 +4,6 @@
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 30px;
   grid-row-gap: 30px;
-  margin-bottom: 120px;
 }
 
 @media (max-width: 1200px) {
@@ -50,7 +49,7 @@
 }
 
 .terminal-item-active {
-  border: solid 1px #fff
+  border: solid 1px #fff;
 }
 
 .terminal-item-inactive {

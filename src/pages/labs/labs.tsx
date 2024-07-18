@@ -20,24 +20,24 @@ const experiments = [
   {
     title: 'Weather App',
     description: 'Weather App 🌦️',
-    link: '/experiments/weather',
+    link: '/labs/weather',
     repo: `${githubBaseUrl}/pages/weather-app/weather-app.tsx`,
   },
   {
     title: 'Code Pens',
     description: 'Code Pens 🖊 ️',
-    link: '/experiments/code-pen',
+    link: '/labs/code-pen',
     repo: `${githubBaseUrl}/pages/code-pen/code-pen.tsx`,
   },
   {
     title: 'Countdown',
     description: 'Countdown ⏳',
-    link: '/experiments/countdown',
+    link: '/labs/countdown',
     repo: `${githubBaseUrl}/pages/countdown/countdown.tsx`,
   },
 ];
 
-export const Experiments = () => {
+export const Labs = () => {
   return (
     <Page name="Labs" description="Some experiments I've been working on">
       <div className="flex flex-col md:flex-row gap-6">

@@ -21,7 +21,7 @@ export const ViewCountdown = ({
     <Page name={`Countdown to ${name || formatDate(end, 'dd/MM/yyyy')}`}>
       <p>{description}</p>
       {durationString && <div>{durationString}</div>}
-      <Link to="/experiments/countdown" className="btn btn-black text-blue-600">
+      <Link to="/labs/countdown" className="btn btn-black text-blue-600">
         Create one here.
       </Link>
     </Page>

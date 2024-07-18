@@ -27,10 +27,7 @@ export const Countdown = () => {
     if (!d1 || !d2) {
       return (
         <Page name="View Countdown" description="Invalid countdown">
-          <Link
-            to="/experiments/countdown"
-            className="btn btn-black text-blue-600"
-          >
+          <Link to="/labs/countdown" className="btn btn-black text-blue-600">
             Create one here.
           </Link>
         </Page>
@@ -56,7 +53,7 @@ export const Countdown = () => {
     const dateStr = dateToQueryParam(`${year}-${month}-${day} ${time}`);
 
     const redirect =
-      `#/experiments/countdown/${dateStr}` + (name ? `/${sanitize(name)}` : '');
+      `#/labs/countdown/${dateStr}` + (name ? `/${sanitize(name)}` : '');
 
     setEnd(undefined);
     setName('');

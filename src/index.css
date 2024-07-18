@@ -3,27 +3,7 @@
 @tailwind utilities;
 
 * {
-  font-family: "Inconsolata", monospace;
+  font-family: 'Inconsolata', monospace;
   font-optical-sizing: auto;
   font-style: normal;
-}
-
-
-@media (max-width: 1200px) {
-  .page {
-    padding: 10px
-  }
-}
-
-@media (max-width: 900px) {
-  .page {
-    padding: 10%;
-    margin-top: 10px;
-  }
-}
-
-@media (max-width: 600px) {
-  .page {
-    padding: 10%;
-  }
 }

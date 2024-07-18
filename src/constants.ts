@@ -77,6 +77,33 @@ export const Links: Array<Link> = [
   },
 ];
 
+export type AvailableLinks =
+  | 'instagram'
+  | 'twitter'
+  | 'linkedin'
+  | 'github'
+  | 'gist'
+  | 'codepen'
+  | 'youtube'
+  | 'playlists'
+  | 'soundcloud'
+  | 'spotify'
+  | 'blog';
+
+export const linkGet = (title: AvailableLinks): Link => {
+  const found = Links.find(link => link.title === title);
+  if (!found) {
+    return {
+      title: 'Instagram',
+      url: 'https://instagram.com/emersondemetrio/',
+      category: 'social',
+      handle: '@emersondemetrio',
+    };
+  }
+
+  return found;
+};
+
 export const CurrencyProviders: CurrencyProvider[] = [
   {
     name: 'Wise',
