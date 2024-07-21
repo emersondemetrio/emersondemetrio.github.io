@@ -9,6 +9,18 @@ import { ViewCountdown } from './view-countdown';
 import { replaceNotHexDecimal } from '@/regex';
 import { limitString } from '@/utils/utils';
 
+const dateIsToday = (date: Date) => {
+  return (
+    date.getDate() === new Date().getDate() &&
+    date.getMonth() === new Date().getMonth() &&
+    date.getFullYear() === new Date().getFullYear()
+  );
+};
+
+const dateIsInThePast = (date: Date) => {
+  return date.getTime() < new Date().getTime();
+};
+
 const sanitize = (str?: string) => {
   if (!str) return '';
 
@@ -77,7 +89,7 @@ export const Countdown = () => {
           />
         </div>
         <DayPicker mode="single" selected={end} onSelect={setEnd} />
-        <p>{!end && 'Please select an ending date'}</p>
+        <p>{!end && 'Please select a different ending date.'}</p>
         <div className="max-w-sm mx-auto">
           <label
             htmlFor="theTime"
@@ -99,10 +111,9 @@ export const Countdown = () => {
             ))}
           </select>
         </div>
-
         <button
-          disabled={!end}
-          className="btn btn-black text-blue-600"
+          disabled={!end || dateIsToday(end) || dateIsInThePast(end)}
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
           onClick={createCountdown}
         >
           Create Countdown

@@ -2,8 +2,14 @@ import { useIsMobile } from '@/hooks/use-is-mobile/use-is-mobile';
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-type PageProps = {
+export type Dependencies = {
   name: string;
+  url: string;
+  description: string;
+};
+
+type PageProps = {
+  name?: string;
   description?: string;
   children?: React.ReactNode;
   style?: React.CSSProperties;
@@ -13,6 +19,8 @@ type PageProps = {
   isHome?: boolean;
   withoutPadding?: boolean;
   repo?: string;
+  landing?: boolean;
+  underTheHood?: Dependencies[];
 };
 
 export const Page = ({
@@ -26,6 +34,7 @@ export const Page = ({
   isHome = false,
   withoutPadding = false,
   repo,
+  landing = false,
 }: PageProps): JSX.Element => {
   const isMobile = useIsMobile();
   const pageRef = useRef<HTMLDivElement>(null);
@@ -64,9 +73,11 @@ export const Page = ({
           <></>
         ) : (
           <div className="w-full flex justify-between items-center flex-col md:flex-row gap-6">
-            <h2 className="my-2 text-5xl font-bold leading-tight text-center text-white-800">
-              {name}
-            </h2>
+            {!landing && (
+              <h2 className="my-2 text-5xl font-bold leading-tight text-center text-white-800">
+                {name}
+              </h2>
+            )}
             {repo && (
               <Link
                 to={repo}

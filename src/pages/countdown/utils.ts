@@ -7,8 +7,12 @@ export const dateToQueryParam = (dateString: string): string => {
   return `${date}_${time}`;
 };
 
-const getDescription = (start: Date, end: Date): string => {
-  return `Countdown from [${formatDate(start, 'dd/MM/yyyy HH:mm')}] to [${formatDate(end, 'dd/MM/yyyy HH:00')}]`;
+const getDescription = (start: Date, end: Date): string[] => {
+  return [
+    `From: ${formatDate(start, 'dd/MM/yyyy')}`,
+    `To: ${formatDate(end, 'dd/MM/yyyy HH:00')}`,
+    `(${formatDate(end, 'EEEE')})`,
+  ];
 };
 
 const createDateTime = (date: Date, time: string) => {
@@ -27,7 +31,7 @@ export const queryToDate = (dateString: string): Date => {
 
 export const getIntervalFromId = (
   id: string,
-): [Date, Date, string] | [null, null, null] => {
+): [Date, Date, string[]] | [null, null, null] => {
   const start = new Date();
 
   const end = queryToDate(id);
