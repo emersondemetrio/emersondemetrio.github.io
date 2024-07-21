@@ -12,6 +12,7 @@ import { Navbar } from './components/navbar/Navbar';
 import { WeatherApp } from './pages/weather-app/weather-app';
 import { CodePen } from './pages/code-pen/code-pen';
 import { Countdown } from './pages/countdown/countdown';
+import { AsciiArt } from './pages/asciiart/asciiart';
 
 const oldRoutes = [
   {
@@ -54,6 +55,8 @@ export const App = () => {
             <Route path="/labs/weather" element={<WeatherApp />} />
             <Route path="/labs/code-pen" element={<CodePen />} />
             <Route path="/labs/countdown" element={<Countdown />} />
+            <Route path="/labs/ascii" element={<AsciiArt />} />
+
             <Route
               path="/labs/countdown/:id/:countdownName?"
               element={<Countdown />}

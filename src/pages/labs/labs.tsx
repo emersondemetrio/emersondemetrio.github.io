@@ -1,47 +1,12 @@
 import { Page } from '@/components/page/page';
 import { Link } from 'react-router-dom';
-
-const githubBaseUrl =
-  'https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/src';
-
-const experiments = [
-  {
-    title: 'Remove Background',
-    description: 'Remove background from images 🖼️',
-    link: '/labs/background',
-    repo: `${githubBaseUrl}/pages/remove-background/remove-background.tsx`,
-  },
-  {
-    title: 'Canvas Game',
-    description: 'Simple game using canvas 🪨✂️📜',
-    link: '/labs/game',
-    repo: `${githubBaseUrl}/pages/canvas-game/canvas-game.tsx`,
-  },
-  {
-    title: 'Weather App',
-    description: 'Weather App 🌦️',
-    link: '/labs/weather',
-    repo: `${githubBaseUrl}/pages/weather-app/weather-app.tsx`,
-  },
-  {
-    title: 'Code Pens',
-    description: 'Code Pens 🖊 ️',
-    link: '/labs/code-pen',
-    repo: `${githubBaseUrl}/pages/code-pen/code-pen.tsx`,
-  },
-  {
-    title: 'Countdown',
-    description: 'Countdown ⏳',
-    link: '/labs/countdown',
-    repo: `${githubBaseUrl}/pages/countdown/countdown.tsx`,
-  },
-];
+import { experiments, githubBaseUrl } from './constants';
 
 export const Labs = () => {
   return (
-    <Page name="Labs" description="Some experiments I've been working on">
-      <div className="flex flex-col md:flex-row gap-6">
-        {experiments.map(item => (
+    <Page name="Labs" description="Some experiments I've been working on" repo={`${githubBaseUrl}/pages/labs/labs.tsx`}>
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 justify-items-center text-center">
+        {experiments.sort((a, b) => a.title.localeCompare(b.title)).sort().map(item => (
           <div
             key={item.title}
             className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
