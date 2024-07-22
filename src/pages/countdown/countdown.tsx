@@ -6,7 +6,7 @@ import 'react-day-picker/dist/style.css';
 import { Link, useParams } from 'react-router-dom';
 import { dateToQueryParam, getIntervalFromId } from './utils';
 import { ViewCountdown } from './view-countdown';
-import { replaceNotHexDecimal } from '@/regex';
+import { replaceNonHexDecimal } from '@/regex';
 import { limitString } from '@/utils/utils';
 
 const dateIsToday = (date: Date) => {
@@ -24,7 +24,7 @@ const dateIsInThePast = (date: Date) => {
 const sanitize = (str?: string) => {
   if (!str) return '';
 
-  return limitString(replaceNotHexDecimal(str), 30);
+  return encodeURIComponent(limitString(replaceNonHexDecimal(str, ' '), 30));
 };
 
 export const Countdown = () => {
@@ -32,7 +32,7 @@ export const Countdown = () => {
 
   const [end, setEnd] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState('10:00');
-  const [name, setName] = useState(countdownName);
+  const [name, setName] = useState('');
 
   if (id) {
     const [d1, d2, description] = getIntervalFromId(id);
@@ -65,7 +65,8 @@ export const Countdown = () => {
     const dateStr = dateToQueryParam(`${year}-${month}-${day} ${time}`);
 
     const redirect =
-      `#/labs/countdown/${dateStr}` + (name ? `/${sanitize(name)}` : '');
+      `#/labs/countdown/${dateStr}` +
+      (name ? `/${encodeURIComponent(name)}` : '');
 
     setEnd(undefined);
     setName('');
@@ -73,27 +74,33 @@ export const Countdown = () => {
   };
 
   return (
-    <Page name="Countdown">
-      <div className="flex flex-col">
-        <div className="flex flex-col">
+    <Page name="Countdown" className="flex items-center justify-center">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 max-w-md w-full">
+        <div className="mb-6">
           <input
             type="text"
             id="first_name"
             value={name}
-            onChange={e => setName(sanitize(e.target.value))}
+            onChange={e => setName(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Countdown Name"
+            placeholder="Enter countdown name"
             required
-            max={30}
-            min={5}
+            maxLength={30}
+            minLength={5}
           />
         </div>
-        <DayPicker mode="single" selected={end} onSelect={setEnd} />
-        <p>{!end && 'Please select a different ending date.'}</p>
-        <div className="max-w-sm mx-auto">
+        <div className="mb-6">
+          <DayPicker mode="single" selected={end} onSelect={setEnd} />
+          {!end && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+              Please select a different ending date.
+            </p>
+          )}
+        </div>
+        <div className="mb-6">
           <label
             htmlFor="theTime"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >
             Select time
           </label>
@@ -112,8 +119,12 @@ export const Countdown = () => {
           </select>
         </div>
         <button
-          disabled={!end || dateIsToday(end) || dateIsInThePast(end)}
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+          disabled={!end || dateIsToday(end) || dateIsInThePast(end) || !name}
+          className={`w-full py-2 px-4 rounded ${
+            !end || dateIsToday(end) || dateIsInThePast(end) || !name
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-blue-500 hover:bg-blue-700 text-white'
+          }`}
           onClick={createCountdown}
         >
           Create Countdown

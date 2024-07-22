@@ -40,11 +40,11 @@ const experiments = [
 export const Labs = () => {
   return (
     <Page name="Labs" description="Some experiments I've been working on">
-      <div className="flex flex-col md:flex-row gap-6">
+      <div className="md:grid md:grid-cols-4 md:gap-4 flex flex-col items-center">
         {experiments.map(item => (
           <div
             key={item.title}
-            className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+            className="md:mb-0 mb-10 w-[350px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
           >
             <div className="flex flex-col items-center pt-4 pb-10">
               <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">

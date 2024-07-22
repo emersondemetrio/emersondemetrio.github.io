@@ -97,7 +97,9 @@ export const Page = ({
                 <p className="text-lg">{description}</p>
               </div>
             )}
-            <div className="w-full">{children}</div>
+            <div className="w-full flex justify-center items-center">
+              {children}
+            </div>
           </div>
         )}
       </div>

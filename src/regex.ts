@@ -6,6 +6,6 @@ export const replaceNotWords = (str: string) => {
   return str.replace(notWordsRegex, '');
 };
 
-export const replaceNotHexDecimal = (str: string) => {
-  return str.replace(notHexDecimalRegex, '');
+export const replaceNonHexDecimal = (str: string, replace = '') => {
+  return str.replace(notHexDecimalRegex, replace);
 };

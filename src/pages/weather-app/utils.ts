@@ -19,3 +19,12 @@ export const isCurrentLocalTimeZone = (timeZone: string) =>
 
 export const getNewsURL = (city: string) =>
   `https://www.google.com/search?q=${encodeURI(city)}&source=lnms&tbm=nws`;
+
+export const titleCase = (str?: string) => {
+  if (!str) return;
+
+  return str
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
