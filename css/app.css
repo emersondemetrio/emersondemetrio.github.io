@@ -2980,9 +2980,9 @@ html {
   margin-bottom: 1rem;
 }
 
-.my-\[50px\] {
-  margin-top: 50px;
-  margin-bottom: 50px;
+.my-\[5px\] {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .mb-0 {
@@ -3878,6 +3878,11 @@ html {
 }
 
 @media (min-width: 768px) {
+  .md\:my-\[50px\] {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
   .md\:mb-0 {
     margin-bottom: 0px;
   }
