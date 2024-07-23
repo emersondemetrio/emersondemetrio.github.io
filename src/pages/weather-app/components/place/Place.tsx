@@ -17,21 +17,15 @@ const openNews = (newsUrl: string) => window.open(newsUrl);
 const dateDiffInHours = (timeZone: string) => {
   const localTime = new Date();
   const targetTime = new Date(new Date().toLocaleString('en-US', { timeZone }));
-
   const diffInMillis = targetTime.getTime() - localTime.getTime();
-  const diffInHours = Math.abs(
-    parseInt((diffInMillis / (1000 * 60 * 60)).toFixed(2)),
-  );
+
+  const diffInHours = Math.round(diffInMillis / (1000 * 60 * 60));
 
   if (diffInHours === 0) {
     return 'Same as local';
   }
 
-  if (diffInHours > 0) {
-    return `${diffInHours}h ahead`;
-  }
-
-  return `${diffInHours}h behind`;
+  return `${diffInHours}h ${diffInHours > 0 ? 'ahead' : 'behind'}`;
 };
 
 const feelsLike = (current: WeatherAPIResult['current']) => {
@@ -98,7 +92,7 @@ const Place = ({ name, timeZone, city, current }: PlaceProps) => {
         </span>
       </div>
       {!!error && (
-        <div className="info">
+        <div className={merge(itemWidth, spacing)}>
           <p>Unable to get weather info</p>
           <button
             style={{
@@ -111,7 +105,7 @@ const Place = ({ name, timeZone, city, current }: PlaceProps) => {
           </button>
         </div>
       )}
-      {!showWeather && (
+      {!showWeather && !error && (
         <div className={merge(itemWidth, spacing)}>
           <div className="bg-slate-600 skeleton h-32 w-full" />
         </div>

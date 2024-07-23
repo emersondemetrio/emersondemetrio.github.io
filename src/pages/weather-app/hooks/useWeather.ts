@@ -8,7 +8,11 @@ import { getFromCache, dateToTimestamp, setCache } from './weather-cache';
 import { WeatherAPIResult } from '@/types';
 
 const fetchJson = async (url: string, options: RequestInit) => {
-  return await fetch(url, options).then(d => d.json());
+  try {
+    return await fetch(url, options).then(d => d.json());
+  } catch (error) {
+    return { error };
+  }
 };
 
 export const getSearchString = (place: string) => {
