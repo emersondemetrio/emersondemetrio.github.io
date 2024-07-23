@@ -1,13 +1,13 @@
-import 'react';
 import { Page } from '@/components/page/page';
+import { replaceNonUrlFriendly } from '@/regex';
+import { limitString } from '@/utils/utils';
+import 'react';
 import { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { Link, useParams } from 'react-router-dom';
+import { ViewCountdown } from './components/view-countdown';
 import { dateToQueryParam, getIntervalFromId } from './utils';
-import { ViewCountdown } from './view-countdown';
-import { replaceNonHexDecimal } from '@/regex';
-import { limitString } from '@/utils/utils';
 
 const dateIsToday = (date: Date) => {
   return (
@@ -24,7 +24,11 @@ const dateIsInThePast = (date: Date) => {
 const sanitize = (str?: string) => {
   if (!str) return '';
 
-  return encodeURIComponent(limitString(replaceNonHexDecimal(str, ' '), 30));
+  return encodeURIComponent(limitString(replaceNonUrlFriendly(str, ' '), 30));
+};
+
+const isValid = (date?: Date) => {
+  return date && !dateIsToday(date) && !dateIsInThePast(date);
 };
 
 export const Countdown = () => {
@@ -119,7 +123,7 @@ export const Countdown = () => {
           </select>
         </div>
         <button
-          disabled={!end || dateIsToday(end) || dateIsInThePast(end) || !name}
+          disabled={!isValid(end) || !name}
           className={`w-full py-2 px-4 rounded ${
             !end || dateIsToday(end) || dateIsInThePast(end) || !name
               ? 'bg-gray-400 cursor-not-allowed'

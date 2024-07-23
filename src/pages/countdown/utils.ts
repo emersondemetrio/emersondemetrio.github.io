@@ -24,7 +24,7 @@ const createDateTime = (date: Date, time: string) => {
 export const queryToDate = (dateString: string): Date => {
   const [dateStr, timeStr] = dateString.split('_');
 
-  const date = new Date(dateStr);
+  const date = new Date(`${dateStr}`.replace(/-/g, '/'));
 
   return createDateTime(date, timeStr);
 };

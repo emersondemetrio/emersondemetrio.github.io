@@ -1,9 +1,9 @@
-import 'react';
 import { Page } from '@/components/page/page';
-import { Link } from 'react-router-dom';
-import { useIntervalCountdown } from './use-interval-countdown';
 import { formatDate } from 'date-fns';
-import { getNewsURL, titleCase } from '../weather-app/utils';
+import 'react';
+import { Link } from 'react-router-dom';
+import { getForecastUrl, getNewsURL, titleCase } from '../../weather-app/utils';
+import CountdownTimer from './countdown-timer';
 
 type ViewCountdownProps = {
   end: Date;
@@ -16,13 +16,11 @@ export const ViewCountdown = ({
   name,
   description,
 }: ViewCountdownProps) => {
-  const { durationString } = useIntervalCountdown(end);
-
   const title = decodeURIComponent(name || '');
 
   return (
     <Page landing>
-      <div className="my-[50px] flex items-start justify-center text-white">
+      <div className="my-[5px] md:my-[50px] flex items-start justify-center text-white">
         <div className="shadow rounded-lg p-6 max-w-sm w-full bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
           <h1 className="text-2xl font-bold text-center mb-4 capitalize">
             {title ? (
@@ -41,17 +39,27 @@ export const ViewCountdown = ({
                 {line}
               </div>
             ))}
-            {durationString && <div>{durationString}</div>}
+            <CountdownTimer end={end} />
           </div>
           <div className="mt-20 w-full">
             {name && (
-              <Link
-                target="_blank"
-                to={getNewsURL(name)}
-                className="w-full bg-green-700 text-white py-2 px-4 rounded"
-              >
-                What's going on in over there?
-              </Link>
+              <div className="flex flex-col justify-between">
+                <Link
+                  target="_blank"
+                  to={getNewsURL(title)}
+                  className="w-full bg-green-700 text-white py-2 px-4 rounded"
+                >
+                  What's going on in over there?
+                </Link>
+
+                <Link
+                  target="_blank"
+                  to={getForecastUrl(title, end)}
+                  className="mt-10 w-full text-white py-2 px-4 rounded hover:bg-blue-700"
+                >
+                  Forecast for the day
+                </Link>
+              </div>
             )}
           </div>
           <div className="mt-20 w-full">

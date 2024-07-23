@@ -1,3 +1,5 @@
+import { formatDate as fnsFormatDate } from 'date-fns';
+
 export const genericDateOptions = {
   year: 'numeric',
   month: 'numeric',
@@ -19,6 +21,12 @@ export const isCurrentLocalTimeZone = (timeZone: string) =>
 
 export const getNewsURL = (city: string) =>
   `https://www.google.com/search?q=${encodeURI(city)}&source=lnms&tbm=nws`;
+
+export const getForecastUrl = (city: string, date: Date) => {
+  return `https://www.google.com/search?q=${encodeURI(
+    `forecast ${city} in ${fnsFormatDate(date, 'yyyy/MMMM/dd')}`,
+  )}`;
+};
 
 export const titleCase = (str?: string) => {
   if (!str) return;
