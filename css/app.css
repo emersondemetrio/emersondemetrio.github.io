@@ -2930,6 +2930,10 @@ html {
   visibility: visible;
 }
 
+.relative {
+  position: relative;
+}
+
 .sticky {
   position: sticky;
 }
