@@ -107,51 +107,53 @@ export const RemoveBackground = () => {
       name="Remove Background"
       description="Select a file or paste it"
     >
-      {progress && (
-        <div className="mt-2">
-          <span>{progress}</span>
+      <div className="flex flex-col md:flex-row">
+        {progress && (
+          <div className="mt-2">
+            <span>{progress}</span>
+          </div>
+        )}
+        {isLoading && <Loading />}
+        <FilePicker onFileChange={handleFileChange} />
+        <div
+          className="container"
+          style={{
+            display: 'flex',
+            marginTop: '1rem',
+          }}
+        >
+          <table className="table table-light relative overflow-x-auto">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">File Name</th>
+                <th scope="col">Actions</th>
+                <th scope="col">Preview</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pastedFile && (
+                <ActionRow
+                  index={1}
+                  file={new File([], pastedFile.fileName)}
+                  result={pastedFile}
+                />
+              )}
+              {selectedFiles &&
+                Array.from(selectedFiles).map((file, index) => {
+                  const result = urls.find(u => u.fileName === file.name);
+                  return (
+                    <ActionRow
+                      key={file.name}
+                      file={file}
+                      index={index}
+                      result={result}
+                    />
+                  );
+                })}
+            </tbody>
+          </table>
         </div>
-      )}
-      {isLoading && <Loading />}
-      <FilePicker onFileChange={handleFileChange} />
-      <div
-        className="container"
-        style={{
-          display: 'flex',
-          marginTop: '1rem',
-        }}
-      >
-        <table className="table table-light">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">File Name</th>
-              <th scope="col">Actions</th>
-              <th scope="col">Preview</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pastedFile && (
-              <ActionRow
-                index={1}
-                file={new File([], pastedFile.fileName)}
-                result={pastedFile}
-              />
-            )}
-            {selectedFiles &&
-              Array.from(selectedFiles).map((file, index) => {
-                const result = urls.find(u => u.fileName === file.name);
-                return (
-                  <ActionRow
-                    key={file.name}
-                    file={file}
-                    index={index}
-                    result={result}
-                  />
-                );
-              })}
-          </tbody>
-        </table>
       </div>
     </Page>
   );
