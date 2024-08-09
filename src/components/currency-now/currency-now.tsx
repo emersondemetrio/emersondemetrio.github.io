@@ -4,7 +4,11 @@ import { Loading } from '../loading/loading';
 import { Badge } from '../badge/badge';
 import { CurrencyProviders } from '../../constants';
 
-export const CurrencyNow = () => {
+type CurrencyNowProps = {
+  asList?: boolean;
+};
+
+export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
   const { data, isLoading, error } = useCurrencyNow();
   const [userInput, setUserInput] = useState<number | null>(null);
 
@@ -39,6 +43,40 @@ export const CurrencyNow = () => {
 
   if (error) {
     return <div className="currency-item">{error.message}</div>;
+  }
+
+  if (asList) {
+    return (
+      <div className="flex flex-col w-64 border border-gray-500 p-10">
+        <h3>Currency</h3>
+        {Object.entries(data.rates).map(([currency, rate]) => {
+          const asEuros = formatToCurrency(userInput || 1, 'eur');
+          const asCurrency = formatToCurrency(userInput, currency, rate);
+
+          return (
+            <div
+              key={currency}
+              title={currency}
+              className="flex flex-row items-center justify-between"
+            >
+              <div>
+                {asEuros} = {asCurrency}
+              </div>
+              <div>
+                {CurrencyProviders.map(provider => (
+                  <Badge
+                    key={provider.name}
+                    currency={currency}
+                    amount={userInput || 1}
+                    provider={provider}
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
   }
 
   return (

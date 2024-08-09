@@ -91,7 +91,8 @@ export type AvailableLinks =
   | 'blog';
 
 export const linkGet = (title: AvailableLinks): Link => {
-  const found = Links.find(link => link.title === title);
+  const found = Links.find(link => link.title.toLowerCase() === title);
+
   if (!found) {
     return {
       title: 'Instagram',

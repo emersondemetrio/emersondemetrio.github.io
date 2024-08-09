@@ -15,9 +15,9 @@ export const Hero = () => {
 
   return (
     <>
-      <div className="pt-2">
-        <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-          <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
+      <div className="pt-2 w-full">
+        <div className="flex items-center w-full">
+          <div className="flex flex-col w-full  justify-center items-start text-center md:text-left">
             <h1 className="my-4 text-2xl font-bold leading-tight">
               ~/emersondemetrio
             </h1>
