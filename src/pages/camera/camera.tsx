@@ -23,7 +23,9 @@ export const Camera = () => {
       <Modal title="Downloading file" visible={isDownloading}>
         <div className="text-gray-500">Please wait...</div>
       </Modal>
-      <div className="flex flex-col items-center gap-6 sm:gap-10 p-4 sm:p-6">
+      <div className="flex flex-col items-center gap-6 sm:gap-10 p-4 sm:p-6" style={{
+        border: 'solid 1px #ddd'
+      }}>
         {isLoading && <div className="text-gray-500">Loading...</div>}
         {!isLoading && <div className="relative border border-gray-300 shadow-md p-4 rounded-lg">
           <video
