@@ -98,10 +98,7 @@ export const useCamera = (): CameraHook => {
         link.download = outputFileName;
         link.click();
 
-        setTimeout(() => {
-
-          setIsDownloading(false);
-        }, 2000);
+        setIsDownloading(false);
       }
     }
   };
