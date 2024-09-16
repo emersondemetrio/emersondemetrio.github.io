@@ -26,12 +26,12 @@ export const Camera = () => {
       <div className="flex flex-col items-center gap-6 sm:gap-10 p-4 sm:p-6">
         {isLoading && <div className="text-gray-500">Loading...</div>}
         {!isLoading && (
-          <div className="relative border border-gray-300 shadow-md p-2 sm:p-4 rounded-lg w-full max-w-lg">
+          <div className="relative border border-gray-300 shadow-md p-4 rounded-lg">
             <video
               ref={videoRef}
               autoPlay
               playsInline
-              className="w-full max-w-full  transition-transform duration-300 ease-in-out"
+              className="w-full max-w-500 transition-transform duration-300 ease-in-out"
               style={{
                 transform: `${isFlipped ? 'scaleX(-1)' : 'none'}`,
               }}
