@@ -25,20 +25,18 @@ export const Camera = () => {
       </Modal>
       <div className="flex flex-col items-center gap-6 sm:gap-10 p-4 sm:p-6">
         {isLoading && <div className="text-gray-500">Loading...</div>}
-        {!isLoading && (
-          <div className="relative border border-gray-300 shadow-md p-4 rounded-lg">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              className="w-full max-w-500 transition-transform duration-300 ease-in-out"
-              style={{
-                transform: `${isFlipped ? 'scaleX(-1)' : 'none'}`,
-              }}
-            />
-            <canvas ref={canvasRef} className="hidden" />
-          </div>
-        )}
+        {!isLoading && <div className="relative border border-gray-300 shadow-md p-4 rounded-lg">
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            className="w-full max-w-500 transition-transform duration-300 ease-in-out"
+            style={{
+              transform: `${isFlipped ? 'scaleX(-1)' : 'none'}`,
+            }}
+          />
+          <canvas ref={canvasRef} className="hidden" />
+        </div>}
         <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 mt-4 sm:mt-6">
           <button
             onClick={flipCamera}

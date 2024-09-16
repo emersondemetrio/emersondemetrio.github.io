@@ -35,7 +35,11 @@ export const useCamera = (): CameraHook => {
       setIsLoading(true);
       try {
         const mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: true,
+          video: {
+            width: 1280,
+            height: 720
+          },
+          audio: false,
         });
 
         setStream(mediaStream);
