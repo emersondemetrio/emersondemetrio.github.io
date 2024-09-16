@@ -35,6 +35,12 @@ const experiments = [
     link: '/labs/countdown',
     repo: `${githubBaseUrl}/pages/countdown/countdown.tsx`,
   },
+  {
+    title: 'Camera',
+    description: 'Camera 📷',
+    link: '/labs/camera',
+    repo: `${githubBaseUrl}/pages/camera/camera.tsx`,
+  },
 ];
 
 export const Labs = () => {

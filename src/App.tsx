@@ -12,6 +12,7 @@ import { Navbar } from './components/navbar/Navbar';
 import { WeatherApp } from './pages/weather-app/weather-app';
 import { CodePen } from './pages/code-pen/code-pen';
 import { Countdown } from './pages/countdown/countdown';
+import { Camera } from './pages/camera/camera';
 
 const oldRoutes = [
   {
@@ -58,7 +59,7 @@ export const App = () => {
               path="/labs/countdown/:id/:countdownName?"
               element={<Countdown />}
             />
-
+            <Route path="/labs/camera" element={<Camera />} />
             {/* Old routes */}
             {oldRoutes.map(({ from, to }) => (
               <Route
