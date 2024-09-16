@@ -12,6 +12,8 @@ type CameraHook = {
   zoomLevel: number;
   hasZoom: boolean;
   error: string | null;
+  isLoading: boolean;
+  isDownloading: boolean;
 };
 
 export const useCamera = (): CameraHook => {
@@ -25,8 +27,12 @@ export const useCamera = (): CameraHook => {
   const [hasZoom, setHasZoom] = useState(false);
   const [maxZoom, setMaxZoom] = useState(1);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDownloading, setIsDownloading] = useState(false);
+
   useEffect(() => {
     const startCamera = async () => {
+      setIsLoading(true);
       try {
         const mediaStream = await navigator.mediaDevices.getUserMedia({
           video: true,
@@ -49,6 +55,7 @@ export const useCamera = (): CameraHook => {
         }
 
         setError(null);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error accessing camera:', error);
         setError((error as Error).message);
@@ -70,6 +77,7 @@ export const useCamera = (): CameraHook => {
 
   const download = () => {
     if (videoRef.current && canvasRef.current) {
+      setIsDownloading(true);
       const video = videoRef.current;
       const canvas = canvasRef.current;
       canvas.width = video.videoWidth;
@@ -89,6 +97,11 @@ export const useCamera = (): CameraHook => {
         const outputFileName = `cam-capture-${randomUUID()}.jpg`;
         link.download = outputFileName;
         link.click();
+
+        setTimeout(() => {
+
+          setIsDownloading(false);
+        }, 2000);
       }
     }
   };
@@ -96,28 +109,28 @@ export const useCamera = (): CameraHook => {
   const zoomIn = !track
     ? undefined
     : () => {
-        if (track) {
-          const newZoomLevel = Math.min(zoomLevel + 0.1, maxZoom);
-          setZoomLevel(newZoomLevel);
-          track.applyConstraints({
-            // @ts-ignore
-            advanced: [{ zoom: newZoomLevel }] as MediaTrackConstraints[],
-          });
-        }
-      };
+      if (track) {
+        const newZoomLevel = Math.min(zoomLevel + 0.1, maxZoom);
+        setZoomLevel(newZoomLevel);
+        track.applyConstraints({
+          // @ts-ignore
+          advanced: [{ zoom: newZoomLevel }] as MediaTrackConstraints[],
+        });
+      }
+    };
 
   const zoomOut = !track
     ? undefined
     : () => {
-        if (track) {
-          const newZoomLevel = Math.max(zoomLevel - 0.1, 1);
-          setZoomLevel(newZoomLevel);
-          track.applyConstraints({
-            // @ts-ignore
-            advanced: [{ zoom: newZoomLevel }] as MediaTrackConstraints[],
-          });
-        }
-      };
+      if (track) {
+        const newZoomLevel = Math.max(zoomLevel - 0.1, 1);
+        setZoomLevel(newZoomLevel);
+        track.applyConstraints({
+          // @ts-ignore
+          advanced: [{ zoom: newZoomLevel }] as MediaTrackConstraints[],
+        });
+      }
+    };
 
   return {
     videoRef,
@@ -130,5 +143,7 @@ export const useCamera = (): CameraHook => {
     zoomLevel,
     error,
     hasZoom,
+    isLoading,
+    isDownloading
   };
 };
