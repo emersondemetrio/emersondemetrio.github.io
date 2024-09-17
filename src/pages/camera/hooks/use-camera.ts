@@ -14,11 +14,16 @@ type CameraHook = {
   error: string | null;
   isLoading: boolean;
   isDownloading: boolean;
+  changeTrack: () => void
+  tracks: number
 };
+
+const DEFAULT_TRACK = 0;
 
 export const useCamera = (): CameraHook => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
   const [isFlipped, setIsFlipped] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -26,9 +31,10 @@ export const useCamera = (): CameraHook => {
   const [track, setTrack] = useState<MediaStreamTrack | null>(null);
   const [hasZoom, setHasZoom] = useState(false);
   const [maxZoom, setMaxZoom] = useState(1);
-
   const [isLoading, setIsLoading] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(DEFAULT_TRACK);
+  const [availableDevices, setAvailableDevices] = useState<MediaStreamTrack[]>([]);
 
   useEffect(() => {
     const startCamera = async () => {
@@ -47,7 +53,10 @@ export const useCamera = (): CameraHook => {
           videoRef.current.srcObject = mediaStream;
         }
 
-        const videoTrack = mediaStream.getVideoTracks()[0];
+        const tracks = mediaStream.getVideoTracks();
+        setAvailableDevices(tracks);
+
+        const videoTrack = tracks[DEFAULT_TRACK];
         setTrack(videoTrack);
 
         const capabilities = videoTrack.getCapabilities();
@@ -81,25 +90,25 @@ export const useCamera = (): CameraHook => {
       setIsDownloading(true);
       const video = videoRef.current;
       const canvas = canvasRef.current;
+
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
 
-      if (ctx) {
+      const canvasContext = canvas.getContext('2d');
+
+      if (canvasContext) {
         if (isFlipped) {
-          ctx.translate(canvas.width, 0);
-          ctx.scale(-1, 1);
+          canvasContext.translate(canvas.width, 0);
+          canvasContext.scale(-1, 1);
         }
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL('image/jpeg');
-
+        canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
         const link = document.createElement('a');
+        const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
         link.href = dataUrl;
-        const outputFileName = `cam-capture-${randomUUID()}.jpg`;
-        link.download = outputFileName;
+        link.download = `cam-capture-${randomUUID()}.jpg`;
         link.click();
-        setTimeout(() => {
 
+        setTimeout(() => {
           setIsDownloading(false);
         }, 100);
       }
@@ -128,6 +137,21 @@ export const useCamera = (): CameraHook => {
     }
   };
 
+  const changeTrack = () => {
+    if (availableDevices.length <= 1) {
+      return;
+    }
+
+    const nextTrackIndex = (currentTrackIndex + 1) % availableDevices.length;
+    if (availableDevices[nextTrackIndex]) {
+      setCurrentTrackIndex(nextTrackIndex);
+      setTrack(availableDevices[nextTrackIndex]);
+    } else {
+      setCurrentTrackIndex(DEFAULT_TRACK);
+      setTrack(availableDevices[DEFAULT_TRACK]);
+    }
+  }
+
   return {
     videoRef,
     canvasRef,
@@ -141,5 +165,7 @@ export const useCamera = (): CameraHook => {
     hasZoom,
     isLoading,
     isDownloading,
+    tracks: availableDevices.length,
+    changeTrack
   };
 };

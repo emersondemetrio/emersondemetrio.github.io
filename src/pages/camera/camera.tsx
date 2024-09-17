@@ -15,6 +15,8 @@ export const Camera = () => {
     error,
     isDownloading,
     isLoading,
+    tracks,
+    changeTrack,
   } = useCamera();
 
   return (
@@ -46,7 +48,7 @@ export const Camera = () => {
             onClick={flipCamera}
             className="bg-green-500 text-white px-4 py-1 rounded-md hover:bg-green-600 transition duration-300 flex items-center gap-2"
           >
-            <span>🔄</span>
+            <span>{isFlipped ? '⏪' : '⏩'}</span>
             Flip
           </button>
           {hasZoom && (
@@ -74,6 +76,15 @@ export const Camera = () => {
             <span>📸</span>
             Capture
           </button>
+          {tracks > 1 && (
+            <button
+              onClick={changeTrack}
+              className="bg-gray-500 text-white px-4 py-1 rounded-md hover:bg-gray-600 transition duration-300 flex items-center gap-2"
+            >
+              <span>🔃</span>
+              Change Camera
+            </button>
+          )}
         </div>
       </div>
     </Page>
