@@ -14,8 +14,8 @@ type CameraHook = {
   error: string | null;
   isLoading: boolean;
   isDownloading: boolean;
-  changeTrack: () => void
-  tracks: number
+  changeTrack: () => void;
+  tracks: number;
 };
 
 const DEFAULT_TRACK = 0;
@@ -34,7 +34,9 @@ export const useCamera = (): CameraHook => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(DEFAULT_TRACK);
-  const [availableDevices, setAvailableDevices] = useState<MediaStreamTrack[]>([]);
+  const [availableDevices, setAvailableDevices] = useState<MediaStreamTrack[]>(
+    [],
+  );
 
   useEffect(() => {
     const startCamera = async () => {
@@ -150,7 +152,7 @@ export const useCamera = (): CameraHook => {
       setCurrentTrackIndex(DEFAULT_TRACK);
       setTrack(availableDevices[DEFAULT_TRACK]);
     }
-  }
+  };
 
   return {
     videoRef,
@@ -166,6 +168,6 @@ export const useCamera = (): CameraHook => {
     isLoading,
     isDownloading,
     tracks: availableDevices.length,
-    changeTrack
+    changeTrack,
   };
 };

@@ -45,9 +45,10 @@ export type WeatherAPIResult = {
     temp_c: number;
     feelslike_c: number;
   };
-  source: 'cache' | 'api';
   error: {
     code: number;
     message: string;
   };
+} & {
+  source: 'cache' | 'api';
 };

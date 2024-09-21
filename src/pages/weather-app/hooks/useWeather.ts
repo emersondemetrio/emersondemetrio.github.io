@@ -4,7 +4,7 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 const BASE_URL = 'https://api.weatherapi.com/v1/current.json';
 const DEFAULT_PLACE = 'Florianópolis, Santa Catarina, Brazil';
 
-import { getFromCache, dateToTimestamp, setCache } from './weather-cache';
+import { get, dateToTimestamp, set } from '../../../cache/weather-cache';
 import { WeatherAPIResult } from '@/types';
 
 const fetchJson = async (url: string, options: RequestInit) => {
@@ -53,13 +53,15 @@ export const useWeather = (placeName: string): UseWeatherApiHook => {
   const getWeather = async (cityName: string, force: boolean) => {
     setIsLoading(true);
     if (!force) {
-      const cache = getFromCache(cityName, dateToTimestamp(new Date()));
+      const cache = get(cityName, dateToTimestamp(new Date()));
 
       if (cache) {
-        setData({
+        const newData: WeatherAPIResult = {
           ...cache,
           source: 'cache',
-        });
+        };
+
+        setData(newData);
         setIsLoading(false);
         return;
       }
@@ -72,7 +74,7 @@ export const useWeather = (placeName: string): UseWeatherApiHook => {
             ...weatherData,
             source: 'api',
           });
-          setCache(cityName, dateToTimestamp(new Date()), weatherData);
+          set(cityName, dateToTimestamp(new Date()), weatherData);
         }
 
         setIsLoading(false);

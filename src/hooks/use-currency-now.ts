@@ -6,7 +6,7 @@ import {
   UseCurrencyHook,
 } from '../types';
 import { API_URL } from '../constants';
-import { getFromCache, dateToTimestamp, setCache } from './currency-cache';
+import { get, dateToTimestamp, set, invalidate } from '../cache/currency-cache';
 
 const fetchCurrency = async (base: BaseCurrency) => {
   const response = await fetch(`${API_URL}/${base}`);
@@ -55,7 +55,7 @@ export const useCurrencyNow = (base: BaseCurrency = 'EUR'): UseCurrencyHook => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const cache = getFromCache(dateToTimestamp(new Date()));
+    const cache = get(dateToTimestamp(new Date()));
 
     if (cache) {
       setData(filterTarget(cache));
@@ -66,13 +66,17 @@ export const useCurrencyNow = (base: BaseCurrency = 'EUR'): UseCurrencyHook => {
     fetchCurrency(base)
       .then((currencyData: Currency) => {
         setData(filterTarget(currencyData));
-        setCache(dateToTimestamp(new Date()), currencyData);
+        set(dateToTimestamp(new Date()), currencyData);
         setIsLoading(false);
       })
       .catch(error => {
         setError(error);
         setIsLoading(false);
       });
+
+    return () => {
+      invalidate();
+    };
   }, [base]);
 
   return {
