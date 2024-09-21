@@ -1,18 +1,19 @@
 import { Link } from 'react-router-dom';
-import { CurrencyProvider } from '../../types';
+import { BaseCurrency, CurrencyProvider } from '../../types';
 
 type BadgeProps = {
+  base: BaseCurrency;
+  target: string;
   amount: number;
-  currency: string;
   provider: CurrencyProvider;
 };
 
-export const Badge = ({ amount, currency, provider }: BadgeProps) => {
+export const Badge = ({ base, target, amount, provider }: BadgeProps) => {
   return (
     <Link
       target="_blank"
       className="badge badge-primary"
-      to={provider.url(amount, currency)}
+      to={provider.url(base, target, amount)}
     >
       {provider.nickname}
     </Link>
