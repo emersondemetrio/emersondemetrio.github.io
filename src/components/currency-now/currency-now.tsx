@@ -55,11 +55,11 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
       <div className="flex flex-col w-64 border border-gray-500 p-10">
         <h3>Currency</h3>
         {Object.entries(data.rates).map(([currency, rate]) => {
-          const asEuros = formatToCurrency(
+          const asBase = formatToCurrency(
             userInput || 1,
             base.toLocaleLowerCase(),
           );
-          const asCurrency = formatToCurrency(userInput, currency, rate);
+          const asTarget = formatToCurrency(userInput, currency, rate);
 
           return (
             <div
@@ -68,7 +68,7 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
               className="flex flex-row items-center justify-between"
             >
               <div>
-                {asEuros} = {asCurrency}
+                {asBase} = {asTarget}
               </div>
               <div>
                 {CurrencyProviders.map(provider => (
@@ -125,12 +125,12 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
           </thead>
           <tbody>
             {Object.entries(data.rates).map(([currency, rate], index) => {
-              const informedValue = formatToCurrency(
+              const asBase = formatToCurrency(
                 userInput || 1,
                 base.toLocaleLowerCase(),
               );
-              const asCurrency = formatToCurrency(userInput, currency, rate);
-              const handleCopy = copy(`${informedValue} = ${asCurrency}`);
+              const asTarget = formatToCurrency(userInput, currency, rate);
+              const handleCopy = copy(`${asBase} = ${asTarget}`);
 
               return (
                 <tr
@@ -142,7 +142,7 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
                     {base} to {currency}
                   </td>
                   <td onClick={handleCopy}>
-                    {informedValue} = {asCurrency}
+                    {asBase} = {asTarget}
                   </td>
                   <td>
                     {CurrencyProviders.map(provider => (
