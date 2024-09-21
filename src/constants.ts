@@ -109,17 +109,17 @@ export const CurrencyProviders: CurrencyProvider[] = [
   {
     name: 'Wise',
     nickname: 'wis',
-    url: (amount, currency) => {
+    url: (base, target, amount) => {
       const wiseLikeUrl =
-        `eur-to-${currency}-rate?amount=${amount}`.toLocaleLowerCase();
+        `${base}-to-${target}-rate?amount=${amount}`.toLocaleLowerCase();
       return `https://wise.com/us/currency-converter/${wiseLikeUrl}`;
     },
   },
   {
     name: 'Google',
     nickname: 'ggl',
-    url: (amount, currency) =>
-      `https://google.com/search?q=${amount}+eur+to+${currency}`,
+    url: (base, target, amount) =>
+      `https://google.com/search?q=${amount}+${base}+to+${target}`,
   },
 ];
 

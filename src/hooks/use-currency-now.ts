@@ -15,9 +15,10 @@ const fetchCurrency = async (base: BaseCurrency) => {
   return data;
 };
 
-const filterTarget = (data: Currency) => {
+const filterTarget = (data: Currency, base: BaseCurrency) => {
   const rates = Object.keys(data.rates)
     .filter(currency => TargetCurrencies.includes(currency))
+    .filter(currency => currency !== base)
     .reduce(
       (acc, currency) => {
         acc[currency] = data.rates[currency];
@@ -55,18 +56,19 @@ export const useCurrencyNow = (base: BaseCurrency = 'EUR'): UseCurrencyHook => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const cache = get(dateToTimestamp(new Date()));
+    const cacheKey = `${base}-${dateToTimestamp(new Date())}`;
+    const cache = get(cacheKey);
 
     if (cache) {
-      setData(filterTarget(cache));
+      setData(filterTarget(cache, base));
       setIsLoading(false);
       return;
     }
 
     fetchCurrency(base)
       .then((currencyData: Currency) => {
-        setData(filterTarget(currencyData));
-        set(dateToTimestamp(new Date()), currencyData);
+        setData(filterTarget(currencyData, base));
+        set(cacheKey, currencyData);
         setIsLoading(false);
       })
       .catch(error => {
@@ -75,7 +77,7 @@ export const useCurrencyNow = (base: BaseCurrency = 'EUR'): UseCurrencyHook => {
       });
 
     return () => {
-      invalidate();
+      invalidate(cacheKey);
     };
   }, [base]);
 

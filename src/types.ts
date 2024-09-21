@@ -8,7 +8,7 @@ export type Link = {
   handle: string;
 };
 
-export const TargetCurrencies = ['USD', 'GBP', 'BRL'];
+export const TargetCurrencies = ['EUR', 'USD', 'GBP', 'BRL'];
 
 export type BaseCurrency = 'USD' | 'EUR' | 'GBP' | 'CAD';
 
@@ -27,7 +27,7 @@ export type UseCurrencyHook = {
 export type CurrencyProvider = {
   name: string;
   nickname: string;
-  url: (amount: number, currency: string) => string;
+  url: (base: string, target: string, amount: number) => string;
 };
 
 export type Repo = {
