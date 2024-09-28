@@ -1,14 +1,14 @@
-import { ResumeType } from './types';
+import { ResumeType } from "./types";
 
 export const data: ResumeType = {
   document: {
-    id: '4db97969-ec85-534a-a28d-9b0431955a5a',
-    documentTemplateId: '801844a2-9c53-441a-a798-add160939ecd',
+    id: "4db97969-ec85-534a-a28d-9b0431955a5a",
+    documentTemplateId: "801844a2-9c53-441a-a798-add160939ecd",
     templateOptions: {
-      color: '#000000',
+      color: "#000000",
     },
-    title: 'Emerson Demetrio RESUME_EN',
-    generatedTitle: 'Resume Emerson Demetrio',
+    title: "Emerson Demetrio RESUME_EN",
+    generatedTitle: "Resume Emerson Demetrio",
     photo: {
       metadata: {
         rotation: 0,
@@ -19,35 +19,35 @@ export const data: ResumeType = {
           height: 286,
         },
       },
-      keyCropped: '4db97969-ec85-534a-a28d-9b0431955a5a-cropped',
-      keyOriginal: '4db97969-ec85-534a-a28d-9b0431955a5a',
-      dataCropped: 'images/me.webp',
+      keyCropped: "4db97969-ec85-534a-a28d-9b0431955a5a-cropped",
+      keyOriginal: "4db97969-ec85-534a-a28d-9b0431955a5a",
+      dataCropped: "images/me.webp",
     },
     signature: {},
     content: {
-      locale: 'en',
-      version: '1',
+      locale: "en",
+      version: "1",
       sections: [
         {
-          key: 'personalDetails',
+          key: "personalDetails",
           fields: [],
           movable: false,
           records: [
             {
-              key: 'fc9d49e8-2257-4b3e-9d47-64d83ce218de',
+              key: "fc9d49e8-2257-4b3e-9d47-64d83ce218de",
               values: [
-                ['Emerson', 'Demetrio'],
-                'emer.demetrio@gmail.com',
-                'Senior Software Engineer',
-                '+49 176 77261870',
-                ['Munich, Germany'],
+                ["Emerson", "Demetrio"],
+                "emer.demetrio@gmail.com",
+                "Senior Software Engineer",
+                "+49 176 77261870",
+                ["Munich, Germany"],
                 null,
                 null,
                 null,
                 null,
                 null,
                 null,
-                'linkedin.com/in/emersondemetrio',
+                "linkedin.com/in/emersondemetrio",
                 null,
               ],
             },
@@ -55,15 +55,15 @@ export const data: ResumeType = {
           repeatable: false,
           destroyable: false,
           additionalFields: true,
-          customSectionName: 'Basic information',
+          customSectionName: "Basic information",
         },
         {
-          key: 'ee6cf3b5-af4f-4675-ae3c-cafc5f655fa7',
+          key: "ee6cf3b5-af4f-4675-ae3c-cafc5f655fa7",
           fields: [],
           movable: true,
           records: [
             {
-              key: '3042d589-6c89-48ef-bae0-1e44b13b92da',
+              key: "3042d589-6c89-48ef-bae0-1e44b13b92da",
               values: [
                 `
                 <p style="text-align: left;">
@@ -78,19 +78,19 @@ export const data: ResumeType = {
           ],
           repeatable: false,
           destroyable: true,
-          customSectionName: 'About Me',
+          customSectionName: "About Me",
         },
         {
-          key: 'c97a39b1-c90a-4f70-b6f9-b7dea64b5c3a',
+          key: "c97a39b1-c90a-4f70-b6f9-b7dea64b5c3a",
           fields: [],
           movable: true,
           records: [
             {
-              key: 'befe3b9d-7e52-4214-bc4c-8cf5c276edd7',
+              key: "befe3b9d-7e52-4214-bc4c-8cf5c276edd7",
               values: [
-                'Senior Software Engineer',
-                'Kyte',
-                ['Dec 2021', 'Present'],
+                "Senior Software Engineer",
+                "Kyte",
+                ["Dec 2021", "Present"],
                 `<ul>
                   <li>React/NextJS and React Native development</li>
                   <li>Architecture Planning</li>
@@ -101,11 +101,11 @@ export const data: ResumeType = {
               ],
             },
             {
-              key: 'dfd16ba8-30a7-4518-a49c-2ec71b8987d2',
+              key: "dfd16ba8-30a7-4518-a49c-2ec71b8987d2",
               values: [
-                'Senior Software Engineer',
-                'Groundbreaker.co',
-                ['Sept 2021', 'Dec 2021'],
+                "Senior Software Engineer",
+                "Groundbreaker.co",
+                ["Sept 2021", "Dec 2021"],
                 `<ul>
                   <li>Front-end development using ReactJS.</li>
                   <li>Back-end development using NodeJS and AWS stack.</li>
@@ -114,11 +114,11 @@ export const data: ResumeType = {
               ],
             },
             {
-              key: 'b774e32d-b47e-48d2-870a-39d0ab44db81',
+              key: "b774e32d-b47e-48d2-870a-39d0ab44db81",
               values: [
-                'Front-end Lead',
-                'CondoConta',
-                ['Mar 2020', 'Ago 2021'],
+                "Front-end Lead",
+                "CondoConta",
+                ["Mar 2020", "Ago 2021"],
                 `<ul>
                   <li>Team leadership (meetings, delivery process, feedbacks)</li>
                   <li>React Native development and operation flows</li>
@@ -130,11 +130,11 @@ export const data: ResumeType = {
               ],
             },
             {
-              key: 'e12d1001-b2a0-4c32-9ea1-f302fa2603f5',
+              key: "e12d1001-b2a0-4c32-9ea1-f302fa2603f5",
               values: [
-                'Senior Full Stack Developer',
-                'CondoConta',
-                ['Aug 2019', 'Mar 2020'],
+                "Senior Full Stack Developer",
+                "CondoConta",
+                ["Aug 2019", "Mar 2020"],
                 `<ul>
                   <li>React Native development</li>
                   <li>Architecture Planning</li>
@@ -145,11 +145,11 @@ export const data: ResumeType = {
               ],
             },
             {
-              key: 'acd926bf-3142-4b1b-9e77-e6006d5aa789',
+              key: "acd926bf-3142-4b1b-9e77-e6006d5aa789",
               values: [
-                'Senior Front End Developer',
-                'Salsa Entertainment',
-                ['Nov 2018', 'July 2019'],
+                "Senior Front End Developer",
+                "Salsa Entertainment",
+                ["Nov 2018", "July 2019"],
                 `<ul>
                   <li>Analysis and web application development using Java and AngularJS</li>
                   <li>Typescript/Javascript and Angular 8 talks</li>
@@ -158,11 +158,11 @@ export const data: ResumeType = {
               ],
             },
             {
-              key: '553004f0-3822-459a-9c07-c55bb08e012c',
+              key: "553004f0-3822-459a-9c07-c55bb08e012c",
               values: [
-                'Full Stack Developer',
-                'Scytech',
-                ['April 2017', 'Oct 2018'],
+                "Full Stack Developer",
+                "Scytech",
+                ["April 2017", "Oct 2018"],
                 `
                 <ul>
                   <li>Analysis and web application development using Typescript, AngularJS, Angular 5, React and Node.js.</li>
@@ -175,11 +175,11 @@ export const data: ResumeType = {
               ],
             },
             {
-              key: 'bae7ef7a-1fe4-41ee-9ed5-797b13e6444e',
+              key: "bae7ef7a-1fe4-41ee-9ed5-797b13e6444e",
               values: [
-                'Full Stack Developer',
-                'Aero TD Flight School',
-                ['March 2015', 'April 2017'],
+                "Full Stack Developer",
+                "Aero TD Flight School",
+                ["March 2015", "April 2017"],
                 `<ul>
                   <li>Analysis and web application development using CakePHP and Node.js.</li>
                   <li>Web systems integration and legacy systems maintenance, mainly Learning Management Systems such as Moodle.</li>
@@ -188,11 +188,11 @@ export const data: ResumeType = {
               ],
             },
             {
-              key: 'e3816b68-70ff-4a73-afc1-1803f460d352',
+              key: "e3816b68-70ff-4a73-afc1-1803f460d352",
               values: [
-                'Full Stack Developer',
-                'Brazilian National Health Institute',
-                ['April 2014', 'March 2015'],
+                "Full Stack Developer",
+                "Brazilian National Health Institute",
+                ["April 2014", "March 2015"],
                 `<ul>
                   <li>Web-based applications and web services development using Express.js</li>
                   <li>Job Queues development using ActiveMQ and Node.Js.</li>
@@ -201,11 +201,11 @@ export const data: ResumeType = {
               ],
             },
             {
-              key: '3901f926-71e1-48f7-98dd-1358e12d406f',
+              key: "3901f926-71e1-48f7-98dd-1358e12d406f",
               values: [
-                'Full Stack Developer',
-                'Brazilian Nat. Institute for Digital Convergence',
-                ['Jan 2013', 'March 2015'],
+                "Full Stack Developer",
+                "Brazilian Nat. Institute for Digital Convergence",
+                ["Jan 2013", "March 2015"],
                 `<ul>
                   <li>Web-based applications and web services development using CakePHP and SpringMVC.</li>
                   <li>Team activities for planning, estimating and reviewing product cycle iterations and legacy systems maintenance.</li>
@@ -213,11 +213,11 @@ export const data: ResumeType = {
               ],
             },
             {
-              key: '2d6817fb-f3be-415e-9817-848402c91164',
+              key: "2d6817fb-f3be-415e-9817-848402c91164",
               values: [
-                'Web Developer',
-                'Inc 48 (Brazilian Startup)',
-                ['Jan 2013', 'April 2014'],
+                "Web Developer",
+                "Inc 48 (Brazilian Startup)",
+                ["Jan 2013", "April 2014"],
                 `<ul>
                   <li>Web-based applications and web services development using CodeIgniter and Bootstrap.</li>
                   <li>Web-based systems integration using rest APIs, mainly Social Networks such Instagram, Twitter and Facebook.</li>
@@ -225,26 +225,26 @@ export const data: ResumeType = {
               ],
             },
             {
-              key: '724e78d4-6cf1-46a0-823f-8cdbc6f50ca5',
+              key: "724e78d4-6cf1-46a0-823f-8cdbc6f50ca5",
               values: [
-                'Web Developer/IT Support',
-                'Audiovisual Lab. of Federal University of Santa Catarina',
-                ['Jan 2010', 'Jan 2013'],
-                '<li>Web development using PHP and MoodleHardware and software support</li>',
+                "Web Developer/IT Support",
+                "Audiovisual Lab. of Federal University of Santa Catarina",
+                ["Jan 2010", "Jan 2013"],
+                "<li>Web development using PHP and MoodleHardware and software support</li>",
               ],
             },
           ],
           repeatable: true,
           destroyable: true,
-          customSectionName: 'Work experience',
+          customSectionName: "Work experience",
         },
         {
-          key: '78ebb6e4-0bb6-4999-9210-811663f7622a',
+          key: "78ebb6e4-0bb6-4999-9210-811663f7622a",
           fields: [],
           movable: true,
           records: [
             {
-              key: '1b824263-7ea5-4e9c-9118-cadfdcd45a8f',
+              key: "1b824263-7ea5-4e9c-9118-cadfdcd45a8f",
               values: [
                 `
                 <ul>
@@ -282,15 +282,15 @@ export const data: ResumeType = {
           ],
           repeatable: false,
           destroyable: true,
-          customSectionName: 'Qualifications',
+          customSectionName: "Qualifications",
         },
         {
-          key: 'cc7cb848-ec70-4e1f-be16-fa7a9232d68e',
+          key: "cc7cb848-ec70-4e1f-be16-fa7a9232d68e",
           fields: [],
           movable: true,
           records: [
             {
-              key: '0a0cbfad-8596-49fa-b543-5893c4ef7e52',
+              key: "0a0cbfad-8596-49fa-b543-5893c4ef7e52",
               values: [
                 `<ul>
                   <li>Portuguese (Native)English (Advanced)</li>
@@ -301,34 +301,34 @@ export const data: ResumeType = {
           ],
           repeatable: false,
           destroyable: true,
-          customSectionName: 'Languages',
+          customSectionName: "Languages",
         },
         {
-          key: '4eaf19a9-042f-482b-94fd-a0c981308f05',
+          key: "4eaf19a9-042f-482b-94fd-a0c981308f05",
           fields: [],
           movable: true,
           records: [
             {
-              key: '72d47fe4-355d-4087-aaa2-e64f5ce75b2a',
+              key: "72d47fe4-355d-4087-aaa2-e64f5ce75b2a",
               values: [
-                'BSc in Information Systems',
-                'Federal University of Santa Catarina',
-                ['Feb 2010', 'July 2018'],
+                "BSc in Information Systems",
+                "Federal University of Santa Catarina",
+                ["Feb 2010", "July 2018"],
                 `<li>Obtained the BSc degree with "Music Genres Classification Using Artificial Intelligence"</li>`,
               ],
             },
           ],
           repeatable: true,
           destroyable: true,
-          customSectionName: 'Education',
+          customSectionName: "Education",
         },
         {
-          key: 'd03bbe39-338d-4d0b-9ada-9f03d7af1454',
+          key: "d03bbe39-338d-4d0b-9ada-9f03d7af1454",
           fields: [],
           movable: true,
           records: [
             {
-              key: '8084c184-77f7-4578-b908-b3662c963c8b',
+              key: "8084c184-77f7-4578-b908-b3662c963c8b",
               values: [
                 `<ul>
                   <li>Agile Scrum Foundation - Estabilis University</li>
@@ -340,15 +340,15 @@ export const data: ResumeType = {
           ],
           repeatable: false,
           destroyable: true,
-          customSectionName: 'Certificates',
+          customSectionName: "Certificates",
         },
         {
-          key: '0c6b0ad5-11d3-42b9-9bd1-6e2a0e373c38',
+          key: "0c6b0ad5-11d3-42b9-9bd1-6e2a0e373c38",
           fields: [],
           movable: true,
           records: [
             {
-              key: '4c9dde5b-7108-4895-ae8f-5568059953d3',
+              key: "4c9dde5b-7108-4895-ae8f-5568059953d3",
               values: [
                 `<ul><li style="text-align: left;">Mobile Applications / IOT</li><li style="text-align: left;">Artificial Intelligence</li><li style="text-align: left;">Functional Programming</li><li style="text-align: left;">Data Security</li><li style="text-align: left;">Music &amp; Poetry</li>
               </ul>`,
@@ -357,20 +357,20 @@ export const data: ResumeType = {
           ],
           repeatable: false,
           destroyable: true,
-          customSectionName: 'Interests',
+          customSectionName: "Interests",
         },
       ],
     },
-    documentType: 'resume',
+    documentType: "resume",
     textOnly: false,
     isPubliclyShared: false,
-    createdAt: new Date('2018-04-06T00:08:56.000Z'),
-    updatedAt: new Date('2023-12-11T15:13:39.841Z'),
+    createdAt: new Date("2018-04-06T00:08:56.000Z"),
+    updatedAt: new Date("2023-12-11T15:13:39.841Z"),
     documentConfiguration: {
       translationLocales: [],
       defaultSections: [
         {
-          key: 'personalDetails',
+          key: "personalDetails",
           fields: [],
           movable: false,
           records: [],
@@ -381,43 +381,43 @@ export const data: ResumeType = {
       ],
       additionalSections: [
         {
-          key: 'educations',
+          key: "educations",
           fields: [
             {
-              key: 'education',
-              role: 'header',
-              fieldType: 'text',
+              key: "education",
+              role: "header",
+              fieldType: "text",
             },
             {
-              key: 'school',
-              role: 'subheader',
-              format: 'schoolFormat',
-              fieldType: 'composite',
+              key: "school",
+              role: "subheader",
+              format: "schoolFormat",
+              fieldType: "composite",
               subFields: [
                 {
-                  key: 'school',
-                  fieldType: 'text',
+                  key: "school",
+                  fieldType: "text",
                 },
                 {
-                  key: 'city',
-                  fieldType: 'text',
-                  suggestions: 'places',
+                  key: "city",
+                  fieldType: "text",
+                  suggestions: "places",
                 },
               ],
             },
             {
-              key: 'period',
-              role: 'period',
-              format: 'periodFormat',
-              fieldType: 'composite',
+              key: "period",
+              role: "period",
+              format: "periodFormat",
+              fieldType: "composite",
               subFields: [
                 {
-                  key: 'startdate',
-                  fieldType: 'month',
+                  key: "startdate",
+                  fieldType: "month",
                 },
                 {
-                  key: 'enddate',
-                  fieldType: 'month',
+                  key: "enddate",
+                  fieldType: "month",
                   presentOption: true,
                 },
               ],
@@ -429,17 +429,17 @@ export const data: ResumeType = {
           destroyable: true,
         },
         {
-          key: 'courses',
+          key: "courses",
           fields: [
             {
-              key: 'course',
-              role: 'header',
-              fieldType: 'text',
+              key: "course",
+              role: "header",
+              fieldType: "text",
             },
             {
-              key: 'period',
-              role: 'period',
-              fieldType: 'month',
+              key: "period",
+              role: "period",
+              fieldType: "month",
               presentOption: true,
             },
           ],
@@ -449,44 +449,44 @@ export const data: ResumeType = {
           destroyable: true,
         },
         {
-          key: 'employment',
+          key: "employment",
           fields: [
             {
-              key: 'position',
-              role: 'header',
-              fieldType: 'text',
-              suggestions: 'occupations',
+              key: "position",
+              role: "header",
+              fieldType: "text",
+              suggestions: "occupations",
             },
             {
-              key: 'employer',
-              role: 'subheader',
-              format: 'employerFormat',
-              fieldType: 'composite',
+              key: "employer",
+              role: "subheader",
+              format: "employerFormat",
+              fieldType: "composite",
               subFields: [
                 {
-                  key: 'employer',
-                  fieldType: 'text',
+                  key: "employer",
+                  fieldType: "text",
                 },
                 {
-                  key: 'city',
-                  fieldType: 'text',
-                  suggestions: 'places',
+                  key: "city",
+                  fieldType: "text",
+                  suggestions: "places",
                 },
               ],
             },
             {
-              key: 'period',
-              role: 'period',
-              format: 'periodFormat',
-              fieldType: 'composite',
+              key: "period",
+              role: "period",
+              format: "periodFormat",
+              fieldType: "composite",
               subFields: [
                 {
-                  key: 'startdate',
-                  fieldType: 'month',
+                  key: "startdate",
+                  fieldType: "month",
                 },
                 {
-                  key: 'enddate',
-                  fieldType: 'month',
+                  key: "enddate",
+                  fieldType: "month",
                   presentOption: true,
                 },
               ],
@@ -498,44 +498,44 @@ export const data: ResumeType = {
           destroyable: true,
         },
         {
-          key: 'internships',
+          key: "internships",
           fields: [
             {
-              key: 'position',
-              role: 'header',
-              fieldType: 'text',
-              suggestions: 'occupations',
+              key: "position",
+              role: "header",
+              fieldType: "text",
+              suggestions: "occupations",
             },
             {
-              key: 'employer',
-              role: 'subheader',
-              format: 'employerFormat',
-              fieldType: 'composite',
+              key: "employer",
+              role: "subheader",
+              format: "employerFormat",
+              fieldType: "composite",
               subFields: [
                 {
-                  key: 'employer',
-                  fieldType: 'text',
+                  key: "employer",
+                  fieldType: "text",
                 },
                 {
-                  key: 'city',
-                  fieldType: 'text',
-                  suggestions: 'places',
+                  key: "city",
+                  fieldType: "text",
+                  suggestions: "places",
                 },
               ],
             },
             {
-              key: 'period',
-              role: 'period',
-              format: 'periodFormat',
-              fieldType: 'composite',
+              key: "period",
+              role: "period",
+              format: "periodFormat",
+              fieldType: "composite",
               subFields: [
                 {
-                  key: 'startdate',
-                  fieldType: 'month',
+                  key: "startdate",
+                  fieldType: "month",
                 },
                 {
-                  key: 'enddate',
-                  fieldType: 'month',
+                  key: "enddate",
+                  fieldType: "month",
                   presentOption: true,
                 },
               ],
@@ -547,44 +547,44 @@ export const data: ResumeType = {
           destroyable: true,
         },
         {
-          key: 'sideActivities',
+          key: "sideActivities",
           fields: [
             {
-              key: 'position',
-              role: 'header',
-              fieldType: 'text',
-              suggestions: 'occupations',
+              key: "position",
+              role: "header",
+              fieldType: "text",
+              suggestions: "occupations",
             },
             {
-              key: 'employer',
-              role: 'subheader',
-              format: 'employerFormat',
-              fieldType: 'composite',
+              key: "employer",
+              role: "subheader",
+              format: "employerFormat",
+              fieldType: "composite",
               subFields: [
                 {
-                  key: 'employer',
-                  fieldType: 'text',
+                  key: "employer",
+                  fieldType: "text",
                 },
                 {
-                  key: 'city',
-                  fieldType: 'text',
-                  suggestions: 'places',
+                  key: "city",
+                  fieldType: "text",
+                  suggestions: "places",
                 },
               ],
             },
             {
-              key: 'period',
-              role: 'period',
-              format: 'periodFormat',
-              fieldType: 'composite',
+              key: "period",
+              role: "period",
+              format: "periodFormat",
+              fieldType: "composite",
               subFields: [
                 {
-                  key: 'startdate',
-                  fieldType: 'month',
+                  key: "startdate",
+                  fieldType: "month",
                 },
                 {
-                  key: 'enddate',
-                  fieldType: 'month',
+                  key: "enddate",
+                  fieldType: "month",
                   presentOption: true,
                 },
               ],
@@ -596,24 +596,24 @@ export const data: ResumeType = {
           destroyable: true,
         },
         {
-          key: 'skills',
+          key: "skills",
           fields: [
             {
-              key: 'skill',
-              role: 'header',
-              fieldType: 'text',
+              key: "skill",
+              role: "header",
+              fieldType: "text",
             },
             {
-              key: 'level',
-              role: 'level',
+              key: "level",
+              role: "level",
               options: [
-                'beginner',
-                'moderate',
-                'good',
-                'veryGood',
-                'excellent',
+                "beginner",
+                "moderate",
+                "good",
+                "veryGood",
+                "excellent",
               ],
-              fieldType: 'level',
+              fieldType: "level",
             },
           ],
           movable: true,
@@ -622,18 +622,18 @@ export const data: ResumeType = {
           destroyable: true,
         },
         {
-          key: 'languages',
+          key: "languages",
           fields: [
             {
-              key: 'language',
-              role: 'header',
-              fieldType: 'text',
+              key: "language",
+              role: "header",
+              fieldType: "text",
             },
             {
-              key: 'level',
-              role: 'level',
-              options: ['beginner', 'moderate', 'good', 'veryGood', 'fluent'],
-              fieldType: 'level',
+              key: "level",
+              role: "level",
+              options: ["beginner", "moderate", "good", "veryGood", "fluent"],
+              fieldType: "level",
             },
           ],
           movable: true,
@@ -642,12 +642,12 @@ export const data: ResumeType = {
           destroyable: true,
         },
         {
-          key: 'hobbies',
+          key: "hobbies",
           fields: [
             {
-              key: 'hobby',
-              role: 'header',
-              fieldType: 'text',
+              key: "hobby",
+              role: "header",
+              fieldType: "text",
             },
           ],
           movable: true,
@@ -656,7 +656,7 @@ export const data: ResumeType = {
           destroyable: true,
         },
         {
-          key: 'profile',
+          key: "profile",
           fields: [],
           movable: true,
           records: [],
@@ -665,12 +665,12 @@ export const data: ResumeType = {
         },
 
         {
-          key: 'qualities',
+          key: "qualities",
           fields: [
             {
-              key: 'quality',
-              role: 'header',
-              fieldType: 'text',
+              key: "quality",
+              role: "header",
+              fieldType: "text",
             },
           ],
           movable: true,
@@ -679,17 +679,17 @@ export const data: ResumeType = {
           destroyable: true,
         },
         {
-          key: 'certificates',
+          key: "certificates",
           fields: [
             {
-              key: 'certificate',
-              role: 'header',
-              fieldType: 'text',
+              key: "certificate",
+              role: "header",
+              fieldType: "text",
             },
             {
-              key: 'period',
-              role: 'period',
-              fieldType: 'month',
+              key: "period",
+              role: "period",
+              fieldType: "month",
               presentOption: true,
             },
           ],
@@ -699,7 +699,7 @@ export const data: ResumeType = {
           destroyable: true,
         },
         {
-          key: 'achievements',
+          key: "achievements",
           fields: [],
           movable: true,
           records: [],
@@ -709,40 +709,40 @@ export const data: ResumeType = {
       ],
       customSections: [
         {
-          key: 'customDescriptionSection',
+          key: "customDescriptionSection",
           fields: [],
           movable: true,
           records: [],
           repeatable: false,
           destroyable: true,
-          customSectionName: '',
+          customSectionName: "",
         },
         {
-          key: 'customEntriesSection',
+          key: "customEntriesSection",
           fields: [
             {
-              key: 'title',
-              role: 'header',
-              fieldType: 'text',
+              key: "title",
+              role: "header",
+              fieldType: "text",
             },
             {
-              key: 'summary',
-              role: 'subheader',
-              fieldType: 'text',
+              key: "summary",
+              role: "subheader",
+              fieldType: "text",
             },
             {
-              key: 'period',
-              role: 'period',
-              format: 'periodFormat',
-              fieldType: 'composite',
+              key: "period",
+              role: "period",
+              format: "periodFormat",
+              fieldType: "composite",
               subFields: [
                 {
-                  key: 'startdate',
-                  fieldType: 'month',
+                  key: "startdate",
+                  fieldType: "month",
                 },
                 {
-                  key: 'enddate',
-                  fieldType: 'month',
+                  key: "enddate",
+                  fieldType: "month",
                   presentOption: true,
                 },
               ],
@@ -752,49 +752,49 @@ export const data: ResumeType = {
           records: [],
           repeatable: true,
           destroyable: true,
-          customSectionName: '',
+          customSectionName: "",
         },
         {
-          key: 'customSkillsSection',
+          key: "customSkillsSection",
           fields: [
             {
-              key: 'skill',
-              role: 'header',
-              fieldType: 'text',
+              key: "skill",
+              role: "header",
+              fieldType: "text",
             },
             {
-              key: 'level',
-              role: 'level',
+              key: "level",
+              role: "level",
               options: [
-                'beginner',
-                'moderate',
-                'good',
-                'veryGood',
-                'excellent',
+                "beginner",
+                "moderate",
+                "good",
+                "veryGood",
+                "excellent",
               ],
-              fieldType: 'level',
+              fieldType: "level",
             },
           ],
           movable: true,
           records: [],
           repeatable: true,
           destroyable: true,
-          customSectionName: '',
+          customSectionName: "",
         },
         {
-          key: 'customListSection',
+          key: "customListSection",
           fields: [
             {
-              key: 'title',
-              role: 'header',
-              fieldType: 'text',
+              key: "title",
+              role: "header",
+              fieldType: "text",
             },
           ],
           movable: true,
           records: [],
           repeatable: true,
           destroyable: true,
-          customSectionName: '',
+          customSectionName: "",
         },
       ],
     },

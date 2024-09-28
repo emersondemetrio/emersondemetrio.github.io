@@ -1,5 +1,5 @@
-import { randomUUID } from '@/utils/utils';
-import React, { useEffect, useRef, useState } from 'react';
+import { randomUUID } from "@/utils/utils";
+import React, { useEffect, useRef, useState } from "react";
 
 type CameraHook = {
   videoRef: React.RefObject<HTMLVideoElement>;
@@ -62,7 +62,7 @@ export const useCamera = (): CameraHook => {
         setTrack(videoTrack);
 
         const capabilities = videoTrack.getCapabilities();
-        if ('zoom' in capabilities) {
+        if ("zoom" in capabilities) {
           setHasZoom(true);
           // @ts-ignore
           setMaxZoom(capabilities.zoom?.max ?? 1);
@@ -71,7 +71,7 @@ export const useCamera = (): CameraHook => {
         setError(null);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error accessing camera:', error);
+        console.error("Error accessing camera:", error);
         setError((error as Error).message);
       }
     };
@@ -80,7 +80,7 @@ export const useCamera = (): CameraHook => {
 
     return () => {
       if (stream) {
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach((track) => track.stop());
       }
     };
   }, []);
@@ -96,7 +96,7 @@ export const useCamera = (): CameraHook => {
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
 
-      const canvasContext = canvas.getContext('2d');
+      const canvasContext = canvas.getContext("2d");
 
       if (canvasContext) {
         if (isFlipped) {
@@ -104,8 +104,8 @@ export const useCamera = (): CameraHook => {
           canvasContext.scale(-1, 1);
         }
         canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const link = document.createElement('a');
-        const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
+        const link = document.createElement("a");
+        const dataUrl = canvas.toDataURL("image/jpeg", 1.0);
         link.href = dataUrl;
         link.download = `cam-capture-${randomUUID()}.jpg`;
         link.click();

@@ -15,3 +15,5 @@ export const reverseRange = (start: number, end: number) => {
 export const limitString = (str: string, limit: number) => {
   return str.length > limit ? str.slice(0, limit) : str;
 };
+
+export const openUrl = (url: string, target = "_blank") => window.open(url, target);

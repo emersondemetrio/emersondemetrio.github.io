@@ -1,61 +1,30 @@
-import 'react';
-import './terminal.css';
-import { Link } from '../../types';
-import { TerminalHeader } from './terminal-header';
-import { Actions } from './types';
-import { useState } from 'react';
-
-const openUrl = (url: string) => window.open(url, '_blank');
+import "./terminal.css";
+import { Link, Tool } from "@/types";
+import { TerminalHeader } from "./terminal-header";
+import { useState } from "react";
+import { TerminalBadge } from "@/components//terminal-badge/terminal-badge";
+import { openUrl } from "@/utils/utils";
 
 type TerminalProps = {
   links: Link[];
-  tools: Array<{
-    title: string;
-    handle: string;
-    category: string;
-    actions: Actions;
-  }>;
-};
-
-const TerminalBadge = ({
-  name,
-  onFocus,
-  onFocusLost,
-}: {
-  name: string;
-  onFocus: (name: string) => void;
-  onFocusLost: () => void;
-}) => {
-  return (
-    <div
-      className="terminal-item-tag-container"
-      onMouseEnter={() => onFocus(name)}
-      onMouseLeave={onFocusLost}
-    >
-      <span className="badge badge-outline">{name}</span>
-    </div>
-  );
+  tools: Tool[];
 };
 
 export const Terminal = ({ links, tools = [] }: TerminalProps) => {
   const [activeBadge, setActiveBadge] = useState<string | null>(null);
 
-  const handleBadgeMouseEnter = (name: string) => {
-    setActiveBadge(name);
-  };
+  const handleBadgeMouseEnter = (name: string) => setActiveBadge(name);
+  const handleBadgeMouseLeave = () => setActiveBadge(null);
 
-  const handleBadgeMouseLeave = () => {
-    setActiveBadge(null);
-  };
-
-  const getItemClass = (category: string) => {
-    const base =
+  const getItemClass = (category: string, type: "link" | "tool" = "link") => {
+    const base = `${type === "tool" ? "outline outline-offset-2 outline-cyan-500" : ""} ${
       activeBadge === category
-        ? 'terminal-item terminal-item-active'
-        : 'terminal-item';
+        ? "terminal-item outline outline-offset-2 outline-cyan-500"
+        : "terminal-item"
+    }`;
 
     if (activeBadge) {
-      return category === activeBadge ? base : `${base} terminal-item-inactive`;
+      return category === activeBadge ? base : `${base} opacity-25`;
     }
 
     return base;
@@ -83,7 +52,10 @@ export const Terminal = ({ links, tools = [] }: TerminalProps) => {
       })}
       {tools.map((tool, index) => {
         return (
-          <div className={getItemClass(tool.category)} key={`tool-${index}`}>
+          <div
+            className={getItemClass(tool.category, "tool")}
+            key={`tool-${index}`}
+          >
             <TerminalHeader title={tool.title} actions={tool.actions} />
             <div
               className="btn btn-dark terminal-item-content"

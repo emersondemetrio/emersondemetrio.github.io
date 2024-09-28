@@ -1,4 +1,4 @@
-import { useIsMobile } from '@/hooks/use-is-mobile/use-is-mobile';
+import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
 
 export const Hero = () => {
   const isMobile = useIsMobile();

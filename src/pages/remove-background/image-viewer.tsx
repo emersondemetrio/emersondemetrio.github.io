@@ -1,5 +1,5 @@
-import { Modal } from '@/components/modal/modal';
-import { useState } from 'react';
+import { Modal } from "@/components/modal/modal";
+import { useState } from "react";
 
 type ImageViewerProps = {
   src: string;

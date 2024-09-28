@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 type IconProps = {
   active: boolean;
@@ -76,7 +76,7 @@ const MaximizeIcon = ({ active }: IconProps) => {
 
 type GenericIconProps = {
   onClick: () => void;
-  name: 'close' | 'minimize' | 'maximize';
+  name: "close" | "minimize" | "maximize";
 };
 
 export const Icon = ({ onClick, name }: GenericIconProps) => {
@@ -92,11 +92,11 @@ export const Icon = ({ onClick, name }: GenericIconProps) => {
       viewBox="0 0 30 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ width: '15px', height: '15px' }}
+      style={{ width: "15px", height: "15px" }}
     >
-      {name === 'close' && <CloseIcon active={isHovered} />}
-      {name === 'minimize' && <MinimizeIcon active={isHovered} />}
-      {name === 'maximize' && <MaximizeIcon active={isHovered} />}
+      {name === "close" && <CloseIcon active={isHovered} />}
+      {name === "minimize" && <MinimizeIcon active={isHovered} />}
+      {name === "maximize" && <MaximizeIcon active={isHovered} />}
     </svg>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 type ToggleProps = {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ export const Toggle = ({
 
   const handleChange = () => {
     setVisible(!visible);
-    if (typeof onChange !== 'function') return;
+    if (typeof onChange !== "function") return;
 
     onChange(!visible);
   };
@@ -25,21 +25,21 @@ export const Toggle = ({
   return (
     <div
       style={{
-        display: 'flex',
+        display: "flex",
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: "column",
         ...style,
       }}
     >
       <div
         style={{
           flex: 1,
-          display: 'flex',
-          justifyContent: 'left',
+          display: "flex",
+          justifyContent: "left",
         }}
       >
         <button className="btn btn-primary" onClick={handleChange}>
-          {title} {visible ? '↑' : '↓'}
+          {title} {visible ? "↑" : "↓"}
         </button>
       </div>
       <div style={{}}>{visible && children}</div>

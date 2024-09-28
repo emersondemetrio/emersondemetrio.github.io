@@ -1,21 +1,21 @@
-import { WeatherAPIResult } from '@/types';
+import { WeatherAPIResult } from "@/types";
 // TODO remove this file and replace with useCache hook
-const cacheKey = 'weather-app-cache';
+const cacheKey = "weather-app-cache";
 const notWordsRegex = /[^a-zA-Z]+/g;
 
 type WeatherCache = Record<string, WeatherAPIResult>;
 
 export const getCache = (): WeatherCache => {
   const data = localStorage.getItem(cacheKey);
-  if (!data || data === 'undefined' || data === 'null') {
+  if (!data || data === "undefined" || data === "null") {
     return {};
   }
 
-  return JSON.parse(localStorage.getItem(cacheKey) || '{}');
+  return JSON.parse(localStorage.getItem(cacheKey) || "{}");
 };
 
 const createCityCacheKey = (cityName: string, timestamp: number) =>
-  `${cityName.replace(notWordsRegex, '_').toLowerCase()}-${timestamp}`;
+  `${cityName.replace(notWordsRegex, "_").toLowerCase()}-${timestamp}`;
 
 export const get = (
   cityName: string,
@@ -30,7 +30,7 @@ export const get = (
 export const invalidate = (cityKey: string) => {
   const cache = getCache();
 
-  Object.keys(cache).forEach(key => {
+  Object.keys(cache).forEach((key) => {
     if (key.includes(cityKey)) {
       delete cache[key];
     }

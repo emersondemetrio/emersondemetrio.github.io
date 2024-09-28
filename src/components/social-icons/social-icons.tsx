@@ -47,15 +47,15 @@ export const Linkedin = ({ size = 24 }) => (
 );
 
 export const iconOf = (title: string): JSX.Element => {
-  switch (title.toLowerCase().split(' ')[0]) {
-    case 'twitter':
-    case 'x':
+  switch (title.toLowerCase().split(" ")[0]) {
+    case "twitter":
+    case "x":
       return <Twitter />;
-    case 'facebook':
+    case "facebook":
       return <Facebook />;
-    case 'instagram':
+    case "instagram":
       return <Instagram />;
-    case 'linkedin':
+    case "linkedin":
       return <Linkedin />;
     default:
       return <></>;

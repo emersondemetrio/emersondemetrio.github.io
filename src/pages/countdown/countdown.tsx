@@ -1,13 +1,13 @@
-import { Page } from '@/components/page/page';
-import { replaceNonUrlFriendly } from '@/regex';
-import { limitString } from '@/utils/utils';
-import 'react';
-import { useState } from 'react';
-import { DayPicker } from 'react-day-picker';
-import 'react-day-picker/dist/style.css';
-import { Link, useParams } from 'react-router-dom';
-import { ViewCountdown } from './components/view-countdown';
-import { dateToQueryParam, getIntervalFromId } from './utils';
+import { Page } from "@/components/page/page";
+import { replaceNonUrlFriendly } from "@/regex";
+import { limitString } from "@/utils/utils";
+import "react";
+import { useState } from "react";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
+import { Link, useParams } from "react-router-dom";
+import { ViewCountdown } from "./components/view-countdown";
+import { dateToQueryParam, getIntervalFromId } from "./utils";
 
 const dateIsToday = (date: Date) => {
   return (
@@ -22,9 +22,9 @@ const dateIsInThePast = (date: Date) => {
 };
 
 const sanitize = (str?: string) => {
-  if (!str) return '';
+  if (!str) return "";
 
-  return encodeURIComponent(limitString(replaceNonUrlFriendly(str, ' '), 30));
+  return encodeURIComponent(limitString(replaceNonUrlFriendly(str, " "), 30));
 };
 
 const isValid = (date?: Date) => {
@@ -35,8 +35,8 @@ export const Countdown = () => {
   const { id, countdownName } = useParams();
 
   const [end, setEnd] = useState<Date | undefined>(new Date());
-  const [time, setTime] = useState('10:00');
-  const [name, setName] = useState('');
+  const [time, setTime] = useState("10:00");
+  const [name, setName] = useState("");
 
   if (id) {
     const [d1, d2, description] = getIntervalFromId(id);
@@ -68,12 +68,11 @@ export const Countdown = () => {
 
     const dateStr = dateToQueryParam(`${year}-${month}-${day} ${time}`);
 
-    const redirect =
-      `#/labs/countdown/${dateStr}` +
-      (name ? `/${encodeURIComponent(name)}` : '');
+    const redirect = `#/labs/countdown/${dateStr}` +
+      (name ? `/${encodeURIComponent(name)}` : "");
 
     setEnd(undefined);
-    setName('');
+    setName("");
     window.location.href = redirect;
   };
 
@@ -85,7 +84,7 @@ export const Countdown = () => {
             type="text"
             id="first_name"
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Enter countdown name"
             required
@@ -112,10 +111,10 @@ export const Countdown = () => {
             value={time}
             id="theTime"
             name="theTime"
-            onChange={e => setTime(e.target.value)}
+            onChange={(e) => setTime(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            {Array.from({ length: 24 }, (_, i) => i).map(hour => (
+            {Array.from({ length: 24 }, (_, i) => i).map((hour) => (
               <option key={hour} value={hour}>
                 {hour}:00
               </option>
@@ -126,8 +125,8 @@ export const Countdown = () => {
           disabled={!isValid(end) || !name}
           className={`w-full py-2 px-4 rounded ${
             !end || dateIsToday(end) || dateIsInThePast(end) || !name
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-blue-500 hover:bg-blue-700 text-white'
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-700 text-white"
           }`}
           onClick={createCountdown}
         >

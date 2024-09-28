@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { formatDate } from '../utils';
+import React, { useEffect, useRef, useState } from "react";
+import { formatDate } from "../utils";
 
 interface ClockProps {
   timeZone: string;

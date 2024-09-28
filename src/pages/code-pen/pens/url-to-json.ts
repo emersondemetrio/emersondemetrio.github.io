@@ -13,12 +13,12 @@ export const url2JSON = (source: string) => {
     valuesList: [],
   };
 
-  const arr = source.split('?');
+  const arr = source.split("?");
 
   if (arr.length > 1) {
-    const parts = arr[1].split('&');
-    parts.forEach(part => {
-      const splitted = part.split('=');
+    const parts = arr[1].split("&");
+    parts.forEach((part) => {
+      const splitted = part.split("=");
       result.keysList.push(splitted[0]);
       result.valuesList.push(splitted[1]);
       result.props[splitted[0]] = decodeURIComponent(splitted[1]);

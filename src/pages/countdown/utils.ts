@@ -1,7 +1,7 @@
-import { formatDate } from 'date-fns';
+import { formatDate } from "date-fns";
 
 export const dateToQueryParam = (dateString: string): string => {
-  const parts = dateString.split(' ');
+  const parts = dateString.split(" ");
   const [date, time] = parts;
 
   return `${date}_${time}`;
@@ -9,9 +9,9 @@ export const dateToQueryParam = (dateString: string): string => {
 
 const getDescription = (start: Date, end: Date): string[] => {
   return [
-    `From: ${formatDate(start, 'dd/MM/yyyy')}`,
-    `To: ${formatDate(end, 'dd/MM/yyyy HH:00')}`,
-    `(${formatDate(end, 'EEEE')})`,
+    `From: ${formatDate(start, "dd/MM/yyyy")}`,
+    `To: ${formatDate(end, "dd/MM/yyyy HH:00")}`,
+    `(${formatDate(end, "EEEE")})`,
   ];
 };
 
@@ -22,9 +22,9 @@ const createDateTime = (date: Date, time: string) => {
 };
 
 export const queryToDate = (dateString: string): Date => {
-  const [dateStr, timeStr] = dateString.split('_');
+  const [dateStr, timeStr] = dateString.split("_");
 
-  const date = new Date(`${dateStr}`.replace(/-/g, '/'));
+  const date = new Date(`${dateStr}`.replace(/-/g, "/"));
 
   return createDateTime(date, timeStr);
 };

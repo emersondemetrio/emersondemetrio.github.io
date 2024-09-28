@@ -1,23 +1,23 @@
-import { useIsMobile } from '@/hooks/use-is-mobile/use-is-mobile';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const appRoutes = [
   {
-    label: 'Home',
-    link: '/',
+    label: "Home",
+    link: "/",
   },
   {
-    label: 'Labs 🧪',
-    link: '/labs',
+    label: "Labs 🧪",
+    link: "/labs",
   },
   {
-    label: 'About',
-    link: '/about',
+    label: "About",
+    link: "/about",
   },
   {
-    label: 'Blog',
-    link: '/blog',
+    label: "Blog",
+    link: "/blog",
   },
 ];
 
@@ -50,7 +50,7 @@ export const Navbar = () => {
               className="fill-current h-6 w-6"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
-              style={{ background: '#fff' }}
+              style={{ background: "#fff" }}
             >
               <title>Menu</title>
               <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
@@ -59,12 +59,10 @@ export const Navbar = () => {
         </div>
         <div
           style={{
-            height: !isMobile ? 80 : 'auto',
+            height: !isMobile ? 80 : "auto",
           }}
-          className={
-            'w-full flex-grow lg:flex lg:items-center lg:w-auto lg:block mt-2 lg:mt-0 lg:bg-transparent text-black p-4 lg:p-0 z-20' +
-            (navbarOpen ? ' block' : ' hidden')
-          }
+          className={"w-full flex-grow lg:flex lg:items-center lg:w-auto lg:block mt-2 lg:mt-0 lg:bg-transparent text-black p-4 lg:p-0 z-20" +
+            (navbarOpen ? " block" : " hidden")}
           id="nav-content"
         >
           <ul className="list-reset lg:flex justify-end flex-1 items-center">

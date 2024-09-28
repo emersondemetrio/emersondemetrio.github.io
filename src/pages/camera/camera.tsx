@@ -1,6 +1,6 @@
-import { Page } from '@/components/page/page';
-import { useCamera } from './hooks/use-camera';
-import { Modal } from '@/components/modal/modal';
+import { Page } from "@/components/page/page";
+import { useCamera } from "./hooks/use-camera";
+import { Modal } from "@/components/modal/modal";
 
 export const Camera = () => {
   const {
@@ -33,7 +33,7 @@ export const Camera = () => {
             playsInline
             className="w-full max-w-500 transition-transform duration-300 ease-in-out"
             style={{
-              transform: `${isFlipped ? 'scaleX(-1)' : 'none'}`,
+              transform: `${isFlipped ? "scaleX(-1)" : "none"}`,
             }}
           />
           {isLoading && (
@@ -48,7 +48,7 @@ export const Camera = () => {
             onClick={flipCamera}
             className="bg-green-500 text-white px-4 py-1 rounded-md hover:bg-green-600 transition duration-300 flex items-center gap-2"
           >
-            <span>{isFlipped ? '⏪' : '⏩'}</span>
+            <span>{isFlipped ? "⏪" : "⏩"}</span>
             Flip
           </button>
           {hasZoom && (
