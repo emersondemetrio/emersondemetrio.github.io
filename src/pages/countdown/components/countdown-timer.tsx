@@ -1,4 +1,4 @@
-import { useIntervalCountdown } from '../use-interval-countdown';
+import { useIntervalCountdown } from "../use-interval-countdown";
 
 type CountdownTimerProps = {
   end: Date;

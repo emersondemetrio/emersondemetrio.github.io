@@ -1,9 +1,9 @@
-import { Page } from '@/components/page/page';
-import { formatDate } from 'date-fns';
-import 'react';
-import { Link } from 'react-router-dom';
-import { getForecastUrl, getNewsURL, titleCase } from '../../weather-app/utils';
-import CountdownTimer from './countdown-timer';
+import { Page } from "@/components/page/page";
+import { formatDate } from "date-fns";
+import "react";
+import { Link } from "react-router-dom";
+import { getForecastUrl, getNewsURL, titleCase } from "../../weather-app/utils";
+import CountdownTimer from "./countdown-timer";
 
 type ViewCountdownProps = {
   end: Date;
@@ -16,25 +16,27 @@ export const ViewCountdown = ({
   name,
   description,
 }: ViewCountdownProps) => {
-  const title = decodeURIComponent(name || '');
+  const title = decodeURIComponent(name || "");
 
   return (
     <Page landing>
       <div className="my-[5px] md:my-[50px] flex items-start justify-center text-white">
         <div className="shadow rounded-lg p-6 max-w-sm w-full bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
           <h1 className="text-2xl font-bold text-center mb-4 capitalize">
-            {title ? (
-              <>
-                Countdown to
-                <br />
-                {titleCase(title)}
-              </>
-            ) : (
-              `Countdown to ${formatDate(end, 'dd/MM/yyyy')}`
-            )}
+            {title
+              ? (
+                <>
+                  Countdown to
+                  <br />
+                  {titleCase(title)}
+                </>
+              )
+              : (
+                `Countdown to ${formatDate(end, "dd/MM/yyyy")}`
+              )}
           </h1>
           <div className="text-center mb-4">
-            {description.map(line => (
+            {description.map((line) => (
               <div className="my-2" key={line}>
                 {line}
               </div>

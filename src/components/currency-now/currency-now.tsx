@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import { formatToCurrency, useCurrencyNow } from '../../hooks/use-currency-now';
-import { Loading } from '../loading/loading';
-import { Badge } from '../badge/badge';
-import { CurrencyProviders } from '../../constants';
-import { BaseCurrency } from '@/types';
+import { useState } from "react";
+import { formatToCurrency, useCurrencyNow } from "../../hooks/use-currency-now";
+import { Loading } from "../loading/loading";
+import { Badge } from "../badge/badge";
+import { CurrencyProviders } from "../../constants";
+import { BaseCurrency } from "@/types";
 
 type CurrencyNowProps = {
   asList?: boolean;
 };
 
 export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
-  const [base, setBase] = useState<BaseCurrency>('EUR');
+  const [base, setBase] = useState<BaseCurrency>("EUR");
   const { data, isLoading, error } = useCurrencyNow(base);
   const [userInput, setUserInput] = useState<number | null>(null);
 
-  const useEUR = () => setBase('EUR');
-  const useUSD = () => setBase('USD');
+  const useEUR = () => setBase("EUR");
+  const useUSD = () => setBase("USD");
 
   if (isLoading) {
     return <Loading />;
@@ -23,7 +23,7 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
 
   const copy = (message: string) => () => {
     navigator.clipboard.writeText(message);
-    alert('Copied to clipboard!');
+    alert("Copied to clipboard!");
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +71,7 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
                 {asBase} = {asTarget}
               </div>
               <div>
-                {CurrencyProviders.map(provider => (
+                {CurrencyProviders.map((provider) => (
                   <Badge
                     key={provider.name}
                     base={base}
@@ -96,19 +96,19 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
             type="number"
             max={999999}
             placeholder={`Type (${base})`}
-            value={userInput ?? ''}
+            value={userInput ?? ""}
             onChange={handleChange}
             className="input input-bordered input-md w-full max-w-xs"
           />
 
           <button
-            className={`btn btn-sm btn-outline ${base === 'EUR' ? 'btn-active' : 'btn-accent'}`}
+            className={`btn btn-sm btn-outline ${base === "EUR" ? "btn-active" : "btn-accent"}`}
             onClick={useEUR}
           >
             EUR
           </button>
           <button
-            className={`btn btn-sm btn-outline ${base === 'USD' ? 'btn-active' : 'btn-accent'}`}
+            className={`btn btn-sm btn-outline ${base === "USD" ? "btn-active" : "btn-accent"}`}
             onClick={useUSD}
           >
             USD
@@ -145,7 +145,7 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
                     {asBase} = {asTarget}
                   </td>
                   <td>
-                    {CurrencyProviders.map(provider => (
+                    {CurrencyProviders.map((provider) => (
                       <Badge
                         key={provider.name}
                         base={base}

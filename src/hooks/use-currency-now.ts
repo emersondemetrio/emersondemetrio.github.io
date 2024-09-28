@@ -1,12 +1,7 @@
-import { useState, useEffect } from 'react';
-import {
-  BaseCurrency,
-  Currency,
-  TargetCurrencies,
-  UseCurrencyHook,
-} from '../types';
-import { API_URL } from '../constants';
-import { get, dateToTimestamp, set, invalidate } from '../cache/currency-cache';
+import { useEffect, useState } from "react";
+import { BaseCurrency, Currency, TargetCurrencies, UseCurrencyHook } from "../types";
+import { API_URL } from "../constants";
+import { dateToTimestamp, get, invalidate, set } from "../cache/currency-cache";
 
 const fetchCurrency = async (base: BaseCurrency) => {
   const response = await fetch(`${API_URL}/${base}`);
@@ -17,8 +12,8 @@ const fetchCurrency = async (base: BaseCurrency) => {
 
 const filterTarget = (data: Currency, base: BaseCurrency) => {
   const rates = Object.keys(data.rates)
-    .filter(currency => TargetCurrencies.includes(currency))
-    .filter(currency => currency !== base)
+    .filter((currency) => TargetCurrencies.includes(currency))
+    .filter((currency) => currency !== base)
     .reduce(
       (acc, currency) => {
         acc[currency] = data.rates[currency];
@@ -44,13 +39,13 @@ export const formatToCurrency = (
     value = 1;
   }
 
-  return fixedAs2(value * rate).toLocaleString('en-US', {
+  return fixedAs2(value * rate).toLocaleString("en-US", {
     currency,
-    style: 'currency',
+    style: "currency",
   });
 };
 
-export const useCurrencyNow = (base: BaseCurrency = 'EUR'): UseCurrencyHook => {
+export const useCurrencyNow = (base: BaseCurrency = "EUR"): UseCurrencyHook => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Currency | null>(null);
   const [error, setError] = useState(null);
@@ -71,7 +66,7 @@ export const useCurrencyNow = (base: BaseCurrency = 'EUR'): UseCurrencyHook => {
         set(cacheKey, currencyData);
         setIsLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error);
         setIsLoading(false);
       });

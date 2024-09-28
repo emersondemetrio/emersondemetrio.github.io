@@ -4,13 +4,13 @@ export const notHexDecimalRegex = /[^a-zA-Z0-9]/g;
 export const urlFriendlyRegex = /[^a-zA-Z0-9-, ]/g;
 
 export const replaceNotWords = (str: string) => {
-  return str.replace(notWordsRegex, '');
+  return str.replace(notWordsRegex, "");
 };
 
-export const replaceNonHexDecimal = (str: string, replace = '') => {
+export const replaceNonHexDecimal = (str: string, replace = "") => {
   return str.replace(notHexDecimalRegex, replace);
 };
 
-export const replaceNonUrlFriendly = (str: string, replace = '') => {
+export const replaceNonUrlFriendly = (str: string, replace = "") => {
   return str.replace(urlFriendlyRegex, replace);
 };

@@ -2,8 +2,8 @@ export const Loading = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     style={{
-      display: 'block',
-      shapeRendering: 'auto',
+      display: "block",
+      shapeRendering: "auto",
     }}
     width="40px"
     height="40px"
@@ -27,7 +27,8 @@ export const Loading = () => (
         dur="1s"
         keyTimes="0;1"
         values="0 50 50;360 50 50"
-      ></animateTransform>
+      >
+      </animateTransform>
     </circle>
   </svg>
 );

@@ -1,6 +1,6 @@
-import { Icon } from './icons';
-import { TerminalActionsProps } from './types';
-import { noop } from '@/utils/utils';
+import { Icon } from "./icons";
+import { TerminalActionsProps } from "@/types";
+import { noop } from "@/utils/utils";
 
 export const TerminalActions = ({ actions }: TerminalActionsProps) => {
   return (

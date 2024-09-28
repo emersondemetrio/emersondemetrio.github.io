@@ -1,16 +1,16 @@
-import { Currency } from '../types';
+import { Currency } from "../types";
 // TODO remove this file and replace with useCache hook
-const cacheKey = 'currency-app-cache';
+const cacheKey = "currency-app-cache";
 
 type CurrencyCache = Record<string, Currency>;
 
 export const getCache = (): CurrencyCache => {
   const data = localStorage.getItem(cacheKey);
-  if (!data || data === 'undefined' || data === 'null') {
+  if (!data || data === "undefined" || data === "null") {
     return {};
   }
 
-  return JSON.parse(localStorage.getItem(cacheKey) || '{}');
+  return JSON.parse(localStorage.getItem(cacheKey) || "{}");
 };
 
 export const get = (key: string) => {
@@ -31,7 +31,7 @@ export const set = (key: string, data: Currency, asJson?: boolean) => {
 };
 
 export const dateToTimestamp = (date: Date) => {
-  const dateStr = date.toISOString().split('T')[0];
+  const dateStr = date.toISOString().split("T")[0];
 
   return new Date(dateStr).getTime();
 };

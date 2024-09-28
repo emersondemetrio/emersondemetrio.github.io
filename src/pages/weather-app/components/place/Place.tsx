@@ -1,10 +1,10 @@
-import { memo } from 'react';
-import { useWeather } from '../../hooks/useWeather';
-import { getNewsURL } from '../../utils';
-import Clock from '../clock';
-import { Info } from '../icons/Info';
-import { Reload } from '../icons/Reload';
-import { WeatherAPIResult } from '@/types';
+import { memo } from "react";
+import { useWeather } from "../../hooks/useWeather";
+import { getNewsURL } from "../../utils";
+import Clock from "../clock";
+import { Info } from "../icons/Info";
+import { Reload } from "../icons/Reload";
+import { WeatherAPIResult } from "@/types";
 
 type PlaceProps = {
   name: string;
@@ -16,20 +16,20 @@ type PlaceProps = {
 const openNews = (newsUrl: string) => window.open(newsUrl);
 const dateDiffInHours = (timeZone: string) => {
   const localTime = new Date();
-  const targetTime = new Date(new Date().toLocaleString('en-US', { timeZone }));
+  const targetTime = new Date(new Date().toLocaleString("en-US", { timeZone }));
   const diffInMillis = targetTime.getTime() - localTime.getTime();
 
   const diffInHours = Math.round(diffInMillis / (1000 * 60 * 60));
 
   if (diffInHours === 0) {
-    return 'Same as local';
+    return "Same as local";
   }
 
-  return `${diffInHours}h ${diffInHours > 0 ? 'ahead' : 'behind'}`;
+  return `${diffInHours}h ${diffInHours > 0 ? "ahead" : "behind"}`;
 };
 
-const feelsLike = (current: WeatherAPIResult['current']) => {
-  let feelsLike = '';
+const feelsLike = (current: WeatherAPIResult["current"]) => {
+  let feelsLike = "";
 
   if (current?.condition?.text) {
     feelsLike += current.condition.text;
@@ -51,44 +51,44 @@ const Place = ({ name, timeZone, city, current }: PlaceProps) => {
 
   const isMobile = window.innerWidth < 768;
 
-  const flexDir = isMobile ? 'flex-col' : 'flex-row';
-  const justify = isMobile ? 'justify-items-start' : 'justify-between';
-  const itemWidth = isMobile ? 'w-full' : 'w-1/3';
-  const spacing = isMobile ? 'mb-4' : 'mb-0';
+  const flexDir = isMobile ? "flex-col" : "flex-row";
+  const justify = isMobile ? "justify-items-start" : "justify-between";
+  const itemWidth = isMobile ? "w-full" : "w-1/3";
+  const spacing = isMobile ? "mb-4" : "mb-0";
 
-  const merge = (...a: string[]) => a.join(' ');
+  const merge = (...a: string[]) => a.join(" ");
   const showWeather = weather && weather.current && !isLoading && !error;
 
   const classList = [
-    `${isMobile ? 'h-full' : 'h-40'}`,
-    'w-full',
-    'border-2',
-    'flex',
+    `${isMobile ? "h-full" : "h-40"}`,
+    "w-full",
+    "border-2",
+    "flex",
     flexDir,
     justify,
-    `${isMobile ? 'p-10' : 'p-1'}`,
-    'my-4',
-    'rounded-lg',
-    'items-center',
-    'bg-slate-600',
-    'shadow-lg',
-    `${current ? 'border-amber-50' : 'border-transparent'}`,
-  ].join(' ');
+    `${isMobile ? "p-10" : "p-1"}`,
+    "my-4",
+    "rounded-lg",
+    "items-center",
+    "bg-slate-600",
+    "shadow-lg",
+    `${current ? "border-amber-50" : "border-transparent"}`,
+  ].join(" ");
 
   return (
     <div className={classList}>
-      <div className={merge('ml-2', itemWidth, spacing)}>
+      <div className={merge("ml-2", itemWidth, spacing)}>
         <h3>
-          {name} {isLoading ? 'Loading...' : ''}
+          {name} {isLoading ? "Loading..." : ""}
         </h3>
       </div>
       <div
-        className={merge(itemWidth, spacing, 'flex-col flex justify-between')}
+        className={merge(itemWidth, spacing, "flex-col flex justify-between")}
       >
         <Clock timeZone={timeZone} />
         <span>
           {dateDiffInHours(timeZone)}
-          {current && ', Current'}
+          {current && ", Current"}
         </span>
       </div>
       {!!error && (
@@ -96,7 +96,7 @@ const Place = ({ name, timeZone, city, current }: PlaceProps) => {
           <p>Unable to get weather info</p>
           <button
             style={{
-              border: 'solid 1px #ddd',
+              border: "solid 1px #ddd",
               padding: 10,
             }}
             onClick={() => refetch(city)}
@@ -111,7 +111,7 @@ const Place = ({ name, timeZone, city, current }: PlaceProps) => {
         </div>
       )}
       {showWeather && (
-        <div className={merge(itemWidth, spacing, 'p-4')}>
+        <div className={merge(itemWidth, spacing, "p-4")}>
           <h3 className="text-gray-50 flex justify-start lg:justify-end md:justify-end">
             {feelsLike(weather.current)}
           </h3>

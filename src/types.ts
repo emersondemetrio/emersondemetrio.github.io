@@ -1,4 +1,19 @@
-export type LinkCategory = 'social' | 'professional' | 'arts';
+export type Actions = {
+  onMaximize?: () => void;
+  onMinimize?: () => void;
+  onClose?: () => void;
+};
+
+export type TerminalHeaderProps = {
+  title: string;
+  actions?: Actions;
+};
+
+export type TerminalActionsProps = {
+  actions?: Actions;
+};
+
+export type LinkCategory = "social" | "professional" | "arts";
 
 export type Link = {
   title: string;
@@ -8,9 +23,16 @@ export type Link = {
   handle: string;
 };
 
-export const TargetCurrencies = ['EUR', 'USD', 'GBP', 'BRL'];
+export type Tool = {
+  title: string;
+  handle: string;
+  category: string;
+  actions: Actions;
+};
 
-export type BaseCurrency = 'USD' | 'EUR' | 'GBP' | 'CAD';
+export const TargetCurrencies = ["EUR", "USD", "GBP", "BRL"];
+
+export type BaseCurrency = "USD" | "EUR" | "GBP" | "CAD";
 
 export type Currency = {
   provider: string;
@@ -50,5 +72,5 @@ export type WeatherAPIResult = {
     message: string;
   };
 } & {
-  source: 'cache' | 'api';
+  source: "cache" | "api";
 };

@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 
 const durationToString = (duration: number | null) => {
   if (!duration) {
-    return 'Invalid duration';
+    return "Invalid duration";
   }
 
   const seconds = Math.floor(duration / 1000);
@@ -10,11 +10,13 @@ const durationToString = (duration: number | null) => {
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
-  const formattedSeconds = ('0' + (seconds % 60)).slice(-2);
-  const formattedMinutes = ('0' + (minutes % 60)).slice(-2);
-  const formattedHours = ('0' + (hours % 24)).slice(-2);
+  const formattedSeconds = ("0" + (seconds % 60)).slice(-2);
+  const formattedMinutes = ("0" + (minutes % 60)).slice(-2);
+  const formattedHours = ("0" + (hours % 24)).slice(-2);
 
-  return `${days !== 0 ? days + 'd ' : ''}${formattedHours}h ${formattedMinutes}m ${formattedSeconds}s`;
+  return `${
+    days !== 0 ? days + "d " : ""
+  }${formattedHours}h ${formattedMinutes}m ${formattedSeconds}s`;
 };
 
 export const useIntervalCountdown = (end: Date | null) => {

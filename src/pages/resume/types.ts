@@ -49,20 +49,20 @@ export type SectionField = {
 };
 
 export type FieldType =
-  | 'composite'
-  | 'text'
-  | 'date'
-  | 'richtext'
-  | 'month'
-  | 'level';
+  | "composite"
+  | "text"
+  | "date"
+  | "richtext"
+  | "month"
+  | "level";
 
 export type Role =
-  | 'value'
-  | 'richtextValue'
-  | 'header'
-  | 'subheader'
-  | 'period'
-  | 'level';
+  | "value"
+  | "richtextValue"
+  | "header"
+  | "subheader"
+  | "period"
+  | "level";
 
 export type PurpleSubField = {
   key: string;

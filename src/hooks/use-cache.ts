@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const notWordsRegex = /[^a-zA-Z]+/g;
 
@@ -16,7 +16,7 @@ export type UseCacheHook<T> = {
 export const useCache = <T>(key: string): UseCacheHook<T> => {
   const [data, setData] = useState<Cache<T>>(() => {
     const cache = localStorage.getItem(key);
-    if (!cache || cache === 'undefined' || cache === 'null') {
+    if (!cache || cache === "undefined" || cache === "null") {
       return {};
     }
 
@@ -31,7 +31,7 @@ export const useCache = <T>(key: string): UseCacheHook<T> => {
   const get = (key: string) => data[key] || null;
 
   const createKey = (key: string, timestamp?: number) =>
-    `${key.replace(notWordsRegex, '_').toLowerCase()}${timestamp ? `-${timestamp}` : ''}`;
+    `${key.replace(notWordsRegex, "_").toLowerCase()}${timestamp ? `-${timestamp}` : ""}`;
 
   const invalidate = (key: string) => {
     setData({});

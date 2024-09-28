@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-const BASE_URL = 'https://api.weatherapi.com/v1/current.json';
-const DEFAULT_PLACE = 'Florianópolis, Santa Catarina, Brazil';
+const BASE_URL = "https://api.weatherapi.com/v1/current.json";
+const DEFAULT_PLACE = "Florianópolis, Santa Catarina, Brazil";
 
-import { get, dateToTimestamp, set } from '../../../cache/weather-cache';
-import { WeatherAPIResult } from '@/types';
+import { dateToTimestamp, get, set } from "../../../cache/weather-cache";
+import { WeatherAPIResult } from "@/types";
 
 const fetchJson = async (url: string, options: RequestInit) => {
   try {
-    return await fetch(url, options).then(d => d.json());
+    return await fetch(url, options).then((d) => d.json());
   } catch (error) {
     return { error };
   }
@@ -17,21 +17,23 @@ const fetchJson = async (url: string, options: RequestInit) => {
 
 export const getSearchString = (place: string) => {
   if (!API_KEY) {
-    throw new Error('API Key not provided');
+    throw new Error("API Key not provided");
   }
 
-  return `${BASE_URL}?key=${API_KEY}&q=${encodeURIComponent(
-    place || DEFAULT_PLACE,
-  )}&aqi=yes`;
+  return `${BASE_URL}?key=${API_KEY}&q=${
+    encodeURIComponent(
+      place || DEFAULT_PLACE,
+    )
+  }&aqi=yes`;
 };
 
 const fetchWeather = async (place: string) => {
   const searchURL = getSearchString(place);
 
   const options = {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   };
 
@@ -58,7 +60,7 @@ export const useWeather = (placeName: string): UseWeatherApiHook => {
       if (cache) {
         const newData: WeatherAPIResult = {
           ...cache,
-          source: 'cache',
+          source: "cache",
         };
 
         setData(newData);
@@ -68,18 +70,18 @@ export const useWeather = (placeName: string): UseWeatherApiHook => {
     }
 
     fetchWeather(cityName)
-      .then(weatherData => {
+      .then((weatherData) => {
         if (!weatherData.error) {
           setData({
             ...weatherData,
-            source: 'api',
+            source: "api",
           });
           set(cityName, dateToTimestamp(new Date()), weatherData);
         }
 
         setIsLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error);
         setIsLoading(false);
       });
@@ -93,6 +95,6 @@ export const useWeather = (placeName: string): UseWeatherApiHook => {
     data,
     isLoading,
     error,
-    refetch: cityName => getWeather(cityName, true),
+    refetch: (cityName) => getWeather(cityName, true),
   };
 };

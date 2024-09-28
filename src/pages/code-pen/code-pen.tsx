@@ -1,15 +1,15 @@
-import { Page } from '@/components/page/page';
-import { REPOS } from '@/constants';
-import { useIsMobile } from '@/hooks/use-is-mobile/use-is-mobile';
-import { useState } from 'react';
-import { createSlackAlphabet } from './pens/slacker';
-import { url2JSON, UrlToJson } from './pens/url-to-json';
+import { Page } from "@/components/page/page";
+import { REPOS } from "@/constants";
+import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
+import { useState } from "react";
+import { createSlackAlphabet } from "./pens/slacker";
+import { url2JSON, UrlToJson } from "./pens/url-to-json";
 
 export const CodePen = () => {
   const isMobile = useIsMobile();
   const [result, setResult] = useState<null | UrlToJson>(null);
 
-  const [slackMessage, setSlackMessage] = useState('');
+  const [slackMessage, setSlackMessage] = useState("");
 
   const debounce = (callback: () => void, wait = 100) => {
     window.setTimeout(callback, wait);
@@ -31,7 +31,7 @@ export const CodePen = () => {
                 type="text"
                 placeholder="Paste URL"
                 className="appearance-none block w-full text-black border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                onChange={e => setResult(url2JSON(e.target.value))}
+                onChange={(e) => setResult(url2JSON(e.target.value))}
               />
             </div>
             <div className="w-full px-3">
@@ -41,7 +41,7 @@ export const CodePen = () => {
               <textarea
                 rows={10}
                 placeholder="Paste above ^"
-                value={result ? JSON.stringify(result, null, 4) : ''}
+                value={result ? JSON.stringify(result, null, 4) : ""}
                 className="appearance-none block w-full text-black border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 onChange={() => {}}
               />
@@ -54,11 +54,8 @@ export const CodePen = () => {
             <div className="w-full px-3">
               <input
                 placeholder="Type Something"
-                onChange={e =>
-                  debounce(() =>
-                    setSlackMessage(createSlackAlphabet(e.target.value)),
-                  )
-                }
+                onChange={(e) =>
+                  debounce(() => setSlackMessage(createSlackAlphabet(e.target.value)))}
                 type="text"
                 className="appearance-none block w-full text-black border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               />

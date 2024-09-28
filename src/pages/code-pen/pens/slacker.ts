@@ -1,22 +1,22 @@
 const transformMap: { [key: string]: string } = {
-  á: 'a',
-  à: 'a',
-  ó: 'o',
-  é: 'e',
-  ç: 'c',
-  ã: 'a',
-  '¿': '?',
-  o: 'o',
-  a: 'a',
+  á: "a",
+  à: "a",
+  ó: "o",
+  é: "e",
+  ç: "c",
+  ã: "a",
+  "¿": "?",
+  o: "o",
+  a: "a",
 };
 
 const transform = (l: string) => (transformMap[l] ?? l).toLowerCase();
 
-const to = (l: string, color = 'yellow') => {
-  if (l === ' ') return '  ';
-  if (l === '.') return '.';
-  if (l === '?') return ':question:';
-  if (l === '!') return ':exclamation:';
+const to = (l: string, color = "yellow") => {
+  if (l === " ") return "  ";
+  if (l === ".") return ".";
+  if (l === "?") return ":question:";
+  if (l === "!") return ":exclamation:";
 
   const pure = transform(l);
 
@@ -29,6 +29,6 @@ const to = (l: string, color = 'yellow') => {
 
 export const createSlackAlphabet = (w: string) =>
   w
-    .split('')
-    .map(l => to(l))
-    .join('');
+    .split("")
+    .map((l) => to(l))
+    .join("");

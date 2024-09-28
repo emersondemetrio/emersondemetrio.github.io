@@ -1,4 +1,4 @@
-import { randomUUID } from '@/utils/utils';
+import { randomUUID } from "@/utils/utils";
 
 type ModalProps = {
   title: string;
@@ -11,7 +11,7 @@ export const Modal = ({ title, visible, onClose, children }: ModalProps) => {
   const modalId = randomUUID();
 
   return (
-    <dialog id={modalId} className={visible ? 'modal modal-open' : 'modal'}>
+    <dialog id={modalId} className={visible ? "modal modal-open" : "modal"}>
       <div className="modal-box w-full">
         <h3 className="font-bold text-lg">{title}</h3>
         {children}

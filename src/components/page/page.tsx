@@ -1,6 +1,6 @@
-import { useIsMobile } from '@/hooks/use-is-mobile/use-is-mobile';
-import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
+import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 export type Dependencies = {
   name: string;
@@ -24,12 +24,12 @@ type PageProps = {
 };
 
 export const Page = ({
-  name = 'Page Name',
+  name = "Page Name",
   description,
   children,
   style = {},
   onPaste = () => {},
-  className = '',
+  className = "",
   withoutName = false,
   isHome = false,
   withoutPadding = false,
@@ -45,17 +45,17 @@ export const Page = ({
         onPaste(event as unknown as React.ClipboardEvent);
       };
 
-      window.addEventListener('paste', handlePaste);
+      window.addEventListener("paste", handlePaste);
 
       return () => {
         if (window) {
-          window.removeEventListener('paste', handlePaste);
+          window.removeEventListener("paste", handlePaste);
         }
       };
     }
   }, [isMobile, onPaste]);
 
-  const padding = withoutPadding ? '' : 'py-8';
+  const padding = withoutPadding ? "" : "py-8";
 
   className = isMobile && !isHome ? `mt-10 ${className}` : className;
 
@@ -65,30 +65,30 @@ export const Page = ({
       onPaste={onPaste}
       ref={pageRef}
       tabIndex={-1}
-      data-page={`page-${name.toLowerCase().replace(/\s/g, '-')}`}
+      data-page={`page-${name.toLowerCase().replace(/\s/g, "-")}`}
       className={`grid place-items-center py-20 text-center ${padding} ${className}`}
     >
       <div className="container mx-auto flex flex-wrap">
-        {withoutName ? (
-          <></>
-        ) : (
-          <div className="w-full flex justify-between items-center flex-col md:flex-row gap-6">
-            {!landing && (
-              <h2 className="my-2 text-5xl font-bold leading-tight text-center text-white-800">
-                {name}
-              </h2>
-            )}
-            {repo && (
-              <Link
-                to={repo}
-                target="_blank"
-                className="text-center text-white-800 items-center"
-              >
-                📋 Show me the code
-              </Link>
-            )}
-          </div>
-        )}
+        {withoutName
+          ? <></>
+          : (
+            <div className="w-full flex justify-between items-center flex-col md:flex-row gap-6">
+              {!landing && (
+                <h2 className="my-2 text-5xl font-bold leading-tight text-center text-white-800">
+                  {name}
+                </h2>
+              )}
+              {repo && (
+                <Link
+                  to={repo}
+                  target="_blank"
+                  className="text-center text-white-800 items-center"
+                >
+                  📋 Show me the code
+                </Link>
+              )}
+            </div>
+          )}
         {isHome && <div className="w-full flex flex-col">{children}</div>}
         {!isHome && (
           <div className="w-full flex flex-col">
