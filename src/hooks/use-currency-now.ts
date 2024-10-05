@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BaseCurrency, Currency, TargetCurrencies, UseCurrencyHook } from "../types";
 import { API_URL } from "../constants";
-import { dateToTimestamp, get, invalidate, set } from "../cache/currency-cache";
+import { useCache } from "./use-cache";
 
 const fetchCurrency = async (base: BaseCurrency) => {
   const response = await fetch(`${API_URL}/${base}`);
@@ -45,40 +45,54 @@ export const formatToCurrency = (
   });
 };
 
+const CACHE_KEY = "currency-app-cache";
+
 export const useCurrencyNow = (base: BaseCurrency = "EUR"): UseCurrencyHook => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Currency | null>(null);
+  const [force, setForce] = useState(false);
   const [error, setError] = useState(null);
+  const { get, set, invalidate, createItemKey } = useCache<Currency>(CACHE_KEY);
+
+  const refresh = () => {
+    invalidate();
+    setForce(true);
+    setIsLoading(true);
+  };
 
   useEffect(() => {
-    const cacheKey = `${base}-${dateToTimestamp(new Date())}`;
-    const cache = get(cacheKey);
+    const itemKey = createItemKey(base, new Date().getTime());
+    const cache = get(itemKey);
 
-    if (cache) {
-      setData(filterTarget(cache, base));
-      setIsLoading(false);
-      return;
+    if (!force && cache) {
+      const data = filterTarget(cache, base);
+      if (data) {
+        setData(data);
+        setIsLoading(false);
+        return;
+      }
+    }
+
+    if (force) {
+      setForce(false);
     }
 
     fetchCurrency(base)
       .then((currencyData: Currency) => {
         setData(filterTarget(currencyData, base));
-        set(cacheKey, currencyData);
+        set(itemKey, currencyData);
         setIsLoading(false);
       })
       .catch((error) => {
         setError(error);
         setIsLoading(false);
       });
-
-    return () => {
-      invalidate(cacheKey);
-    };
-  }, [base]);
+  }, [base, force]);
 
   return {
     data,
     isLoading,
     error,
+    refresh,
   };
 };

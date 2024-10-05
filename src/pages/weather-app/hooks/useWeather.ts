@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import { WeatherAPIResult } from "@/types";
+import { useCache } from "@/hooks/use-cache";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 const BASE_URL = "https://api.weatherapi.com/v1/current.json";
 const DEFAULT_PLACE = "Florianópolis, Santa Catarina, Brazil";
-
-import { dateToTimestamp, get, set } from "../../../cache/weather-cache";
-import { WeatherAPIResult } from "@/types";
+const CACHE_KEY = "weather-app-cache";
 
 const fetchJson = async (url: string, options: RequestInit) => {
   try {
@@ -51,11 +51,13 @@ export const useWeather = (placeName: string): UseWeatherApiHook => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<WeatherAPIResult | null>(null);
   const [error, setError] = useState<unknown>(null);
+  const { get, set, createItemKey } = useCache<WeatherAPIResult>(CACHE_KEY);
 
   const getWeather = async (cityName: string, force: boolean) => {
     setIsLoading(true);
     if (!force) {
-      const cache = get(cityName, dateToTimestamp(new Date()));
+      const itemKey = createItemKey(cityName, new Date().getTime());
+      const cache = get(itemKey);
 
       if (cache) {
         const newData: WeatherAPIResult = {
@@ -76,7 +78,9 @@ export const useWeather = (placeName: string): UseWeatherApiHook => {
             ...weatherData,
             source: "api",
           });
-          set(cityName, dateToTimestamp(new Date()), weatherData);
+          const itemKey = createItemKey(cityName, new Date().getTime());
+
+          set(itemKey, weatherData);
         }
 
         setIsLoading(false);
