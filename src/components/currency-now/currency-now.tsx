@@ -4,6 +4,7 @@ import { Loading } from "../loading/loading";
 import { Badge } from "../badge/badge";
 import { CurrencyProviders } from "../../constants";
 import { BaseCurrency } from "@/types";
+import { CurrencyToggles } from "./currency-toggle";
 
 type CurrencyNowProps = {
   asList?: boolean;
@@ -11,11 +12,8 @@ type CurrencyNowProps = {
 
 export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
   const [base, setBase] = useState<BaseCurrency>("EUR");
-  const { data, isLoading, error } = useCurrencyNow(base);
+  const { data, isLoading, error, refresh } = useCurrencyNow(base);
   const [userInput, setUserInput] = useState<number | null>(null);
-
-  const useEUR = () => setBase("EUR");
-  const useUSD = () => setBase("USD");
 
   if (isLoading) {
     return <Loading />;
@@ -101,19 +99,9 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
             className="input input-bordered input-md w-full max-w-xs"
           />
 
-          <button
-            className={`btn btn-sm btn-outline ${base === "EUR" ? "btn-active" : "btn-accent"}`}
-            onClick={useEUR}
-          >
-            EUR
-          </button>
-          <button
-            className={`btn btn-sm btn-outline ${base === "USD" ? "btn-active" : "btn-accent"}`}
-            onClick={useUSD}
-          >
-            USD
-          </button>
+          <button className="btn btn-xs" onClick={refresh}>🔄</button>
         </div>
+        <CurrencyToggles base="EUR" onChange={setBase} options={["EUR", "USD", "BRL"]} />
         <table className="table">
           <thead>
             <tr>

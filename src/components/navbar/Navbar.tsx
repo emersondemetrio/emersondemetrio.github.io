@@ -71,6 +71,7 @@ export const Navbar = () => {
                 <Link
                   to={menu.link}
                   className="inline-block text-white no-underline hover:text-white-800 hover:text-underline py-2 px-4"
+                  onClick={() => setNavbarOpen(false)}
                 >
                   {menu.label}
                 </Link>

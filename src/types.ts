@@ -32,7 +32,7 @@ export type Tool = {
 
 export const TargetCurrencies = ["EUR", "USD", "GBP", "BRL"];
 
-export type BaseCurrency = "USD" | "EUR" | "GBP" | "CAD";
+export type BaseCurrency = "BRL" | "USD" | "EUR" | "GBP" | "CAD";
 
 export type Currency = {
   provider: string;
@@ -44,6 +44,7 @@ export type UseCurrencyHook = {
   data: Currency | null;
   isLoading: boolean;
   error: Error | null;
+  refresh: () => void;
 };
 
 export type CurrencyProvider = {
