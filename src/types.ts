@@ -21,6 +21,7 @@ export type Link = {
   icon?: string;
   category: LinkCategory;
   handle: string;
+  ranking: number;
 };
 
 export type Tool = {

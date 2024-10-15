@@ -3,7 +3,14 @@ import { Link } from "react-router-dom";
 
 const githubBaseUrl = "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/src";
 
-const experiments = [
+type Lab = {
+  title: string;
+  description: string;
+  link: string;
+  repo: string;
+};
+
+const experiments: Lab[] = [
   {
     title: "Remove Background",
     description: "Remove background from images 🖼️",

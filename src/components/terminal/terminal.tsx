@@ -32,24 +32,29 @@ export const Terminal = ({ links, tools = [] }: TerminalProps) => {
 
   return (
     <div className="terminal-container mb-5">
-      {links.map(({ handle, title, url, category }) => {
-        return (
-          <div className={getItemClass(category)} key={`${category}/${title}`}>
-            <TerminalHeader title={title} />
+      {links
+        .sort((a, b) => (a.ranking > b.ranking ? 1 : -1))
+        .map(({ handle, title, url, category }) => {
+          return (
             <div
-              className="btn btn-dark terminal-item-content"
-              onClick={() => openUrl(url)}
+              className={getItemClass(category)}
+              key={`${category}/${title}`}
             >
-              <span>{handle}</span>
+              <TerminalHeader title={title} />
+              <div
+                className="btn btn-dark terminal-item-content"
+                onClick={() => openUrl(url)}
+              >
+                <span>{handle}</span>
+              </div>
+              <TerminalBadge
+                name={category}
+                onFocus={handleBadgeMouseEnter}
+                onFocusLost={handleBadgeMouseLeave}
+              />
             </div>
-            <TerminalBadge
-              name={category}
-              onFocus={handleBadgeMouseEnter}
-              onFocusLost={handleBadgeMouseLeave}
-            />
-          </div>
-        );
-      })}
+          );
+        })}
       {tools.map((tool, index) => {
         return (
           <div

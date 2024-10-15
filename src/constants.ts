@@ -13,66 +13,77 @@ export const Links: Array<Link> = [
     url: "https://instagram.com/emersondemetrio/",
     category: "social",
     handle: "@emersondemetrio",
+    ranking: 9,
   },
   {
     title: "x (Twitter)",
     url: "https://x.com/emersondemetrio/",
     category: "social",
     handle: "@emersondemetrio",
+    ranking: 10,
   },
   {
     title: "LinkedIn",
     url: "https://linkedin.com/in/emersondemetrio/",
     category: "professional",
     handle: "@emersondemetrio",
+    ranking: 2,
   },
   {
     title: "GitHub",
     url: "https://github.com/emersondemetrio?tab=repositories",
     category: "professional",
     handle: "@emersondemetrio",
+    ranking: 1,
   },
   {
     title: "Gist",
     url: "https://gist.github.com/emersondemetrio",
     category: "professional",
     handle: "@emersondemetrio",
+    ranking: 3,
   },
   {
     title: "CodePen",
     url: "https://codepen.io/emersondemetrio/",
     category: "professional",
     handle: "@emersondemetrio",
+    ranking: 4,
   },
   {
     title: "YouTube",
     url: "https://youtube.com/@emersondemetrio/videos",
     category: "arts",
     handle: "@emersondemetrio",
+    ranking: 5,
   },
   {
     title: "Playlists",
     url: "https://youtube.com/@emersondemetrio/playlists",
     category: "arts",
     handle: "YT Playlists",
+    ranking: 6,
   },
   {
     title: "SoundCloud",
     url: "https://soundcloud.com/emersondemetrio/tracks",
     category: "arts",
     handle: "@emersondemetrio",
+    ranking: 7,
   },
   {
     title: "Spotify",
     url: "https://open.spotify.com/user/12156014938",
     category: "arts",
     handle: "@emersondemetrio",
+    ranking: 8,
   },
   {
     title: "Blog",
     url: "https://badcompiler.tumblr.com",
     category: "arts",
     handle: "@badcompiler",
+    ranking: 10,
   },
 ];
 
@@ -98,6 +109,7 @@ export const linkGet = (title: AvailableLinks): Link => {
       url: "https://instagram.com/emersondemetrio/",
       category: "social",
       handle: "@emersondemetrio",
+      ranking: 9,
     };
   }
 
