@@ -73,15 +73,6 @@
   cursor: pointer;
 }
 
-.terminal-item-tag-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
-  align-items: center;
-  height: 40px;
-  margin: 0 10px;
-}
-
 .terminal-header {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;

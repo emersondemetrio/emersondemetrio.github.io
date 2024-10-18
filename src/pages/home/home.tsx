@@ -14,7 +14,7 @@ export const Home = () => {
     <Page isHome name="Home" withoutName>
       <Hero />
       <Terminal
-        links={Links}
+        links={Links.sort((a, b) => (a.ranking > b.ranking ? 1 : -1))}
         tools={[
           {
             handle: "Currency Tools",

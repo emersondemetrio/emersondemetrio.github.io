@@ -17,3 +17,16 @@ export const limitString = (str: string, limit: number) => {
 };
 
 export const openUrl = (url: string, target = "_blank") => window.open(url, target);
+
+export const delay = (callback: () => void, ms: number = 500) => {
+  return setTimeout(callback, ms);
+};
+
+export const unDelay = (id?: NodeJS.Timeout, callback?: () => void) => {
+  return () => {
+    clearTimeout(id);
+    if (typeof callback === "function") {
+      callback();
+    }
+  };
+};
