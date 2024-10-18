@@ -3207,6 +3207,10 @@ html {
   z-index: 30;
 }
 
+.m-2 {
+  margin: 0.5rem;
+}
+
 .-mx-3 {
   margin-left: -0.75rem;
   margin-right: -0.75rem;
@@ -3361,6 +3365,10 @@ html {
 
 .h-0 {
   height: 0px;
+}
+
+.h-10 {
+  height: 2.5rem;
 }
 
 .h-32 {
@@ -3573,6 +3581,11 @@ html {
   border-radius: 0.75rem;
 }
 
+.rounded-b-lg {
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
 .border {
   border-width: 1px;
 }
@@ -3587,6 +3600,14 @@ html {
 
 .border-t {
   border-top-width: 1px;
+}
+
+.border-t-2 {
+  border-top-width: 2px;
+}
+
+.border-solid {
+  border-style: solid;
 }
 
 .border-amber-50 {
@@ -3621,6 +3642,16 @@ html {
 
 .border-transparent {
   border-color: transparent;
+}
+
+.border-t-\[\#202427\] {
+  --tw-border-opacity: 1;
+  border-top-color: rgb(32 36 39 / var(--tw-border-opacity));
+}
+
+.bg-\[\#202427\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(32 36 39 / var(--tw-bg-opacity));
 }
 
 .bg-base-100 {
@@ -3971,7 +4002,7 @@ html {
 }
 
 * {
-  font-family: 'Inconsolata', monospace;
+  font-family: "Inconsolata", monospace;
   font-optical-sizing: auto;
   font-style: normal;
 }
