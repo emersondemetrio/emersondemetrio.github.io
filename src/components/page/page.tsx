@@ -73,26 +73,26 @@ export const Page = ({
       className={`grid place-items-center py-20 text-center ${padding} ${className}`}
     >
       <div className="container mx-auto flex flex-wrap">
-        {withoutName ? (
-          <></>
-        ) : (
-          <div className="w-full flex justify-between items-center flex-col md:flex-row gap-6">
-            {!landing && (
-              <h2 className="my-2 text-5xl font-bold leading-tight text-center text-white-800">
-                {name}
-              </h2>
-            )}
-            {repo && (
-              <Link
-                to={repo}
-                target="_blank"
-                className="text-center text-white-800 items-center"
-              >
-                📋 Show me the code
-              </Link>
-            )}
-          </div>
-        )}
+        {withoutName
+          ? <></>
+          : (
+            <div className="w-full flex justify-between items-center flex-col md:flex-row gap-6">
+              {!landing && (
+                <h2 className="my-2 text-5xl font-bold leading-tight text-center text-white-800">
+                  {name}
+                </h2>
+              )}
+              {repo && (
+                <Link
+                  to={repo}
+                  target="_blank"
+                  className="text-center text-white-800 items-center"
+                >
+                  📋 Show me the code
+                </Link>
+              )}
+            </div>
+          )}
         {isHome && <div className="w-full flex flex-col">{children}</div>}
         {!isHome && (
           <div className="w-full flex flex-col">

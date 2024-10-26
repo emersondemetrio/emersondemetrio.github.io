@@ -17,23 +17,14 @@ export const ViewCountdown = ({
   description,
 }: ViewCountdownProps) => {
   const title = decodeURIComponent(name || "");
+  const countdownName = `Countdown to ${title ? titleCase(title) : `${formatDate(end, "dd/MM/yyyy")}`}`;
 
   return (
-    <Page landing>
+    <Page landing name={countdownName}>
       <div className="my-[5px] md:my-[50px] flex items-start justify-center text-white">
         <div className="shadow rounded-lg p-6 max-w-sm w-full bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
           <h1 className="text-2xl font-bold text-center mb-4 capitalize">
-            {title
-              ? (
-                <>
-                  Countdown to
-                  <br />
-                  {titleCase(title)}
-                </>
-              )
-              : (
-                `Countdown to ${formatDate(end, "dd/MM/yyyy")}`
-              )}
+            {countdownName}
           </h1>
           <div className="text-center mb-4">
             {description.map((line) => (
