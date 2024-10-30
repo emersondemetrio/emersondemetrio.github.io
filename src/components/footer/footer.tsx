@@ -2,6 +2,7 @@ import { linkGet } from "@/constants";
 import { Link } from "react-router-dom";
 import { CurrencyNow } from "../currency-now/currency-now";
 import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
+import { Toggle } from "../toggle/toggle";
 
 export const Footer = () => {
   const isMobile = useIsMobile();
@@ -16,9 +17,11 @@ export const Footer = () => {
         Emerson Demetrio {new Date().getFullYear()}
       </Link>
       {!isMobile && (
-        <div className="w-full flex items-center justify-center">
-          <CurrencyNow asList />
-        </div>
+        <Toggle title="Currency Today">
+          <div className="w-full flex items-center justify-center">
+            <CurrencyNow asList />
+          </div>
+        </Toggle>
       )}
     </footer>
   );

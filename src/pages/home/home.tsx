@@ -25,6 +25,7 @@ export const Home = () => {
               onMinimize: () => setShowCurrency(false),
               onClose: () => setShowCurrency(false),
             },
+            about: "Compare currency worldwide.",
           },
         ]}
       />

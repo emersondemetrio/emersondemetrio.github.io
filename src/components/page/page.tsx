@@ -78,7 +78,7 @@ export const Page = ({
           : (
             <div className="w-full flex justify-between items-center flex-col md:flex-row gap-6">
               {!landing && (
-                <h2 className="my-2 text-5xl font-bold leading-tight text-center text-white-800">
+                <h2 className="my-2 text-lg font-bold leading-tight text-center text-white-800">
                   {name}
                 </h2>
               )}

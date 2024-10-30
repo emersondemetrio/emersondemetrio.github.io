@@ -17,7 +17,9 @@ export const ViewCountdown = ({
   description,
 }: ViewCountdownProps) => {
   const title = decodeURIComponent(name || "");
-  const countdownName = `Countdown to ${title ? titleCase(title) : `${formatDate(end, "dd/MM/yyyy")}`}`;
+  const countdownName = `Countdown to ${
+    title ? titleCase(title) : `${formatDate(end, "dd/MM/yyyy")}`
+  }`;
 
   return (
     <Page landing name={countdownName}>

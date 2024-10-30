@@ -7,20 +7,33 @@ export const HomeUrl = {
   url: "https://emerson.run",
 };
 
+const Instagram: Link = {
+  title: "Instagram",
+  url: "https://instagram.com/emersondemetrio/",
+  handle: "@emersondemetrio",
+  ranking: 9,
+  category: "social",
+  about: "Instagram profile",
+};
+
 export const Links: Array<Link> = [
   {
-    title: "Instagram",
-    url: "https://instagram.com/emersondemetrio/",
-    category: "social",
-    handle: "@emersondemetrio",
-    ranking: 9,
+    title: "Dev Daily",
+    url: "#/dev",
+    category: "professional",
+    handle: "Dev Daily",
+    ranking: 0,
+    keepFocus: true,
+    about: "Developer's Daily Routine",
   },
+  Instagram,
   {
     title: "x (Twitter)",
     url: "https://x.com/emersondemetrio/",
     category: "social",
     handle: "@emersondemetrio",
     ranking: 10,
+    about: "X profile",
   },
   {
     title: "LinkedIn",
@@ -28,6 +41,7 @@ export const Links: Array<Link> = [
     category: "professional",
     handle: "@emersondemetrio",
     ranking: 2,
+    about: "LinkedIn profile",
   },
   {
     title: "GitHub",
@@ -35,6 +49,7 @@ export const Links: Array<Link> = [
     category: "professional",
     handle: "@emersondemetrio",
     ranking: 1,
+    about: "GitHub profile",
   },
   {
     title: "Gist",
@@ -42,6 +57,7 @@ export const Links: Array<Link> = [
     category: "professional",
     handle: "@emersondemetrio",
     ranking: 3,
+    about: "Gist profile",
   },
   {
     title: "CodePen",
@@ -49,6 +65,7 @@ export const Links: Array<Link> = [
     category: "professional",
     handle: "@emersondemetrio",
     ranking: 4,
+    about: "CodePen profile",
   },
   {
     title: "YouTube",
@@ -56,6 +73,7 @@ export const Links: Array<Link> = [
     category: "arts",
     handle: "@emersondemetrio",
     ranking: 5,
+    about: "YouTube channel",
   },
   {
     title: "Playlists",
@@ -63,6 +81,7 @@ export const Links: Array<Link> = [
     category: "arts",
     handle: "YT Playlists",
     ranking: 6,
+    about: "YouTube playlists",
   },
   {
     title: "SoundCloud",
@@ -70,6 +89,7 @@ export const Links: Array<Link> = [
     category: "arts",
     handle: "@emersondemetrio",
     ranking: 7,
+    about: "SoundCloud profile",
   },
   {
     title: "Spotify",
@@ -77,6 +97,7 @@ export const Links: Array<Link> = [
     category: "arts",
     handle: "@emersondemetrio",
     ranking: 8,
+    about: "Spotify profile",
   },
   {
     title: "Blog",
@@ -84,6 +105,7 @@ export const Links: Array<Link> = [
     category: "arts",
     handle: "@badcompiler",
     ranking: 10,
+    about: "Personal Blog",
   },
 ];
 
@@ -104,13 +126,7 @@ export const linkGet = (title: AvailableLinks): Link => {
   const found = Links.find((link) => link.title.toLowerCase() === title);
 
   if (!found) {
-    return {
-      title: "Instagram",
-      url: "https://instagram.com/emersondemetrio/",
-      category: "social",
-      handle: "@emersondemetrio",
-      ranking: 9,
-    };
+    return Instagram;
   }
 
   return found;

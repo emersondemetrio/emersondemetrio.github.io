@@ -22,6 +22,8 @@ export type Link = {
   category: LinkCategory;
   handle: string;
   ranking: number;
+  keepFocus?: boolean;
+  about: string;
 };
 
 export type Tool = {
@@ -29,6 +31,7 @@ export type Tool = {
   handle: string;
   category: string;
   actions: Actions;
+  about: string;
 };
 
 export const TargetCurrencies = ["EUR", "USD", "GBP", "BRL"];

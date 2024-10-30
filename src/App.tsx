@@ -13,6 +13,7 @@ import { WeatherApp } from "./pages/weather-app/weather-app";
 import { CodePen } from "./pages/code-pen/code-pen";
 import { Countdown } from "./pages/countdown/countdown";
 import { Camera } from "./pages/camera/camera";
+import { DevDaily } from "./pages/dev-daily/dev-daily";
 
 const oldRoutes = [
   {
@@ -46,6 +47,7 @@ export const App = () => {
             <Route path="/about" element={<Resume />} />
             <Route path="/resume" element={<Resume />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/dev" element={<DevDaily />} />
 
             {/* Experiments */}
             <Route path="/labs" element={<Labs />} />

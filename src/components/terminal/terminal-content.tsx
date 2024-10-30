@@ -3,33 +3,34 @@ import { TerminalHeader } from "./terminal-header";
 import { TerminalFooter } from "./terminal-footer";
 import { openUrl } from "@/utils/utils";
 import { Actions } from "@/types";
+import { useState } from "react";
 
 type TerminalContentProps = {
-  className: string;
   title: string;
   handle: string;
   category: string;
-  onFocus: (category: string) => void;
-  onLoseFocus: () => void;
   url?: string;
   onClick?: () => void;
   actions?: Actions;
+  keepFocus?: boolean;
+  tabIndex: number;
+  about: string;
 };
 
 export const TerminalContent = ({
-  className,
   category,
   title,
   handle,
-  onFocus,
-  onLoseFocus,
   url,
   onClick,
   actions,
+  keepFocus,
+  tabIndex,
+  about,
 }: TerminalContentProps) => {
   const handleClick = () => {
     if (url) {
-      return openUrl(url);
+      return openUrl(url, keepFocus ? "_self" : "_blank");
     }
 
     if (typeof onClick === "function") {
@@ -37,16 +38,24 @@ export const TerminalContent = ({
     }
   };
 
+  const [aboutVisibility, setAboutVisibility] = useState<boolean>(false);
+
+  const showAbout = () => setAboutVisibility(true);
+  const hideAbout = () => setAboutVisibility(false);
+
   return (
     <div
-      className={className}
+      tabIndex={tabIndex}
+      className={"rounded hover:outline hover:outline-solid outline-offset-2 outline-cyan-500"}
       key={`${category}/${title}`}
-      onMouseEnter={() => onFocus(category)}
-      onMouseLeave={() => onLoseFocus()}
+      onFocus={showAbout}
+      onBlur={hideAbout}
+      onMouseEnter={showAbout}
+      onMouseLeave={hideAbout}
     >
       <TerminalHeader title={title} actions={actions} />
       <div className="terminal-item-content" onClick={handleClick}>
-        <span>{handle}</span>
+        <span>{aboutVisibility ? `${handle}: ${about}` : handle}</span>
       </div>
       <TerminalFooter category={category} />
     </div>
