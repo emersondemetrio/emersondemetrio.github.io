@@ -46,7 +46,7 @@ export const TerminalContent = ({
   return (
     <div
       tabIndex={tabIndex}
-      className={"rounded hover:outline hover:outline-solid outline-offset-2 outline-cyan-500"}
+      className={"md:p-0 px-6 rounded hover:outline hover:outline-solid outline-offset-2 outline-cyan-500"}
       key={`${category}/${title}`}
       onFocus={showAbout}
       onBlur={hideAbout}

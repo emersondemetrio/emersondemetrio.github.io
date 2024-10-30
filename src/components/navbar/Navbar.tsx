@@ -30,13 +30,13 @@ export const Navbar = () => {
 
   return (
     <nav id="header" className="sticky w-full z-30 top-0 text-white bg-black">
-      <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
-        <div className="lex items-center">
+      <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2 md:px-0 pl-6">
+        <div className="items-center">
           <Link
             className="text-white no-underline hover:no-underline font-bold text-1xl"
             to="/"
           >
-            emerson.run
+            {!isMobile ? "emerson.run" : "~/"}
           </Link>
         </div>
         <div className="block lg:hidden pr-4">
