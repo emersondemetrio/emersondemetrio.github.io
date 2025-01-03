@@ -1,5 +1,6 @@
 import "react";
 import "./index.css";
+import { ToastContainer } from "react-toastify";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Footer } from "./components/footer/footer";
 import { Home } from "@/pages/home/home";
@@ -75,6 +76,7 @@ export const App = () => {
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
+        <ToastContainer />
         <Footer />
       </div>
     </HashRouter>

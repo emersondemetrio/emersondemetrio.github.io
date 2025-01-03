@@ -5,12 +5,13 @@ import { Badge } from "../badge/badge";
 import { CurrencyProviders } from "../../constants";
 import { BaseCurrency } from "@/types";
 import { CurrencyToggles } from "./currency-toggle";
-
+import { toast } from "react-toastify";
 type CurrencyNowProps = {
   asList?: boolean;
 };
 
 export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
+  const notify = (message: string) => toast(message);
   const [base, setBase] = useState<BaseCurrency>("EUR");
   const { data, isLoading, error, refresh } = useCurrencyNow(base);
   const [userInput, setUserInput] = useState<number | null>(null);
@@ -21,7 +22,7 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
 
   const copy = (message: string) => () => {
     navigator.clipboard.writeText(message);
-    alert("Copied to clipboard!");
+    notify("Copied to clipboard!");
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,10 +91,11 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
     <div className="currency-now">
       <div className="overflow-x-auto">
         <div>
+          <CurrencyToggles base="EUR" onChange={setBase} options={["EUR", "USD", "BRL"]} />
           <input
             type="number"
             max={999999}
-            placeholder={`Type (${base})`}
+            placeholder={`Amount (in ${base})`}
             value={userInput ?? ""}
             onChange={handleChange}
             className="input input-bordered input-md w-full max-w-xs"
@@ -101,18 +103,16 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
 
           <button className="btn btn-xs" onClick={refresh}>🔄</button>
         </div>
-        <CurrencyToggles base="EUR" onChange={setBase} options={["EUR", "USD", "BRL"]} />
         <table className="table">
           <thead>
             <tr>
-              <th></th>
               <th>Conversion</th>
               <th>Rate</th>
               <th>Sources</th>
             </tr>
           </thead>
           <tbody>
-            {Object.entries(data.rates).map(([currency, rate], index) => {
+            {Object.entries(data.rates).map(([currency, rate]) => {
               const asBase = formatToCurrency(
                 userInput || 1,
                 base.toLocaleLowerCase(),
@@ -125,7 +125,6 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
                   key={currency}
                   title={currency}
                 >
-                  <th onClick={handleCopy}>{index + 1}</th>
                   <td onClick={handleCopy}>
                     {base} to {currency}
                   </td>

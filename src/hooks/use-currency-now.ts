@@ -39,7 +39,9 @@ export const formatToCurrency = (
     value = 1;
   }
 
-  return fixedAs2(value * rate).toLocaleString("en-US", {
+  const locale = currency === "BRL" ? "pt-BR" : "en-US";
+
+  return fixedAs2(value * rate).toLocaleString(locale, {
     currency,
     style: "currency",
   });

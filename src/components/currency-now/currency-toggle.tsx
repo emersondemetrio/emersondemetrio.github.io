@@ -12,6 +12,7 @@ export const CurrencyToggles = ({ base, options, onChange }: CurrencyTogglesProp
 
   return (
     <div className="p-10">
+      <span>From</span>
       {options.map((base) => {
         const className = `${current === base ? "btn-active" : "btn-accent"}`;
 
