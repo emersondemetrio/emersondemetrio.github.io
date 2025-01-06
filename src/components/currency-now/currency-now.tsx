@@ -51,7 +51,7 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
 
   if (asList) {
     return (
-      <div className="flex flex-col w-64 border border-gray-500 p-10">
+      <div className="flex flex-col w-96 border border-gray-500 p-10">
         <h3>Currency</h3>
         {Object.entries(data.rates).map(([currency, rate]) => {
           const asBase = formatToCurrency(
@@ -91,7 +91,7 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
     <div className="currency-now">
       <div className="overflow-x-auto">
         <div>
-          <CurrencyToggles base="EUR" onChange={setBase} options={["EUR", "USD", "BRL"]} />
+          <CurrencyToggles base="EUR" onChange={setBase} options={["EUR", "USD", "BRL", "GBP"]} />
           <input
             type="number"
             max={999999}
