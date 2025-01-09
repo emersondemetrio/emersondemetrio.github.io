@@ -163,3 +163,5 @@ export const REPOS: Record<string, Repo> = {
     url: `${GITHUB_URL}src/pages/code-pen/pens`,
   },
 };
+
+export const MAX_CURRENCY_CONVERT = 5_000_000;

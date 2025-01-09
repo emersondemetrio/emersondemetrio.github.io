@@ -30,3 +30,7 @@ export const unDelay = (id?: NodeJS.Timeout, callback?: () => void) => {
     }
   };
 };
+
+export const copyToClipboard = (message: string) => () => {
+  navigator.clipboard.writeText(message);
+};

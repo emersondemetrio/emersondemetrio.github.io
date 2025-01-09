@@ -2,17 +2,19 @@ import { useState } from "react";
 import { formatToCurrency, useCurrencyNow } from "../../hooks/use-currency-now";
 import { Loading } from "../loading/loading";
 import { Badge } from "../badge/badge";
-import { CurrencyProviders } from "../../constants";
+import { CurrencyProviders, MAX_CURRENCY_CONVERT } from "../../constants";
 import { BaseCurrency } from "@/types";
 import { CurrencyToggles } from "./currency-toggle";
 import { toast } from "react-toastify";
+import { copyToClipboard } from "@/utils/utils";
+
 type CurrencyNowProps = {
   asList?: boolean;
 };
 
 export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
   const notify = (message: string) => toast(message);
-  const [base, setBase] = useState<BaseCurrency>("EUR");
+  const [base, setBase] = useState<BaseCurrency>("USD");
   const { data, isLoading, error, refresh } = useCurrencyNow(base);
   const [userInput, setUserInput] = useState<number | null>(null);
 
@@ -21,8 +23,8 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
   }
 
   const copy = (message: string) => () => {
-    navigator.clipboard.writeText(message);
-    notify("Copied to clipboard!");
+    copyToClipboard(message);
+    notify("Copied to clipboard");
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +36,7 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
       return;
     }
 
-    if (inputValue > 5_000_000) {
+    if (inputValue > MAX_CURRENCY_CONVERT) {
       return;
     }
 

@@ -1,18 +1,28 @@
 import { Page } from "@/components/page/page";
 import { REPOS } from "@/constants";
 import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
+import { copyToClipboard } from "@/utils/utils";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { createSlackAlphabet } from "./pens/slacker";
 import { url2JSON, UrlToJson } from "./pens/url-to-json";
 
 export const CodePen = () => {
   const isMobile = useIsMobile();
+  const notify = (message: string) => toast(message);
   const [result, setResult] = useState<null | UrlToJson>(null);
 
   const [slackMessage, setSlackMessage] = useState("");
 
   const debounce = (callback: () => void, wait = 100) => {
     window.setTimeout(callback, wait);
+  };
+
+  const copy = (text: string) => {
+    if (text) {
+      copyToClipboard(text);
+      notify("Copied to clipboard");
+    }
   };
 
   return (
@@ -61,14 +71,20 @@ export const CodePen = () => {
               />
             </div>
             <div className="w-full px-3">
-              <label className="block text-black text-sm font-bold mb-2">
-                Results
+              <label
+                className="block text-black text-sm font-bold mb-2 cursor-pointer"
+                onClick={() => copy(slackMessage)}
+              >
+                Results 📋
               </label>
               <textarea
                 placeholder="Type above ^"
                 rows={5}
                 value={slackMessage}
                 onChange={() => {}}
+                onClick={() => {
+                  copy(slackMessage);
+                }}
                 className="appearance-none block w-full text-black border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               />
             </div>
