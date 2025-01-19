@@ -10,9 +10,11 @@ const transformMap: { [key: string]: string } = {
   a: "a",
 };
 
+export type Color = "yellow" | "white";
+
 const transform = (l: string) => (transformMap[l] ?? l).toLowerCase();
 
-const to = (l: string, color = "yellow") => {
+const to = (l: string, color: Color = "yellow") => {
   if (l === " ") return "  ";
   if (l === ".") return ".";
   if (l === "?") return ":question:";
@@ -27,8 +29,8 @@ const to = (l: string, color = "yellow") => {
   return `:alphabet-${color}-${pure}:`;
 };
 
-export const createSlackAlphabet = (w: string) =>
+export const createSlackAlphabet = (w: string, color: Color = "yellow") =>
   w
     .split("")
-    .map((l) => to(l))
+    .map((l) => to(l, color))
     .join("");

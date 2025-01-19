@@ -31,6 +31,6 @@ export const unDelay = (id?: NodeJS.Timeout, callback?: () => void) => {
   };
 };
 
-export const copyToClipboard = (message: string) => () => {
-  navigator.clipboard.writeText(message);
+export const copyToClipboard = async (message: string) => {
+  await navigator.clipboard.writeText(message);
 };

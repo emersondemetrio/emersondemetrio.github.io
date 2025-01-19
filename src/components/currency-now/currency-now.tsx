@@ -12,9 +12,12 @@ type CurrencyNowProps = {
   asList?: boolean;
 };
 
+const PrimaryBaseCurrency: BaseCurrency = "USD";
+const DesiredCurrencies: BaseCurrency[] = ["USD", "EUR", "BRL", "GBP"];
+
 export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
   const notify = (message: string) => toast(message);
-  const [base, setBase] = useState<BaseCurrency>("USD");
+  const [base, setBase] = useState<BaseCurrency>(PrimaryBaseCurrency);
   const { data, isLoading, error, refresh } = useCurrencyNow(base);
   const [userInput, setUserInput] = useState<number | null>(null);
 
@@ -22,8 +25,8 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
     return <Loading />;
   }
 
-  const copy = (message: string) => () => {
-    copyToClipboard(message);
+  const copy = (message: string) => async () => {
+    await copyToClipboard(message);
     notify("Copied to clipboard");
   };
 
@@ -93,7 +96,11 @@ export const CurrencyNow = ({ asList = false }: CurrencyNowProps) => {
     <div className="currency-now">
       <div className="overflow-x-auto">
         <div>
-          <CurrencyToggles base="EUR" onChange={setBase} options={["EUR", "USD", "BRL", "GBP"]} />
+          <CurrencyToggles
+            base={PrimaryBaseCurrency}
+            onChange={setBase}
+            options={DesiredCurrencies}
+          />
           <input
             type="number"
             max={999999}
