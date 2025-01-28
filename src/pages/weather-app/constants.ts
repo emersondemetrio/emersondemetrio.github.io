@@ -38,6 +38,11 @@ export const places: Place[] = [
     city: "Gothenburg, Sweden",
     timeZone: "Europe/Stockholm",
   },
+  {
+    name: "Europe/Braila",
+    city: "Braila, Romania",
+    timeZone: "Europe/Bucharest",
+  },
 ].map((place) => ({
   ...place,
   current: isCurrentLocalTimeZone(place.timeZone),
