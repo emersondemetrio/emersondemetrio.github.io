@@ -15,6 +15,7 @@ import { CodePen } from "./pages/code-pen/code-pen";
 import { Countdown } from "./pages/countdown/countdown";
 import { Camera } from "./pages/camera/camera";
 import { DevDaily } from "./pages/dev-daily/dev-daily";
+import { Pasteable } from "./pages/pasteable/pasteable";
 
 const oldRoutes = [
   {
@@ -49,6 +50,8 @@ export const App = () => {
             <Route path="/resume" element={<Resume />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/dev" element={<DevDaily />} />
+            <Route path="/pasteable" element={<Pasteable />} />
+            <Route path="/paste" element={<Pasteable />} />
 
             {/* Experiments */}
             <Route path="/labs" element={<Labs />} />
