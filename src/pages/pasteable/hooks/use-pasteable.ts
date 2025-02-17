@@ -8,27 +8,26 @@ type PastedImage = {
 };
 
 type PasteableState = {
-  images: PastedImage[];
+  image: PastedImage | null;
   error: string | null;
   isLoading: boolean;
 };
 
 export const usePasteable = () => {
   const [state, setState] = useState<PasteableState>({
-    images: [],
+    image: null,
     error: null,
     isLoading: false,
   });
 
   const handlePaste = async (event: React.ClipboardEvent) => {
     event.preventDefault();
-    setState((prev) => ({ ...prev, isLoading: true, error: null }));
+    setState({ isLoading: true, error: null, image: null });
 
     try {
       const items = event.clipboardData?.items;
       if (!items) throw new Error("No clipboard data available");
 
-      // Get only the first image from clipboard
       const imageItem = Array.from(items).find((item) => item.type.startsWith("image"));
       if (!imageItem) throw new Error("No image found in clipboard");
 
@@ -43,13 +42,7 @@ export const usePasteable = () => {
         fileName: `pasted-image-${id}.png`,
       };
 
-      const newState = {
-        images: [...state.images, newImage],
-        isLoading: false,
-        error: null,
-      };
-
-      setState(newState);
+      setState({ image: newImage, error: null, isLoading: false });
 
       // Download
       const link = document.createElement("a");
@@ -59,29 +52,21 @@ export const usePasteable = () => {
       link.click();
       document.body.removeChild(link);
     } catch (error) {
-      setState((prev) => ({
-        ...prev,
+      setState({
+        image: null,
         error: error instanceof Error ? error.message : "Unknown error occurred",
         isLoading: false,
-      }));
+      });
     }
   };
 
-  const removeImage = (id: string) => {
-    setState((prev) => ({
-      ...prev,
-      images: prev.images.filter((img) => img.id !== id),
-    }));
-  };
-
-  const clearAll = () => {
-    setState((prev) => ({ ...prev, images: [], error: null }));
+  const clearImage = () => {
+    setState({ image: null, error: null, isLoading: false });
   };
 
   return {
     ...state,
     handlePaste,
-    removeImage,
-    clearAll,
+    clearImage,
   };
 };
