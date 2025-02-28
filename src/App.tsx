@@ -7,7 +7,6 @@ import { Home } from "@/pages/home/home";
 import { Blog } from "@/pages/blog/blog";
 import { RemoveBackground } from "@/pages/remove-background/remove-background";
 import { CanvasGame } from "@/pages/canvas-game/canvas-game";
-import { Labs } from "@/pages/labs/labs";
 import { Resume } from "@/pages/resume/resume";
 import { Navbar } from "./components/navbar/Navbar";
 import { WeatherApp } from "./pages/weather-app/weather-app";
@@ -54,13 +53,14 @@ export const App = () => {
             <Route path="/paste" element={<Pasteable />} />
 
             {/* Experiments */}
-            <Route path="/labs" element={<Labs />} />
             <Route path="/labs/background" element={<RemoveBackground />} />
             <Route path="/labs/game" element={<CanvasGame />} />
             <Route path="/labs/timezones" element={<WeatherApp />} />
             <Route path="/labs/weather" element={<WeatherApp />} />
             <Route path="/labs/code-pen" element={<CodePen />} />
             <Route path="/labs/countdown" element={<Countdown />} />
+            <Route path="/labs/paste" element={<Pasteable />} />
+            <Route path="/labs/pasteable" element={<Pasteable />} />
             <Route
               path="/labs/countdown/:id/:countdownName?"
               element={<Countdown />}

@@ -3,15 +3,17 @@ import { useState } from "react";
 import { CurrencyNow } from "@/components/currency-now/currency-now";
 import { Modal } from "@/components/modal/modal";
 import { Terminal } from "@/components/terminal/terminal";
-import { Links } from "@/constants";
+import { experiments, Links } from "@/constants";
 import { Page } from "@/components/page/page";
 import { Hero } from "@/components/hero/hero";
+import { usePasteable } from "../pasteable/hooks/use-pasteable";
 
 export const Home = () => {
   const [showCurrency, setShowCurrency] = useState(false);
+  const { handlePaste } = usePasteable();
 
   return (
-    <Page isHome name="Home" withoutName>
+    <Page isHome name="Home" withoutName onPaste={handlePaste}>
       <Hero />
       <Terminal
         links={Links.sort((a, b) => (a.ranking > b.ranking ? 1 : -1))}
@@ -28,6 +30,7 @@ export const Home = () => {
             about: "Compare currency worldwide.",
           },
         ]}
+        experiments={experiments}
       />
       <Modal
         title="Currency Tools"

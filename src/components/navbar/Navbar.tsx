@@ -8,10 +8,6 @@ const appRoutes = [
     link: "/",
   },
   {
-    label: "Labs 🧪",
-    link: "/labs",
-  },
-  {
     label: "About",
     link: "/about",
   },

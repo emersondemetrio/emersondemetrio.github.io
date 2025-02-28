@@ -34,6 +34,13 @@ export type Tool = {
   about: string;
 };
 
+export type Lab = {
+  title: string;
+  description: string;
+  link: string;
+  repo: string;
+};
+
 export const TargetCurrencies = ["EUR", "USD", "GBP", "BRL"];
 
 export type BaseCurrency = "BRL" | "USD" | "EUR" | "GBP" | "CAD";
