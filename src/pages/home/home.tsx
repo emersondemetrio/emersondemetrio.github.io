@@ -3,7 +3,7 @@ import { useState } from "react";
 import { CurrencyNow } from "@/components/currency-now/currency-now";
 import { Modal } from "@/components/modal/modal";
 import { Terminal } from "@/components/terminal/terminal";
-import { Links } from "@/constants";
+import { experiments, Links } from "@/constants";
 import { Page } from "@/components/page/page";
 import { Hero } from "@/components/hero/hero";
 
@@ -28,6 +28,7 @@ export const Home = () => {
             about: "Compare currency worldwide.",
           },
         ]}
+        experiments={experiments}
       />
       <Modal
         title="Currency Tools"

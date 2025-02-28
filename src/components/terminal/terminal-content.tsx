@@ -43,10 +43,20 @@ export const TerminalContent = ({
   const showAbout = () => setAboutVisibility(true);
   const hideAbout = () => setAboutVisibility(false);
 
+  const categoryClassLookup: Map<string, string[]> = new Map([
+    ["experiments", ["outline", "outline-rose-800", "outline-rose-500"]],
+    ["tools", ["outline-cyan-500", "outline-cyan-300"]],
+    ["social", ["outline-blue-400", "outline-blue-200"]],
+    ["professional", ["outline-green-400", "outline-green-200"]],
+    ["arts", ["outline-purple-400", "outline-purple-200"]],
+  ]);
+
+  const categoryClass = categoryClassLookup.get(category)?.join(" ");
+
   return (
     <div
       tabIndex={tabIndex}
-      className={"md:p-0 px-6 rounded hover:outline hover:outline-solid outline-offset-2 outline-cyan-500"}
+      className={`${categoryClass} md:p-0 px-6 rounded hover:outline hover:outline-solid outline-offset-2`}
       key={`${category}/${title}`}
       onFocus={showAbout}
       onBlur={hideAbout}

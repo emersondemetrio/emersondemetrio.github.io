@@ -1,13 +1,18 @@
 import "./terminal.css";
-import { Link, Tool } from "@/types";
+import { Lab, Link, Tool } from "@/types";
 import { TerminalContent } from "./terminal-content";
 
 type TerminalProps = {
   links: Link[];
   tools: Tool[];
+  experiments: Lab[];
 };
 
-export const Terminal = ({ links, tools = [] }: TerminalProps) => {
+export const Terminal = ({
+  links,
+  tools = [],
+  experiments = [],
+}: TerminalProps) => {
   return (
     <div className="terminal-container mb-5">
       {links.map(
@@ -37,6 +42,20 @@ export const Terminal = ({ links, tools = [] }: TerminalProps) => {
             handle={tool.handle}
             category={tool.category}
             about={tool.about}
+          />
+        );
+      })}
+      {experiments.map((experiment, index) => {
+        return (
+          <TerminalContent
+            url={experiment.link}
+            keepFocus
+            key={`experiment-${index}`}
+            tabIndex={index}
+            title={experiment.title}
+            handle={experiment.title}
+            category="experiments"
+            about={experiment.description}
           />
         );
       })}

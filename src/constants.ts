@@ -1,4 +1,4 @@
-import { CurrencyProvider, Link, Repo } from "./types";
+import { CurrencyProvider, Lab, Link, Repo } from "./types";
 export const GITHUB_URL = "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/";
 export const API_URL = "https://api.exchangerate-api.com/v4/latest/";
 
@@ -137,8 +137,7 @@ export const CurrencyProviders: CurrencyProvider[] = [
     name: "Wise",
     nickname: "wis",
     url: (base, target, amount) => {
-      const wiseLikeUrl = `${base}-to-${target}-rate?amount=${amount}`
-        .toLocaleLowerCase();
+      const wiseLikeUrl = `${base}-to-${target}-rate?amount=${amount}`.toLocaleLowerCase();
       return `https://wise.com/us/currency-converter/${wiseLikeUrl}`;
     },
   },
@@ -165,3 +164,45 @@ export const REPOS: Record<string, Repo> = {
 };
 
 export const MAX_CURRENCY_CONVERT = 5_000_000;
+
+export const githubBaseUrl =
+  "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/src";
+
+export const experiments: Lab[] = [
+  {
+    title: "Remove Background",
+    description: "Remove background from images 🖼️",
+    link: "#/labs/background",
+    repo: `${githubBaseUrl}/pages/remove-background/remove-background.tsx`,
+  },
+  {
+    title: "Canvas Game",
+    description: "Simple game using canvas 🪨✂️📜",
+    link: "#/labs/game",
+    repo: `${githubBaseUrl}/pages/canvas-game/canvas-game.tsx`,
+  },
+  {
+    title: "Weather App",
+    description: "Weather App 🌦️",
+    link: "#/labs/weather",
+    repo: `${githubBaseUrl}/pages/weather-app/weather-app.tsx`,
+  },
+  {
+    title: "Code Pens",
+    description: "Code Pens 🖊 ️",
+    link: "#/labs/code-pen",
+    repo: `${githubBaseUrl}/pages/code-pen/code-pen.tsx`,
+  },
+  {
+    title: "Countdown",
+    description: "Countdown ⏳",
+    link: "#/labs/countdown",
+    repo: `${githubBaseUrl}/pages/countdown/countdown.tsx`,
+  },
+  {
+    title: "Camera",
+    description: "Camera 📷",
+    link: "#/labs/camera",
+    repo: `${githubBaseUrl}/pages/camera/camera.tsx`,
+  },
+];
