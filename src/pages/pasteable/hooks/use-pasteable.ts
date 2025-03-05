@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { randomUUID } from "@/utils/utils";
 
 type PastedImage = {
@@ -13,16 +13,21 @@ type PasteableState = {
   isLoading: boolean;
 };
 
-export const usePasteable = () => {
+export const usePasteable = (downloadOnly = false) => {
   const [state, setState] = useState<PasteableState>({
     image: null,
     error: null,
     isLoading: false,
   });
 
+  const processingPaste = useRef(false);
+
   const handlePaste = async (event: React.ClipboardEvent) => {
+    if (processingPaste.current) return;
+    processingPaste.current = true;
+
     event.preventDefault();
-    setState({ isLoading: true, error: null, image: null });
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
       const items = event.clipboardData?.items;
@@ -42,8 +47,6 @@ export const usePasteable = () => {
         fileName: `pasted-image-${id}.png`,
       };
 
-      setState({ image: newImage, error: null, isLoading: false });
-
       // Download
       const link = document.createElement("a");
       link.href = url;
@@ -51,12 +54,29 @@ export const usePasteable = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
+      if (!downloadOnly) {
+        setState((prev) => ({
+          ...prev,
+          image: newImage,
+          isLoading: false,
+        }));
+      } else {
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+        }));
+      }
     } catch (error) {
-      setState({
-        image: null,
+      setState((prev) => ({
+        ...prev,
         error: error instanceof Error ? error.message : "Unknown error occurred",
         isLoading: false,
-      });
+      }));
+    } finally {
+      setTimeout(() => {
+        processingPaste.current = false;
+      }, 100);
     }
   };
 

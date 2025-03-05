@@ -2,6 +2,8 @@ import { CurrencyProvider, Lab, Link, Repo } from "./types";
 export const GITHUB_URL = "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/";
 export const API_URL = "https://api.exchangerate-api.com/v4/latest/";
 
+export const handle = "@emersondemetrio";
+
 export const HomeUrl = {
   title: "~/emersondemetrio",
   url: "https://emerson.run",

@@ -10,7 +10,7 @@ import { usePasteable } from "../pasteable/hooks/use-pasteable";
 
 export const Home = () => {
   const [showCurrency, setShowCurrency] = useState(false);
-  const { handlePaste } = usePasteable();
+  const { handlePaste } = usePasteable(true);
 
   return (
     <Page isHome name="Home" withoutName onPaste={handlePaste}>

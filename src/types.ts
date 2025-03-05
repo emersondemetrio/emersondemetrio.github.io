@@ -86,3 +86,63 @@ export type WeatherAPIResult = {
 } & {
   source: "cache" | "api";
 };
+
+// Add these new tweet-related types
+export type TweetMetrics = {
+  retweet_count: number;
+  reply_count: number;
+  like_count: number;
+  quote_count: number;
+};
+
+export type TweetAuthor = {
+  name: string;
+  username: string;
+  profile_image_url: string;
+};
+
+export type TweetEditInfo = {
+  initial: {
+    editTweetIds: string[];
+    editableUntil: string;
+    editsRemaining: string;
+    isEditEligible: boolean;
+  };
+};
+
+export type TweetEntities = {
+  hashtags: unknown[];
+  symbols: unknown[];
+  user_mentions: unknown[];
+  urls: unknown[];
+};
+
+export type Tweet = {
+  tweet: {
+    edit_info: TweetEditInfo;
+    retweeted: boolean;
+    source: string;
+    entities: TweetEntities;
+    display_text_range: [number, number];
+    favorite_count: string;
+    id_str: string;
+    truncated: boolean;
+    retweet_count: string;
+    id: string;
+    created_at: string;
+    favorited: boolean;
+    full_text: string;
+    lang: string;
+  };
+};
+
+export type TweetsState = {
+  tweets: Tweet[];
+  currentPage: number;
+  totalPages: number;
+  isLoading: boolean;
+  error: string | null;
+  setTweets: (tweets: Tweet[]) => void;
+  setCurrentPage: (page: number) => void;
+  fetchTweets: () => void;
+};
