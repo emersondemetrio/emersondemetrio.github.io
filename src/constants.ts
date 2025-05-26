@@ -1,8 +1,16 @@
-import { CurrencyProvider, Lab, Link, Repo } from "./types";
+import { CurrencyProvider, Experiments, Link, Repo } from "./types";
 export const GITHUB_URL = "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/";
 export const API_URL = "https://api.exchangerate-api.com/v4/latest/";
 
 export const handle = "@emersondemetrio";
+
+export const about = [`
+Welcome. I'm Emerson.
+I'm a software engineer and musician.`,
+
+`You can find me at
+𝚎𝚖𝚎𝚛[𝚍𝚘𝚝]𝚍𝚎𝚖𝚎𝚝𝚛𝚒𝚘[𝚊𝚝]𝚐𝚖𝚊𝚒𝚕[𝚍𝚘𝚝]𝚌𝚘𝚖
+`]
 
 export const HomeUrl = {
   title: "~/emersondemetrio",
@@ -16,6 +24,7 @@ const Instagram: Link = {
   ranking: 9,
   category: "social",
   about: "Instagram profile",
+  disabled: true,
 };
 
 export const Links: Array<Link> = [
@@ -170,7 +179,7 @@ export const MAX_CURRENCY_CONVERT = 5_000_000;
 export const githubBaseUrl =
   "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/src";
 
-export const experiments: Lab[] = [
+export const experiments: Experiments[] = [
   {
     title: "Remove Background",
     description: "Remove background from images 🖼️",

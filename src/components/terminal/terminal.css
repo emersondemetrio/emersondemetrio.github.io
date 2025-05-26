@@ -58,7 +58,7 @@
 }
 
 .terminal-item-content {
-  height: 120px;
+  height: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -68,11 +68,6 @@
   border-radius: 0;
 }
 
-.terminal-item-content:hover {
-  background-color: #3d4347;
-  cursor: pointer;
-}
-
 .terminal-header {
   width: 100%;
   background-color: #202427;
@@ -80,7 +75,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 50px;
+  height: 30px;
 }
 
 .title-container {

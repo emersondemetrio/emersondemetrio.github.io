@@ -7,7 +7,7 @@ export const TerminalHeader = ({ title, actions }: TerminalHeaderProps) => {
       <span className="title-container">
         ~/{title.toLowerCase().split(" ").join("-")}/
       </span>
-      <TerminalActions actions={actions} />
+      {/* <TerminalActions actions={actions} /> */}
     </div>
   );
 };

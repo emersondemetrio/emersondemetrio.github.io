@@ -5,7 +5,7 @@ import { Modal } from "@/components/modal/modal";
 import { Terminal } from "@/components/terminal/terminal";
 import { experiments, Links } from "@/constants";
 import { Page } from "@/components/page/page";
-import { Hero } from "@/components/hero/hero";
+import { Headline } from "@/components/headline/headline";
 import { usePasteable } from "../pasteable/hooks/use-pasteable";
 
 export const Home = () => {
@@ -14,7 +14,7 @@ export const Home = () => {
 
   return (
     <Page isHome name="Home" withoutName onPaste={handlePaste}>
-      <Hero />
+      <Headline />
       <Terminal
         links={Links.sort((a, b) => (a.ranking > b.ranking ? 1 : -1))}
         tools={[

@@ -24,6 +24,7 @@ export type Link = {
   ranking: number;
   keepFocus?: boolean;
   about: string;
+  disabled?: boolean;
 };
 
 export type Tool = {
@@ -32,13 +33,15 @@ export type Tool = {
   category: string;
   actions: Actions;
   about: string;
+  disabled?: boolean;
 };
 
-export type Lab = {
+export type Experiments = {
   title: string;
   description: string;
   link: string;
   repo: string;
+  disabled?: boolean;
 };
 
 export const TargetCurrencies = ["EUR", "USD", "GBP", "BRL"];

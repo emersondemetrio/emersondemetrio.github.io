@@ -1,11 +1,11 @@
 import "./terminal.css";
-import { Lab, Link, Tool } from "@/types";
+import { Experiments, Link, Tool } from "@/types";
 import { TerminalContent } from "./terminal-content";
 
 type TerminalProps = {
   links: Link[];
   tools: Tool[];
-  experiments: Lab[];
+  experiments: Experiments[];
 };
 
 export const Terminal = ({
@@ -16,7 +16,7 @@ export const Terminal = ({
   return (
     <div className="terminal-container mb-5">
       {links.map(
-        ({ handle, title, url, category, about, keepFocus = false }, index) => {
+        ({ handle, title, url, category, about, keepFocus = false, disabled }, index) => {
           return (
             <TerminalContent
               tabIndex={index}
@@ -27,6 +27,7 @@ export const Terminal = ({
               handle={handle}
               category={category}
               about={about}
+              disabled={disabled}
             />
           );
         },
@@ -42,6 +43,7 @@ export const Terminal = ({
             handle={tool.handle}
             category={tool.category}
             about={tool.about}
+            disabled={tool.disabled}
           />
         );
       })}
@@ -56,6 +58,7 @@ export const Terminal = ({
             handle={experiment.title}
             category="experiments"
             about={experiment.description}
+            disabled={experiment.disabled}
           />
         );
       })}

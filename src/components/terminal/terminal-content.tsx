@@ -3,7 +3,7 @@ import { TerminalHeader } from "./terminal-header";
 import { TerminalFooter } from "./terminal-footer";
 import { openUrl } from "@/utils/utils";
 import { Actions } from "@/types";
-import { useState } from "react";
+
 
 type TerminalContentProps = {
   title: string;
@@ -15,6 +15,7 @@ type TerminalContentProps = {
   keepFocus?: boolean;
   tabIndex: number;
   about: string;
+  disabled?: boolean;
 };
 
 export const TerminalContent = ({
@@ -26,9 +27,11 @@ export const TerminalContent = ({
   actions,
   keepFocus,
   tabIndex,
-  about,
+  disabled,
 }: TerminalContentProps) => {
   const handleClick = () => {
+    if (disabled) return;
+
     if (url) {
       return openUrl(url, keepFocus ? "_self" : "_blank");
     }
@@ -38,36 +41,22 @@ export const TerminalContent = ({
     }
   };
 
-  const [aboutVisibility, setAboutVisibility] = useState<boolean>(false);
-
-  const showAbout = () => setAboutVisibility(true);
-  const hideAbout = () => setAboutVisibility(false);
-
-  const categoryClassLookup: Map<string, string[]> = new Map([
-    ["experiments", ["outline", "outline-rose-800", "outline-rose-500"]],
-    ["tools", ["outline-cyan-500", "outline-cyan-300"]],
-    ["social", ["outline-blue-400", "outline-blue-200"]],
-    ["professional", ["outline-green-400", "outline-green-200"]],
-    ["arts", ["outline-purple-400", "outline-purple-200"]],
-  ]);
-
-  const categoryClass = categoryClassLookup.get(category)?.join(" ");
-
   return (
-    <div
+    <a
       tabIndex={tabIndex}
-      className={`${categoryClass} md:p-0 px-6 rounded hover:outline hover:outline-solid outline-offset-2`}
+      className={`md:p-0 px-6 rounded hover:outline hover:outline-solid outline-offset-2 ${
+        disabled ? "opacity-50 cursor-not-allowed bg-gray-900" : ""
+      }`}
       key={`${category}/${title}`}
-      onFocus={showAbout}
-      onBlur={hideAbout}
-      onMouseEnter={showAbout}
-      onMouseLeave={hideAbout}
     >
-      <TerminalHeader title={title} actions={actions} />
-      <div className="terminal-item-content" onClick={handleClick}>
-        <span>{aboutVisibility ? `${handle}: ${about}` : handle}</span>
-      </div>
-      <TerminalFooter category={category} />
+      <div className="rounded terminal-header">
+      <span className="title-container">
+        {title.toLowerCase().split(" ").join("-")}
+      </span>
     </div>
+      <div className="terminal-item-content" onClick={handleClick}>
+        <span>{handle}</span>
+      </div>
+    </a>
   );
 };
