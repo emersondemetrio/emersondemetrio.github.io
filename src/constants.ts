@@ -213,4 +213,10 @@ export const experiments: Lab[] = [
     link: "#/labs/paste",
     repo: `${githubBaseUrl}/pages/pasteable/pasteable.tsx`,
   },
+  {
+    title: "Audio FX Studio",
+    description: "Professional audio effects processing 🎵",
+    link: "#/labs/audio-fx",
+    repo: `${githubBaseUrl}/pages/audio-fx/audio-fx.tsx`,
+  },
 ];
