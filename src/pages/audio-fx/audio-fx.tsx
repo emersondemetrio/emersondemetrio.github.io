@@ -300,6 +300,7 @@ export const AudioFx = () => {
     loadAudioFile,
     loadYouTubeAudio,
     togglePlayback,
+    toggleLoop,
     seekTo,
     updateEffect,
     downloadProcessedAudio,
@@ -882,6 +883,15 @@ export const AudioFx = () => {
                       }`}
                     >
                       {audioState.isPlaying ? "⏸️ Pause" : "▶️ Play"}
+                    </button>
+                    <button
+                      onClick={toggleLoop}
+                      className={`btn ${
+                        audioState.isLooping ? "btn-accent" : "btn-outline"
+                      } w-[60px]`}
+                      title={audioState.isLooping ? "Loop: ON" : "Loop: OFF"}
+                    >
+                      🔂
                     </button>
                     <button
                       className={`btn btn-success ${

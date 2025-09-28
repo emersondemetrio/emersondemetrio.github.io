@@ -85,6 +85,7 @@ export const useAudioEffects = () => {
     isLoading: false,
     duration: 0,
     currentTime: 0,
+    isLooping: false,
   });
   const [effects, setEffects] = useState<Effects>(defaultEffects);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -365,7 +366,6 @@ const {
       try {
         // Start AudioContext on file load (this is a user gesture)
         if (Tone.getContext().state !== "running") {
-          console.log("Starting AudioContext on file load...");
           await Tone.start();
         }
 
@@ -373,6 +373,7 @@ const {
         if (playerRef.current) {
           playerRef.current.dispose();
         }
+
         Object.values(effectsChainRef.current).forEach(
           (effect: Tone.ToneAudioNode) => {
             if (effect && effect.dispose) effect.dispose();
@@ -393,6 +394,7 @@ const {
         // Create new player
         const player = new Tone.Player({
           url: audioUrl,
+          loop: false, // Initialize loop to false
           onload: () => {
             console.log("Audio loaded successfully");
             setAudioState((prev) => ({
@@ -435,38 +437,49 @@ const {
     }
 
     const startTime = Tone.now();
+    let initialPosition = startPosition;
 
-    // Get initial position from parameter or current state
-    setAudioState((prev) => {
-      const initialPosition = startPosition ?? prev.currentTime;
+    // If no start position provided, get current time
+    if (initialPosition === undefined) {
+      setAudioState((prev) => {
+        initialPosition = prev.currentTime;
+        return prev;
+      });
+    }
 
-      progressIntervalRef.current = setInterval(() => {
-        if (playerRef.current && playerRef.current.state === "started") {
-          const elapsed = Tone.now() - startTime;
-          const currentTime = Math.min(
-            initialPosition + elapsed,
-            prev.duration
-          );
+    progressIntervalRef.current = setInterval(() => {
+      if (playerRef.current && playerRef.current.state === "started") {
+        const elapsed = Tone.now() - startTime;
 
-          setAudioState((current) => ({ ...current, currentTime }));
+        setAudioState((current) => {
+          let currentTime = (initialPosition || 0) + elapsed;
 
-          // Stop when we reach the end
-          if (currentTime >= prev.duration) {
+          // Handle looping by using modulo
+          if (current.isLooping && current.duration > 0) {
+            currentTime = currentTime % current.duration;
+          } else {
+            currentTime = Math.min(currentTime, current.duration);
+          }
+
+          // Handle end of track (only for non-looping)
+          if (currentTime >= current.duration && !current.isLooping) {
+            // Stop playback
             playerRef.current?.stop();
-            setAudioState((current) => ({
+            if (progressIntervalRef.current) {
+              clearInterval(progressIntervalRef.current);
+              progressIntervalRef.current = null;
+            }
+            return {
               ...current,
               isPlaying: false,
               currentTime: 0,
-            }));
-            if (progressIntervalRef.current) {
-              clearInterval(progressIntervalRef.current);
-            }
+            };
           }
-        }
-      }, 100); // Update every 100ms
 
-      return prev;
-    });
+          return { ...current, currentTime };
+        });
+      }
+    }, 100); // Update every 100ms
   }, []);
 
   const stopProgressTracking = useCallback(() => {
@@ -476,6 +489,19 @@ const {
     }
   }, []);
 
+  const toggleLoop = useCallback(() => {
+    setAudioState((prev) => {
+      const newLooping = !prev.isLooping;
+
+      // Update the player's loop setting if it exists
+      if (playerRef.current) {
+        playerRef.current.loop = newLooping;
+      }
+
+      return { ...prev, isLooping: newLooping };
+    });
+  }, []);
+
   const seekTo = useCallback(
     (time: number) => {
       if (!playerRef.current || !playerRef.current.loaded) return;
@@ -483,13 +509,18 @@ const {
       try {
         const wasPlaying = audioState.isPlaying;
 
-        // Stop current playback
+        // Stop current playback and progress tracking
         if (playerRef.current.state === "started") {
           playerRef.current.stop();
         }
+        stopProgressTracking();
 
         // Update current time immediately for UI feedback
-        setAudioState((prev) => ({ ...prev, currentTime: time }));
+        setAudioState((prev) => ({
+          ...prev,
+          currentTime: time,
+          isPlaying: false // Set to false during seek
+        }));
 
         // If it was playing, restart from the new position
         if (wasPlaying) {
@@ -497,15 +528,16 @@ const {
           setTimeout(() => {
             if (playerRef.current) {
               playerRef.current.start(0, time);
+              setAudioState((prev) => ({ ...prev, isPlaying: true }));
               startProgressTracking(time);
             }
-          }, 10);
+          }, 50); // Increased delay for more reliable seeking
         }
       } catch (error) {
         console.error("Seek error:", error);
       }
     },
-    [audioState.isPlaying, startProgressTracking]
+    [audioState.isPlaying, startProgressTracking, stopProgressTracking]
   );
 
   const togglePlayback = useCallback(async () => {
@@ -774,6 +806,7 @@ const {
     loadAudioFile,
     loadYouTubeAudio,
     togglePlayback,
+    toggleLoop,
     seekTo,
     updateEffect,
     downloadProcessedAudio,

@@ -3,6 +3,7 @@ export type AudioState = {
   isLoading: boolean;
   duration: number;
   currentTime: number;
+  isLooping: boolean;
 };
 
 export type Effects = {
