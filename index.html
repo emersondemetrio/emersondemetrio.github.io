@@ -15,6 +15,9 @@
 <body class="leading-normal tracking-normal text-white gradient dark">
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
+  <script>
+    if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;
+  </script>
 </body>
 
 </html>

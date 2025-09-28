@@ -21,6 +21,7 @@
     "format:fix": "deno fmt src"
   },
   "dependencies": {
+    "@ffmpeg/core-mt": "^0.12.10",
     "@ffmpeg/ffmpeg": "*",
     "@ffmpeg/util": "*",
     "@imgly/background-removal": "^1.5.3",

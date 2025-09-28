@@ -1,5 +1,4 @@
 import { FFmpeg } from "@ffmpeg/ffmpeg";
-import { toBlobURL } from "@ffmpeg/util";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useFFmpeg = () => {
@@ -8,76 +7,16 @@ export const useFFmpeg = () => {
   const ffmpegRef = useRef(new FFmpeg());
 
   const load = useCallback(async () => {
-    // Check if SharedArrayBuffer is available
-    if (typeof SharedArrayBuffer === 'undefined') {
-      console.warn('⚠️ SharedArrayBuffer is not available. FFmpeg functionality will be limited.');
-      console.warn('💡 To enable full FFmpeg support, serve your app with these headers:');
-      console.warn('   Cross-Origin-Embedder-Policy: require-corp');
-      console.warn('   Cross-Origin-Opener-Policy: same-origin');
-      throw new Error('SharedArrayBuffer is not available. Please serve with proper CORS headers.');
-    }
-
-    // Try unpkg CDN first, fallback to jsdelivr
-    const baseURLs = [
-      "https://unpkg.com/@ffmpeg/core-mt@0.12.10/dist/esm",
-      "https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@0.12.10/dist/esm",
-    ];
-
     const ffmpeg = ffmpegRef.current;
-
 
     ffmpeg.on("log", ({ message }) => {
       console.log("📝 FFmpeg:", message);
     });
 
-    let lastError;
+    // Use local files from node_modules instead of CDN
+    await ffmpeg.load();
 
-    for (const baseURL of baseURLs) {
-      try {
-        // toBlobURL is used to bypass CORS issue, urls with the same
-        // domain can be used directly.
-
-        setLoadProgress(0.2);
-        const coreURL = await toBlobURL(
-          `${baseURL}/ffmpeg-core.js`,
-          "text/javascript"
-        );
-
-        setLoadProgress(0.5);
-        const wasmURL = await toBlobURL(
-          `${baseURL}/ffmpeg-core.wasm`,
-          "application/wasm"
-        );
-
-        setLoadProgress(0.8);
-        const workerURL = await toBlobURL(
-          `${baseURL}/ffmpeg-core.worker.js`,
-          "text/javascript"
-        );
-
-        const loadPromise = ffmpeg.load({ coreURL, wasmURL, workerURL });
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(
-            () => reject(new Error("FFmpeg load timeout after 30 seconds")),
-            30000
-          )
-        );
-
-        await Promise.race([loadPromise, timeoutPromise]);
-
-        setLoadProgress(1.0);
-        setLoaded(true);
-        return; // Success, exit the loop
-      } catch (error) {
-        console.error(`❌ Error with CDN ${baseURL}:`, error);
-        lastError = error;
-        setLoadProgress(0);
-        continue; // Try next CDN
-      }
-    }
-
-    // If we get here, all CDNs failed
-    throw lastError || new Error("All CDN attempts failed");
+    setLoaded(true);
   }, []);
 
   const manualLoad = useCallback(async () => {
