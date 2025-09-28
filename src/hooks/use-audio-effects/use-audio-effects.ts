@@ -1,8 +1,51 @@
-import { FFmpeg } from "@ffmpeg/ffmpeg";
-import { toBlobURL } from "@ffmpeg/util";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as Tone from "tone";
 import { AudioState, Effects } from "../../audio.types";
+import { useFFmpeg } from "../use-ffmpeg/use-ffmpeg";
+
+// Utility function to convert AudioBuffer to WAV Blob
+const audioBufferToWav = (buffer: AudioBuffer): Promise<Blob> => {
+  return new Promise((resolve) => {
+    const length = buffer.length;
+    const numberOfChannels = buffer.numberOfChannels;
+    const sampleRate = buffer.sampleRate;
+    const arrayBuffer = new ArrayBuffer(44 + length * numberOfChannels * 2);
+    const view = new DataView(arrayBuffer);
+
+    // WAV header
+    const writeString = (offset: number, string: string) => {
+      for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+      }
+    };
+
+    writeString(0, 'RIFF');
+    view.setUint32(4, 36 + length * numberOfChannels * 2, true);
+    writeString(8, 'WAVE');
+    writeString(12, 'fmt ');
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    view.setUint16(22, numberOfChannels, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * numberOfChannels * 2, true);
+    view.setUint16(32, numberOfChannels * 2, true);
+    view.setUint16(34, 16, true);
+    writeString(36, 'data');
+    view.setUint32(40, length * numberOfChannels * 2, true);
+
+    // Convert audio data
+    let offset = 44;
+    for (let i = 0; i < length; i++) {
+      for (let channel = 0; channel < numberOfChannels; channel++) {
+        const sample = Math.max(-1, Math.min(1, buffer.getChannelData(channel)[i]));
+        view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+        offset += 2;
+      }
+    }
+
+    resolve(new Blob([arrayBuffer], { type: 'audio/wav' }));
+  });
+};
 
 const defaultEffects: Effects = {
   tempo: { enabled: false, playbackRate: 1.0 },
@@ -31,6 +74,7 @@ const defaultEffects: Effects = {
   limiter: { enabled: false, threshold: -20 },
   pitchShift: { enabled: false, pitch: 0, wet: 1 },
   eq3: { enabled: false, low: 0, mid: 0, high: 0 },
+  volume: { enabled: false, volume: 0 }, // 0 dB = no change
 };
 
 export const useAudioEffects = () => {
@@ -51,82 +95,13 @@ export const useAudioEffects = () => {
   const recorderRef = useRef<Tone.Recorder | null>(null);
   const gainNodeRef = useRef<Tone.Gain | null>(null);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const [loaded, setLoaded] = useState(false);
-  const [ffmpegLoadProgress, setFfmpegLoadProgress] = useState(0);
-  const ffmpegRef = useRef(new FFmpeg());
 
-  const load = useCallback(async () => {
-    // Try unpkg CDN first, fallback to jsdelivr
-    const baseURLs = [
-      "https://unpkg.com/@ffmpeg/core-mt@0.12.10/dist/esm",
-      "https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@0.12.10/dist/esm"
-    ];
-
-    const ffmpeg = ffmpegRef.current;
-
-    console.log("🎬 Starting FFmpeg load...");
-
-    ffmpeg.on("log", ({ message }) => {
-      console.log("📝 FFmpeg:", message);
-    });
-
-    let lastError;
-
-    for (const baseURL of baseURLs) {
-      try {
-        console.log("🔗 Trying CDN:", baseURL);
-
-        // toBlobURL is used to bypass CORS issue, urls with the same
-        // domain can be used directly.
-        console.log("📦 Loading coreURL...");
-        const coreURL = await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript");
-        console.log("✓ coreURL loaded:", coreURL.substring(0, 50) + "...");
-
-        console.log("📦 Loading wasmURL...");
-        const wasmURL = await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm");
-        console.log("✓ wasmURL loaded:", wasmURL.substring(0, 50) + "...");
-
-        console.log("📦 Loading workerURL...");
-        const workerURL = await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, "text/javascript");
-        console.log("✓ workerURL loaded:", workerURL.substring(0, 50) + "...");
-
-        // Test if SharedArrayBuffer is available
-        console.log("🔍 SharedArrayBuffer available:", typeof SharedArrayBuffer !== 'undefined');
-        console.log("🔍 WebAssembly available:", typeof WebAssembly !== 'undefined');
-        console.log("🔍 Worker available:", typeof Worker !== 'undefined');
-
-        console.log("🚀 Calling ffmpeg.load()...");
-
-        // Add timeout to prevent infinite hanging
-        const loadPromise = ffmpeg.load({ coreURL, wasmURL, workerURL });
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('FFmpeg load timeout after 30 seconds')), 30000)
-        );
-
-        await Promise.race([loadPromise, timeoutPromise]);
-        console.log("✅ ffmpeg.load() completed successfully");
-
-        setLoaded(true);
-        console.log("🎉 FFmpeg is ready!");
-        return; // Success, exit the loop
-      } catch (error) {
-        console.error(`❌ Error with CDN ${baseURL}:`, error);
-        lastError = error;
-        continue; // Try next CDN
-      }
-    }
-
-    // If we get here, all CDNs failed
-    throw lastError || new Error('All CDN attempts failed');
-  }, []);
-
-  useEffect(() => {
-    load().catch(error => {
-      console.error("❌ FFmpeg failed:", error);
-      setFfmpegLoadProgress(0);
-    });
-  }, [load]);
-
+  // Use the FFmpeg hook
+const {
+    loaded: ffmpegLoaded,
+    loadProgress: ffmpegLoadProgress,
+    convertAudio,
+  } = useFFmpeg();
 
   const createEffectChain = useCallback(() => {
     if (!playerRef.current) return;
@@ -311,6 +286,14 @@ export const useAudioEffects = () => {
       currentOutput = reverb;
     }
 
+    // Volume (before limiter)
+    if (effects.volume.enabled) {
+      const volume = new Tone.Volume(effects.volume.volume);
+      effectsChainRef.current.volume = volume;
+      currentOutput.connect(volume);
+      currentOutput = volume;
+    }
+
     // Limiter (last effect)
     if (effects.limiter.enabled) {
       const limiter = new Tone.Limiter(effects.limiter.threshold);
@@ -411,6 +394,7 @@ export const useAudioEffects = () => {
         const player = new Tone.Player({
           url: audioUrl,
           onload: () => {
+            console.log("Audio loaded successfully");
             setAudioState((prev) => ({
               ...prev,
               isLoading: false,
@@ -430,6 +414,10 @@ export const useAudioEffects = () => {
             // Create initial effect chain
             createEffectChain();
           },
+          onerror: (error) => {
+            console.error("Error loading audio:", error);
+            setAudioState((prev) => ({ ...prev, isLoading: false }));
+          },
         });
 
         playerRef.current = player;
@@ -441,18 +429,45 @@ export const useAudioEffects = () => {
     [createEffectChain, generateWaveformData]
   );
 
-  const startProgressTracking = useCallback(() => {
+  const startProgressTracking = useCallback((startPosition?: number) => {
     if (progressIntervalRef.current) {
       clearInterval(progressIntervalRef.current);
     }
 
-    progressIntervalRef.current = setInterval(() => {
-      if (playerRef.current && audioState.isPlaying) {
-        const currentTime = playerRef.current.now();
-        setAudioState((prev) => ({ ...prev, currentTime }));
-      }
-    }, 100); // Update every 100ms
-  }, [audioState.isPlaying]);
+    const startTime = Tone.now();
+
+    // Get initial position from parameter or current state
+    setAudioState((prev) => {
+      const initialPosition = startPosition ?? prev.currentTime;
+
+      progressIntervalRef.current = setInterval(() => {
+        if (playerRef.current && playerRef.current.state === "started") {
+          const elapsed = Tone.now() - startTime;
+          const currentTime = Math.min(
+            initialPosition + elapsed,
+            prev.duration
+          );
+
+          setAudioState((current) => ({ ...current, currentTime }));
+
+          // Stop when we reach the end
+          if (currentTime >= prev.duration) {
+            playerRef.current?.stop();
+            setAudioState((current) => ({
+              ...current,
+              isPlaying: false,
+              currentTime: 0,
+            }));
+            if (progressIntervalRef.current) {
+              clearInterval(progressIntervalRef.current);
+            }
+          }
+        }
+      }, 100); // Update every 100ms
+
+      return prev;
+    });
+  }, []);
 
   const stopProgressTracking = useCallback(() => {
     if (progressIntervalRef.current) {
@@ -467,19 +482,30 @@ export const useAudioEffects = () => {
 
       try {
         const wasPlaying = audioState.isPlaying;
-        playerRef.current.stop();
 
-        // Only start if it was playing before
-        if (wasPlaying) {
-          playerRef.current.start(undefined, time);
+        // Stop current playback
+        if (playerRef.current.state === "started") {
+          playerRef.current.stop();
         }
 
+        // Update current time immediately for UI feedback
         setAudioState((prev) => ({ ...prev, currentTime: time }));
+
+        // If it was playing, restart from the new position
+        if (wasPlaying) {
+          // Small delay to ensure stop is processed
+          setTimeout(() => {
+            if (playerRef.current) {
+              playerRef.current.start(0, time);
+              startProgressTracking(time);
+            }
+          }, 10);
+        }
       } catch (error) {
         console.error("Seek error:", error);
       }
     },
-    [audioState.isPlaying]
+    [audioState.isPlaying, startProgressTracking]
   );
 
   const togglePlayback = useCallback(async () => {
@@ -492,19 +518,31 @@ export const useAudioEffects = () => {
         await Tone.start();
       }
 
+      // Check if buffer is loaded
+      if (!playerRef.current.loaded) {
+        console.warn("Audio buffer not loaded yet");
+        return;
+      }
+
       if (audioState.isPlaying) {
         playerRef.current.stop();
         stopProgressTracking();
         setAudioState((prev) => ({ ...prev, isPlaying: false }));
       } else {
-        playerRef.current.start();
-        startProgressTracking();
+        // Start from current position
+        playerRef.current.start(0, audioState.currentTime);
+        startProgressTracking(audioState.currentTime);
         setAudioState((prev) => ({ ...prev, isPlaying: true }));
       }
     } catch (error) {
       console.error("Playback error:", error);
     }
-  }, [audioState.isPlaying, startProgressTracking, stopProgressTracking]);
+  }, [
+    audioState.isPlaying,
+    audioState.currentTime,
+    startProgressTracking,
+    stopProgressTracking,
+  ]);
 
   const updateEffect = useCallback(
     (effectName: keyof Effects, updates: Partial<Effects[keyof Effects]>) => {
@@ -516,126 +554,139 @@ export const useAudioEffects = () => {
     []
   );
 
-  const convertAudioWithFFmpeg = useCallback(async (
-    inputBlob: Blob,
-    outputFormat: string = "mp3"
-  ): Promise<Blob> => {
-    try {
-      console.log("🎵 Starting audio conversion...");
-      console.log("  → Input size:", Math.round(inputBlob.size / 1024), "KB");
-      console.log("  → Output format:", outputFormat);
-
-      const inputFileName = "input.wav";
-      const outputFileName = `output.${outputFormat}`;
-
-      // Write input file
-      console.log("📝 Writing input file...");
-      const arrayBuffer = await inputBlob.arrayBuffer();
-      const ffmpeg = ffmpegRef.current;
-      await ffmpeg.writeFile(inputFileName, new Uint8Array(arrayBuffer));
-      console.log("✓ Input file written");
-
-      // Run FFmpeg command
-      const command = [
-        "-i",
-        inputFileName,
-        // Add quality settings for MP3
-        ...(outputFormat === "mp3" ? ["-b:a", "192k"] : []),
-        outputFileName,
-      ];
-      console.log("🎬 Running FFmpeg command:", command.join(" "));
-      await ffmpeg.exec(command);
-      console.log("✓ FFmpeg command completed");
-
-      // Read the output file
-      console.log("📤 Reading output file...");
-      const data = await ffmpeg.readFile(outputFileName);
-      const uint8Array =
-        data instanceof Uint8Array
-          ? data
-          : new Uint8Array(data as unknown as ArrayBuffer);
-      console.log("✓ Output file read");
-
-      // Create blob with appropriate MIME type
-      const mimeTypes: { [key: string]: string } = {
-        mp3: "audio/mpeg",
-        wav: "audio/wav",
-        m4a: "audio/mp4",
-        ogg: "audio/ogg",
-      };
-
-      const outputBlob = new Blob([uint8Array as BlobPart], {
-        type: mimeTypes[outputFormat] || "audio/mpeg",
-      });
-      console.log("✅ Conversion complete!");
-      console.log("  → Output size:", Math.round(outputBlob.size / 1024), "KB");
-
-      return outputBlob;
-    } catch (error) {
-      console.error("❌ FFmpeg conversion error:", error);
-      throw error;
-    }
-  }, []);
-
   const downloadProcessedAudio = useCallback(
     async (outputFormat: string = "mp3") => {
       if (!playerRef.current || !audioFile || isDownloading) return;
 
-      if (!loaded) {
+      if (!ffmpegLoaded) {
         throw new Error("FFmpeg not ready");
       }
 
       try {
         setIsDownloading(true);
+        console.log("🎛️ Starting offline audio processing...");
 
-        // Create a new recorder for this session
-        if (recorderRef.current) {
-          recorderRef.current.dispose();
-        }
-        recorderRef.current = new Tone.Recorder();
-
-        // Connect the gain node to the recorder
-        if (gainNodeRef.current) {
-          gainNodeRef.current.connect(recorderRef.current);
+        const buffer = playerRef.current.buffer;
+        if (!buffer) {
+          throw new Error("No audio buffer loaded");
         }
 
-        // Start recording
-        await recorderRef.current.start();
+        const duration = buffer.duration;
+        console.log(`📊 Processing ${duration.toFixed(2)}s of audio offline...`);
 
-        // Store current playback state
-        const wasPlaying = audioState.isPlaying;
-        const currentPosition = audioState.currentTime;
+        // Use Tone.Offline to render the audio with effects applied
+        const processedBuffer = await Tone.Offline(async () => {
+          // Create offline player and effects chain
+          const offlinePlayer = new Tone.Player(buffer);
+          let currentOutput: Tone.ToneAudioNode = offlinePlayer;
 
-        // Stop if currently playing
-        if (wasPlaying) {
-          playerRef.current.stop();
-        }
+          // Build the same effects chain as in real-time
+          if (effects.distortion.enabled) {
+            const distortion = new Tone.Distortion(effects.distortion.amount);
+            currentOutput.connect(distortion);
+            currentOutput = distortion;
+          }
 
-        // Play the audio silently to record with effects
-        playerRef.current.start();
+          if (effects.chorus.enabled) {
+            const chorus = new Tone.Chorus(effects.chorus.frequency, effects.chorus.delayTime, effects.chorus.depth);
+            currentOutput.connect(chorus);
+            currentOutput = chorus;
+          }
 
-        // Wait for the full duration
-        const duration = playerRef.current.buffer.duration;
-        await new Promise((resolve) => setTimeout(resolve, duration * 1000));
+          if (effects.phaser.enabled) {
+            const phaser = new Tone.Phaser(effects.phaser.frequency, effects.phaser.octaves);
+            currentOutput.connect(phaser);
+            currentOutput = phaser;
+          }
 
-        // Stop playback
-        playerRef.current.stop();
+          if (effects.tremolo.enabled) {
+            const tremolo = new Tone.Tremolo(effects.tremolo.frequency, effects.tremolo.depth);
+            currentOutput.connect(tremolo);
+            currentOutput = tremolo;
+          }
 
-        // If it was playing before, resume from previous position
-        if (wasPlaying) {
-          playerRef.current.start(0, currentPosition);
-        }
+          if (effects.vibrato.enabled) {
+            const vibrato = new Tone.Vibrato(effects.vibrato.frequency, effects.vibrato.depth);
+            currentOutput.connect(vibrato);
+            currentOutput = vibrato;
+          }
 
-        // Stop recording and get the WAV blob
-        const recordedBlob = await recorderRef.current.stop();
+          if (effects.filter.enabled) {
+            const filter = new Tone.Filter(effects.filter.frequency, effects.filter.type as BiquadFilterType);
+            currentOutput.connect(filter);
+            currentOutput = filter;
+          }
 
-        // Convert to desired format using FFmpeg
-        const convertedBlob = await convertAudioWithFFmpeg(
-          recordedBlob,
-          outputFormat
-        );
+          if (effects.autoFilter.enabled) {
+            const autoFilter = new Tone.AutoFilter(effects.autoFilter.frequency, effects.autoFilter.baseFrequency, effects.autoFilter.depth);
+            currentOutput.connect(autoFilter);
+            currentOutput = autoFilter;
+          }
 
-        // Download
+          if (effects.compressor.enabled) {
+            const compressor = new Tone.Compressor(effects.compressor.threshold, effects.compressor.ratio);
+            currentOutput.connect(compressor);
+            currentOutput = compressor;
+          }
+
+          if (effects.limiter.enabled) {
+            const limiter = new Tone.Limiter(effects.limiter.threshold);
+            currentOutput.connect(limiter);
+            currentOutput = limiter;
+          }
+
+          if (effects.pitchShift.enabled) {
+            const pitchShift = new Tone.PitchShift(effects.pitchShift.pitch);
+            currentOutput.connect(pitchShift);
+            currentOutput = pitchShift;
+          }
+
+          if (effects.eq3.enabled) {
+            const eq3 = new Tone.EQ3(effects.eq3.low, effects.eq3.mid, effects.eq3.high);
+            currentOutput.connect(eq3);
+            currentOutput = eq3;
+          }
+
+          if (effects.delay.enabled) {
+            const delay = new Tone.Delay(effects.delay.delayTime, effects.delay.feedback);
+            currentOutput.connect(delay);
+            currentOutput = delay;
+          }
+
+          if (effects.pingPongDelay.enabled) {
+            const pingPongDelay = new Tone.PingPongDelay(effects.pingPongDelay.delayTime, effects.pingPongDelay.feedback);
+            currentOutput.connect(pingPongDelay);
+            currentOutput = pingPongDelay;
+          }
+
+          if (effects.reverb.enabled) {
+            const reverb = new Tone.Reverb(effects.reverb.decay);
+            currentOutput.connect(reverb);
+            currentOutput = reverb;
+          }
+
+          if (effects.volume.enabled) {
+            const volume = new Tone.Volume(effects.volume.volume);
+            currentOutput.connect(volume);
+            currentOutput = volume;
+          }
+
+          // Connect to destination and start
+          currentOutput.toDestination();
+          offlinePlayer.start(0);
+        }, duration);
+
+        console.log("✅ Offline processing complete!");
+
+        // Convert ToneAudioBuffer to regular AudioBuffer, then to WAV Blob
+        const audioBuffer = processedBuffer.get() as AudioBuffer;
+        const processedBlob = await audioBufferToWav(audioBuffer);
+        console.log("📦 Created WAV blob:", Math.round(processedBlob.size / 1024), "KB");
+
+        // Use FFmpeg to convert to desired format
+        const convertedBlob = await convertAudio(processedBlob, outputFormat);
+
+        // Download the converted file
         const timestamp = new Date()
           .toISOString()
           .slice(0, 19)
@@ -653,21 +704,20 @@ export const useAudioEffects = () => {
 
         setTimeout(() => URL.revokeObjectURL(url), 100);
 
-        console.log(`Downloaded: ${filename}`);
+        console.log(`✅ Downloaded processed audio: ${filename}`);
         setIsDownloading(false);
       } catch (error) {
-        console.error("Download error:", error);
-        alert("Download failed: " + error);
+        console.error("❌ Offline processing error:", error);
+        alert("Audio processing failed: " + error);
         setIsDownloading(false);
       }
     },
     [
       audioFile,
-      audioState.isPlaying,
-      audioState.currentTime,
+      effects,
       isDownloading,
-      loaded,
-      convertAudioWithFFmpeg,
+      ffmpegLoaded,
+      convertAudio,
     ]
   );
 
@@ -704,19 +754,6 @@ export const useAudioEffects = () => {
     };
   }, [stopProgressTracking]);
 
-  const manualLoadFFmpeg = useCallback(async () => {
-    if (loaded) return;
-
-    try {
-      console.log("🎬 Manual Loading FFmpeg...");
-      await load();
-      console.log("✅ Manual FFmpeg ready!");
-    } catch (error) {
-      console.error("❌ Manual FFmpeg failed:", error);
-      setFfmpegLoadProgress(0);
-    }
-  }, [loaded, load]);
-
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -725,13 +762,14 @@ export const useAudioEffects = () => {
 
   return {
     audioFile,
+    resetAudioFile: () => setAudioFile(null),
     youtubeUrl,
     setYoutubeUrl,
     audioState,
     effects,
     waveformData,
     isDownloading,
-    loaded,
+    loaded: ffmpegLoaded,
     ffmpegLoadProgress,
     loadAudioFile,
     loadYouTubeAudio,
@@ -740,7 +778,6 @@ export const useAudioEffects = () => {
     updateEffect,
     downloadProcessedAudio,
     formatTime,
-    convertAudioWithFFmpeg,
-    manualLoadFFmpeg,
+    convertAudio,
   };
 };

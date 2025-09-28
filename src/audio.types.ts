@@ -58,4 +58,7 @@ export type Effects = {
 
   // EQ
   eq3: { enabled: boolean; low: number; mid: number; high: number };
+
+  // Volume
+  volume: { enabled: boolean; volume: number };
 };
