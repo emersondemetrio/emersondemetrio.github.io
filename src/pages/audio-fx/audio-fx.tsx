@@ -1,7 +1,7 @@
-import React from "react";
-import { Page } from "@/components/page/page";
 import { FilePicker } from "@/components/file-picker/file-picker";
+import { Page } from "@/components/page/page";
 import { useAudioEffects } from "@/hooks/use-audio-effects/use-audio-effects";
+import React, { useRef } from "react";
 
 type EffectControlProps = {
   name: string;
@@ -72,7 +72,7 @@ type WaveformProps = {
 
 const Waveform = ({ waveformData, duration, currentTime, onSeek }: WaveformProps) => {
   if (waveformData.length === 0) return null;
-  
+
   const handleClick = (e: React.MouseEvent<SVGSVGElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
@@ -80,9 +80,9 @@ const Waveform = ({ waveformData, duration, currentTime, onSeek }: WaveformProps
     const seekTime = progress * duration;
     onSeek(seekTime);
   };
-  
+
   const progress = duration > 0 ? currentTime / duration : 0;
-  
+
   return (
     <div className="w-full">
       <svg
@@ -96,7 +96,7 @@ const Waveform = ({ waveformData, duration, currentTime, onSeek }: WaveformProps
         {waveformData.map((amplitude, index) => {
           const height = Math.max(1, amplitude * 50);
           const isPast = index / waveformData.length <= progress;
-          
+
           return (
             <rect
               key={index}
@@ -109,7 +109,7 @@ const Waveform = ({ waveformData, duration, currentTime, onSeek }: WaveformProps
             />
           );
         })}
-        
+
         {/* Progress line */}
         <line
           x1={progress * waveformData.length}
@@ -125,6 +125,8 @@ const Waveform = ({ waveformData, duration, currentTime, onSeek }: WaveformProps
 };
 
 export const AudioFx = () => {
+  const messageRef = useRef<HTMLParagraphElement>(null);
+
   const {
     audioFile,
     youtubeUrl,
@@ -140,6 +142,9 @@ export const AudioFx = () => {
     updateEffect,
     downloadProcessedAudio,
     formatTime,
+    loaded: isFFmpegReady,
+    ffmpegLoadProgress,
+    manualLoadFFmpeg,
   } = useAudioEffects();
 
   return (
@@ -147,10 +152,11 @@ export const AudioFx = () => {
       <div className="min-h-screen bg-base-100">
         {/* Header */}
         <div className="bg-primary text-primary-content p-4 mb-6">
+        <div>
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-2xl font-bold">🎵 Audio Effects Studio</h1>
-              <p className="text-primary-content/80">Real-time audio processing with Tone.js</p>
+              <p className="text-primary-content/80">Real-time audio processing.</p>
             </div>
             {audioFile && (
               <div className="text-right">
@@ -159,6 +165,24 @@ export const AudioFx = () => {
               </div>
             )}
           </div>
+          <div className="flex items-center gap-2 mt-2 text-primary-content/90">
+            <div className={`w-2 h-2 rounded-full ${isFFmpegReady ? 'bg-success' : 'bg-warning animate-pulse'}`}></div>
+            <span className="text-sm">
+              {isFFmpegReady
+                ? 'Audio processor ready'
+                : `Initializing audio processor... ${Math.round(ffmpegLoadProgress * 100)}%`}
+            </span>
+            {!isFFmpegReady && (
+              <button
+                onClick={manualLoadFFmpeg}
+                className="btn btn-xs btn-outline btn-primary"
+              >
+                Retry Load
+              </button>
+            )}
+            <p ref={messageRef} className="text-xs text-error ml-2"></p>
+          </div>
+        </div>
         </div>
 
         {/* Main Content */}
@@ -166,7 +190,7 @@ export const AudioFx = () => {
           {/* Left Column - Effects */}
           <div className="space-y-4">
             <h2 className="text-xl font-bold mb-4">🎛️ Effects</h2>
-            
+
             {/* File Input */}
             {!audioFile && (
               <div className="space-y-4">
@@ -175,14 +199,14 @@ export const AudioFx = () => {
                   <FilePicker onFileChange={loadAudioFile} />
                   <p className="text-base-content/60 mt-2">MP3, WAV, OGG, M4A</p>
                 </div>
-                
+
                 {/* Divider */}
                 <div className="flex items-center">
                   <div className="flex-1 h-px bg-base-300"></div>
                   <span className="px-3 text-sm text-base-content/60">OR</span>
                   <div className="flex-1 h-px bg-base-300"></div>
                 </div>
-                
+
                 {/* YouTube URL Input */}
                 <div className="border border-base-300 p-6 rounded-lg">
                   <h3 className="text-sm font-semibold mb-3">🎥 YouTube URL</h3>
@@ -211,6 +235,23 @@ export const AudioFx = () => {
 
             {audioFile && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Tempo */}
+                <EffectControl
+                  name="⏱️ Tempo"
+                  enabled={effects.tempo.enabled}
+                  onToggle={() => updateEffect('tempo', { enabled: !effects.tempo.enabled })}
+                >
+                  <Slider
+                    label="Speed"
+                    value={effects.tempo.playbackRate}
+                    min={0.25}
+                    max={2}
+                    step={0.05}
+                    onChange={(value) => updateEffect('tempo', { playbackRate: value })}
+                    unit="x"
+                  />
+                </EffectControl>
+
                 {/* EQ */}
                 <EffectControl
                   name="🎚️ EQ3"
@@ -507,7 +548,7 @@ export const AudioFx = () => {
           {/* Right Column - Player */}
           <div className="space-y-4">
             <h2 className="text-xl font-bold mb-4">🎮 Player</h2>
-            
+
             {audioFile ? (
               <div className="space-y-6">
                 {/* Player Controls */}
@@ -530,7 +571,7 @@ export const AudioFx = () => {
                       <span>{formatTime(audioState.currentTime)}</span>
                       <span>{formatTime(audioState.duration)}</span>
                     </div>
-                    
+
                     {waveformData.length > 0 ? (
                       <div className="bg-base-300 rounded p-2">
                         <Waveform
@@ -546,13 +587,13 @@ export const AudioFx = () => {
                       </div>
                     )}
                   </div>
-                  
+
                   {!audioState.isPlaying && (
                     <div className="text-center text-xs text-base-content/50 mb-2">
                       ℹ️ Click play to start audio processing
                     </div>
                   )}
-                  
+
                   <div className="text-center text-sm text-base-content/60">
                     {audioFile.name}
                   </div>
@@ -560,22 +601,24 @@ export const AudioFx = () => {
 
                 {/* Download Controls */}
                 <div className="bg-base-200 p-6 rounded-lg">
-                  <h3 className="font-semibold mb-4">💾 Download with Effects</h3>
+                <h3 className="font-semibold mb-4">💾 Download with Effects</h3>
                   <button
                     className={`btn btn-success w-full ${
-                      isDownloading ? "loading" : ""
+                      (isDownloading || !isFFmpegReady) ? "loading" : ""
                     }`}
-                    onClick={downloadProcessedAudio}
-                    disabled={isDownloading || !audioFile}
+                    onClick={() => downloadProcessedAudio()}
+                    disabled={isDownloading || !audioFile || !isFFmpegReady}
                   >
-                    {isDownloading ? "Processing..." : "📥 Download WAV"}
+                    {!isFFmpegReady ? "Loading FFmpeg..." :
+                      isDownloading ? "⏳ Recording effects..." : "📥 Download WAV"}
                   </button>
-                  <p className="text-xs text-base-content/60 mt-2">
-                    {isDownloading 
-                      ? "Rendering audio with effects offline..."
-                      : "Downloads the audio with selected effects applied as WAV file"}
+                    <p className="text-xs text-base-content/60 mt-2">
+                    {!isFFmpegReady ? "Initializing audio processing..." :
+                      isDownloading
+                        ? "Recording and applying effects..."
+                        : "Save the audio with current effects applied"}
                   </p>
-                  {Object.entries(effects).some(([_, effect]) => effect.enabled) && (
+                    {Object.entries(effects).some(([, effect]) => effect.enabled) && (
                     <div className="mt-2 text-xs text-success">
                       ✓ Active effects will be applied
                     </div>
@@ -611,10 +654,10 @@ export const AudioFx = () => {
                 <div className="bg-base-200 p-4 rounded-lg">
                   <h3 className="font-semibold mb-3">🔧 Active Effects</h3>
                   <div className="text-sm space-y-1">
-                    {Object.entries(effects).some(([_, effect]) => effect.enabled) ? (
+                    {Object.entries(effects).some(([, effect]) => effect.enabled) ? (
                       Object.entries(effects)
-                        .filter(([_, effect]) => effect.enabled)
-                        .map(([name, _]) => (
+                        .filter(([, effect]) => effect.enabled)
+                        .map(([name]) => (
                           <div key={name} className="badge badge-primary badge-sm mr-2">
                             {name}
                           </div>

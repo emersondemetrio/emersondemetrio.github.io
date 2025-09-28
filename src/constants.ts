@@ -108,7 +108,7 @@ export const Links: Array<Link> = [
     handle: "@badcompiler",
     ranking: 10,
     about: "Personal Blog",
-  },
+  }
 ];
 
 export type AvailableLinks =
