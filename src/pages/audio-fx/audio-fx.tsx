@@ -335,13 +335,15 @@ export const AudioFx = () => {
               <div>
                 <h1 className="text-2xl font-bold">🎵 Audio Effects Studio</h1>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm">
-                    {isFFmpegReady
-                      ? "Audio processor ready"
-                      : `Initializing audio processor... ${Math.round(
-                          ffmpegLoadProgress * 100
-                        )}%`}
-                  </span>
+               <span className="text-sm">
+                 {isFFmpegReady
+                   ? "Audio processor ready"
+                   : ffmpegLoadProgress === 0
+                   ? "Audio processor unavailable (missing CORS headers)"
+                   : `Initializing audio processor... ${Math.round(
+                       ffmpegLoadProgress * 100
+                     )}%`}
+               </span>
                   <div
                     className={`w-2 h-2 rounded-full ${
                       isFFmpegReady ? "bg-success" : "bg-warning animate-pulse"

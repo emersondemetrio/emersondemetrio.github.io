@@ -8,6 +8,15 @@ export const useFFmpeg = () => {
   const ffmpegRef = useRef(new FFmpeg());
 
   const load = useCallback(async () => {
+    // Check if SharedArrayBuffer is available
+    if (typeof SharedArrayBuffer === 'undefined') {
+      console.warn('⚠️ SharedArrayBuffer is not available. FFmpeg functionality will be limited.');
+      console.warn('💡 To enable full FFmpeg support, serve your app with these headers:');
+      console.warn('   Cross-Origin-Embedder-Policy: require-corp');
+      console.warn('   Cross-Origin-Opener-Policy: same-origin');
+      throw new Error('SharedArrayBuffer is not available. Please serve with proper CORS headers.');
+    }
+
     // Try unpkg CDN first, fallback to jsdelivr
     const baseURLs = [
       "https://unpkg.com/@ffmpeg/core-mt@0.12.10/dist/esm",
