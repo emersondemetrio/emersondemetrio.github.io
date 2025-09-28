@@ -34,3 +34,11 @@ export const unDelay = (id?: NodeJS.Timeout, callback?: () => void) => {
 export const copyToClipboard = async (message: string) => {
   await navigator.clipboard.writeText(message);
 };
+
+export const ensure = <T>(value: T | null | undefined, name: string): value is T => {
+  if (value === null || value === undefined) {
+    throw new Error(`Expected ${name} to be defined, but got ${value}`);
+  }
+
+  return true;
+};

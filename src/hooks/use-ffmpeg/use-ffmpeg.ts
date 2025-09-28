@@ -1,5 +1,22 @@
+import { ensure } from "@/utils/utils";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { useCallback, useEffect, useRef, useState } from "react";
+
+const AudioMimeTypes: { [key: string]: string } = {
+  mp3: "audio/mpeg",
+  wav: "audio/wav",
+  m4a: "audio/mp4",
+  ogg: "audio/ogg",
+};
+
+const KnownFormats: Record<string, { name: string; mimeType: string }> = {
+  mp3: { name: "mp3", mimeType: AudioMimeTypes.mp3 },
+  wav: { name: "wav", mimeType: AudioMimeTypes.wav },
+  m4a: { name: "m4a", mimeType: AudioMimeTypes.m4a },
+  ogg: { name: "ogg", mimeType: AudioMimeTypes.ogg },
+};
+
+type AudioOutputFormat = keyof typeof KnownFormats;
 
 export const useFFmpeg = () => {
   const [loaded, setLoaded] = useState(false);
@@ -27,10 +44,11 @@ export const useFFmpeg = () => {
   }, [loaded, load]);
 
   const convertAudio = useCallback(
-    async (inputBlob: Blob, outputFormat: string = "mp3"): Promise<Blob> => {
-      if (!loaded) {
-        throw new Error("FFmpeg not loaded");
-      }
+    async (
+      inputBlob: Blob,
+      outputFormat: AudioOutputFormat = KnownFormats.mp3.name
+    ): Promise<Blob> => {
+      ensure(loaded, "FFmpeg");
 
       try {
         const inputFileName = "input.wav";
@@ -65,15 +83,9 @@ export const useFFmpeg = () => {
         console.log("✓ Output file read");
 
         // Create blob with appropriate MIME type
-        const mimeTypes: { [key: string]: string } = {
-          mp3: "audio/mpeg",
-          wav: "audio/wav",
-          m4a: "audio/mp4",
-          ogg: "audio/ogg",
-        };
 
         const outputBlob = new Blob([uint8Array as BlobPart], {
-          type: mimeTypes[outputFormat] || "audio/mpeg",
+          type: AudioMimeTypes[outputFormat] || AudioMimeTypes.mp3,
         });
         console.log("✅ Conversion complete!");
         console.log(
