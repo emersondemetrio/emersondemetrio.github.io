@@ -1,7 +1,7 @@
 import { FilePicker } from "@/components/file-picker/file-picker";
 import { Modal } from "@/components/modal/modal";
 import { Page } from "@/components/page/page";
-import { Pedal } from "@/components/pedal/pedal";
+import { Pedal } from "@/components/pedal/PedalControl";
 import { useAudioEffects } from "@/hooks/use-audio-effects/use-audio-effects";
 import React, { useRef, useState } from "react";
 
