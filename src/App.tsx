@@ -15,6 +15,7 @@ import { Countdown } from "./pages/countdown/countdown";
 import { Camera } from "./pages/camera/camera";
 import { DevDaily } from "./pages/dev-daily/dev-daily";
 import { Pasteable } from "./pages/pasteable/pasteable";
+import { AudioFx } from "./pages/audio-fx/audio-fx";
 
 const oldRoutes = [
   {
@@ -66,6 +67,7 @@ export const App = () => {
               element={<Countdown />}
             />
             <Route path="/labs/camera" element={<Camera />} />
+            <Route path="/labs/audio-fx" element={<AudioFx />} />
             {/* Old routes */}
             {oldRoutes.map(({ from, to }) => (
               <Route

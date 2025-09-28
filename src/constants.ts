@@ -108,7 +108,7 @@ export const Links: Array<Link> = [
     handle: "@badcompiler",
     ranking: 10,
     about: "Personal Blog",
-  },
+  }
 ];
 
 export type AvailableLinks =
@@ -212,5 +212,11 @@ export const experiments: Lab[] = [
     description: "Create an image from your clipboard 🖼️",
     link: "#/labs/paste",
     repo: `${githubBaseUrl}/pages/pasteable/pasteable.tsx`,
+  },
+  {
+    title: "Audio FX Studio",
+    description: "Professional audio effects processing 🎵",
+    link: "#/labs/audio-fx",
+    repo: `${githubBaseUrl}/pages/audio-fx/audio-fx.tsx`,
   },
 ];
