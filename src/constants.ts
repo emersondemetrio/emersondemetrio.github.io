@@ -22,7 +22,7 @@ export const Links: Array<Link> = [
   {
     title: "Whatsapp",
     url: `https://wa.me/${atob('KzU1NDg5OTk0NTM1ODE=')}?text=Hey,%20Emerson!`,
-    category: "professional",
+    category: "social",
     handle: "@emersondemetrio",
     ranking: 0,
     keepFocus: false,
