@@ -1,9 +1,8 @@
-import "./terminal.css";
-import { TerminalHeader } from "./terminal-header";
-import { TerminalFooter } from "./terminal-footer";
-import { openUrl } from "@/utils/utils";
 import { Actions } from "@/types";
-import { useState } from "react";
+import { openUrl } from "@/utils/utils";
+import { TerminalFooter } from "./terminal-footer";
+import { TerminalHeader } from "./terminal-header";
+import "./terminal.css";
 
 type TerminalContentProps = {
   title: string;
@@ -38,11 +37,6 @@ export const TerminalContent = ({
     }
   };
 
-  const [aboutVisibility, setAboutVisibility] = useState<boolean>(false);
-
-  const showAbout = () => setAboutVisibility(true);
-  const hideAbout = () => setAboutVisibility(false);
-
   const categoryClassLookup: Map<string, string[]> = new Map([
     ["experiments", ["outline", "outline-rose-800", "outline-rose-500"]],
     ["tools", ["outline-cyan-500", "outline-cyan-300"]],
@@ -56,16 +50,13 @@ export const TerminalContent = ({
   return (
     <div
       tabIndex={tabIndex}
-      className={`${categoryClass} md:p-0 px-6 rounded hover:outline hover:outline-solid outline-offset-2`}
+      className={`${categoryClass} terminal-item md:p-0 px-2 sm:px-6 rounded hover:outline hover:outline-solid outline-offset-2`}
       key={`${category}/${title}`}
-      onFocus={showAbout}
-      onBlur={hideAbout}
-      onMouseEnter={showAbout}
-      onMouseLeave={hideAbout}
     >
       <TerminalHeader title={title} actions={actions} />
       <div className="terminal-item-content" onClick={handleClick}>
-        <span>{aboutVisibility ? `${handle}: ${about}` : handle}</span>
+        <span>{handle}</span>
+        {about && <><br /><span>{about}</span></>}
       </div>
       <TerminalFooter category={category} />
     </div>

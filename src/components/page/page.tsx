@@ -70,7 +70,7 @@ export const Page = ({
       ref={pageRef}
       tabIndex={-1}
       data-page={`page-${name.toLowerCase().replace(/\s/g, "-")}`}
-      className={`grid place-items-center py-20 text-center ${padding} ${className}`}
+      className={`grid place-items-center py-20 px-4 sm:px-8 text-center ${padding} ${className}`}
     >
       <div className="container mx-auto flex flex-wrap">
         {withoutName

@@ -20,13 +20,13 @@ const Instagram: Link = {
 
 export const Links: Array<Link> = [
   {
-    title: "Dev Daily",
-    url: "#/dev",
+    title: "Whatsapp",
+    url: `https://wa.me/${atob('KzU1NDg5OTk0NTM1ODE=')}?text=Hey,%20Emerson!`,
     category: "professional",
-    handle: "Dev Daily",
+    handle: "@emersondemetrio",
     ranking: 0,
-    keepFocus: true,
-    about: "Developer's Daily Routine",
+    keepFocus: false,
+    about: "Whatsapp profile",
   },
   Instagram,
   {

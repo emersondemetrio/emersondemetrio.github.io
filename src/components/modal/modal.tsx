@@ -12,7 +12,7 @@ export const Modal = ({ title, visible, onClose, children }: ModalProps) => {
 
   return (
     <dialog id={modalId} className={visible ? "modal modal-open" : "modal"}>
-      <div className="modal-box w-full">
+      <div className="modal-box w-full max-w-full sm:max-w-lg md:max-w-2xl lg:max-w-4xl mx-4">
         <h3 className="font-bold text-lg">{title}</h3>
         {children}
         {onClose && (

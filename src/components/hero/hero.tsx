@@ -5,10 +5,13 @@ export const Hero = () => {
 
   if (isMobile) {
     return (
-      <div>
-        <h1 className="my-4 text-2xl font-bold leading-tight text-center">
+      <div className="w-full px-4">
+        <h1 className="my-4 text-xl sm:text-2xl font-bold leading-tight text-center">
           ~/emerson/home
         </h1>
+        <p className="text-center text-sm sm:text-base mb-4 opacity-80">
+          Welcome. Useful links below.
+        </p>
       </div>
     );
   }
