@@ -3,6 +3,7 @@ import { openUrl } from "@/utils/utils";
 import { TerminalFooter } from "./terminal-footer";
 import { TerminalHeader } from "./terminal-header";
 import "./terminal.css";
+import { IconType } from "react-icons";
 
 type TerminalContentProps = {
   title: string;
@@ -14,6 +15,7 @@ type TerminalContentProps = {
   keepFocus?: boolean;
   tabIndex: number;
   about: string;
+  Icon?: IconType
 };
 
 export const TerminalContent = ({
@@ -26,6 +28,7 @@ export const TerminalContent = ({
   keepFocus,
   tabIndex,
   about,
+  Icon,
 }: TerminalContentProps) => {
   const handleClick = () => {
     if (url) {
@@ -53,7 +56,7 @@ export const TerminalContent = ({
       className={`${categoryClass} terminal-item md:p-0 px-2 sm:px-6 rounded hover:outline hover:outline-solid outline-offset-2`}
       key={`${category}/${title}`}
     >
-      <TerminalHeader title={title} actions={actions} />
+      <TerminalHeader title={title} actions={actions} Icon={Icon} />
       <div className="terminal-item-content" onClick={handleClick}>
         <span>{handle}</span>
         {about && <><br /><span>{about}</span></>}

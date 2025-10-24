@@ -1,3 +1,5 @@
+import type { IconType } from "react-icons";
+
 export type Actions = {
   onMaximize?: () => void;
   onMinimize?: () => void;
@@ -7,6 +9,7 @@ export type Actions = {
 export type TerminalHeaderProps = {
   title: string;
   actions?: Actions;
+  Icon?: IconType
 };
 
 export type TerminalActionsProps = {
@@ -18,7 +21,7 @@ export type LinkCategory = "social" | "professional" | "arts";
 export type Link = {
   title: string;
   url: string;
-  icon?: string;
+  icon?: IconType;
   category: LinkCategory;
   handle: string;
   ranking: number;
@@ -32,6 +35,7 @@ export type Tool = {
   category: string;
   actions: Actions;
   about: string;
+  icon?: IconType;
 };
 
 export type Lab = {

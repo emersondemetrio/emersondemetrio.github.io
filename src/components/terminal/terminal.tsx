@@ -1,6 +1,8 @@
 import "./terminal.css";
+import type { IconType } from "react-icons";
 import { Lab, Link, Tool } from "@/types";
 import { TerminalContent } from "./terminal-content";
+import { AiFillExperiment } from "react-icons/ai";
 
 type TerminalProps = {
   links: Link[];
@@ -13,24 +15,24 @@ export const Terminal = ({
   tools = [],
   experiments = [],
 }: TerminalProps) => {
+
   return (
     <div className="terminal-container mb-5">
-      {links.map(
-        ({ handle, title, url, category, about, keepFocus = false }, index) => {
-          return (
-            <TerminalContent
-              tabIndex={index}
-              key={`${category}/${title}`}
-              url={url}
-              keepFocus={keepFocus}
-              title={title}
-              handle={handle}
-              category={category}
-              about={about}
-            />
-          );
-        },
-      )}
+      {links.map(({ handle, title, url, category, about, icon, keepFocus = false }, index) => {
+        return (
+          <TerminalContent
+            tabIndex={index}
+            key={`${category}/${title}`}
+            url={url}
+            keepFocus={keepFocus}
+            title={title}
+            handle={handle}
+            category={category}
+            about={about}
+            Icon={icon}
+          />
+        );
+      })}
       {tools.map((tool, index) => {
         return (
           <TerminalContent
@@ -56,6 +58,7 @@ export const Terminal = ({
             handle={experiment.title}
             category="experiments"
             about={experiment.description}
+            Icon={AiFillExperiment}
           />
         );
       })}

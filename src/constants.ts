@@ -1,4 +1,19 @@
 import { CurrencyProvider, Lab, Link, Repo } from "./types";
+import {
+  FaInstagram,
+  FaWhatsapp,
+  FaEnvelope,
+  FaTwitter,
+  FaLinkedin,
+  FaGithub,
+  FaFileCode,
+  FaCodepen,
+  FaYoutube,
+  FaListUl,
+  FaSoundcloud,
+  FaSpotify,
+  FaTumblr,
+} from "react-icons/fa";
 export const GITHUB_URL = "https://github.com/emersondemetrio/emersondemetrio.github.io/blob/main/";
 export const API_URL = "https://api.exchangerate-api.com/v4/latest/";
 
@@ -16,6 +31,7 @@ const Instagram: Link = {
   ranking: 9,
   category: "social",
   about: "Instagram profile",
+  icon: FaInstagram,
 };
 
 export const Links: Array<Link> = [
@@ -26,7 +42,18 @@ export const Links: Array<Link> = [
     handle: "@emersondemetrio",
     ranking: 0,
     keepFocus: false,
-    about: "Whatsapp profile",
+    about: "Whatsapp",
+    icon: FaWhatsapp,
+  },
+  {
+    title: "email",
+    url: `mailto:${atob('ZW1lci5kZW1ldHJpb0BnbWFpbC5jb20=')}`,
+    category: "social",
+    handle: `${atob('ZW1lci5kZW1ldHJpb0BnbWFpbC5jb20=')}`,
+    ranking: 0,
+    keepFocus: false,
+    about: "Email",
+    icon: FaEnvelope,
   },
   Instagram,
   {
@@ -36,6 +63,7 @@ export const Links: Array<Link> = [
     handle: "@emersondemetrio",
     ranking: 10,
     about: "X profile",
+    icon: FaTwitter,
   },
   {
     title: "LinkedIn",
@@ -44,6 +72,7 @@ export const Links: Array<Link> = [
     handle: "@emersondemetrio",
     ranking: 2,
     about: "LinkedIn profile",
+    icon: FaLinkedin,
   },
   {
     title: "GitHub",
@@ -52,6 +81,7 @@ export const Links: Array<Link> = [
     handle: "@emersondemetrio",
     ranking: 1,
     about: "GitHub profile",
+    icon: FaGithub,
   },
   {
     title: "Gist",
@@ -60,6 +90,7 @@ export const Links: Array<Link> = [
     handle: "@emersondemetrio",
     ranking: 3,
     about: "Gist profile",
+    icon: FaFileCode,
   },
   {
     title: "CodePen",
@@ -68,6 +99,7 @@ export const Links: Array<Link> = [
     handle: "@emersondemetrio",
     ranking: 4,
     about: "CodePen profile",
+    icon: FaCodepen,
   },
   {
     title: "YouTube",
@@ -76,6 +108,7 @@ export const Links: Array<Link> = [
     handle: "@emersondemetrio",
     ranking: 5,
     about: "YouTube channel",
+    icon: FaYoutube,
   },
   {
     title: "Playlists",
@@ -84,6 +117,7 @@ export const Links: Array<Link> = [
     handle: "YT Playlists",
     ranking: 6,
     about: "YouTube playlists",
+    icon: FaListUl,
   },
   {
     title: "SoundCloud",
@@ -92,6 +126,7 @@ export const Links: Array<Link> = [
     handle: "@emersondemetrio",
     ranking: 7,
     about: "SoundCloud profile",
+    icon: FaSoundcloud,
   },
   {
     title: "Spotify",
@@ -100,6 +135,7 @@ export const Links: Array<Link> = [
     handle: "@emersondemetrio",
     ranking: 8,
     about: "Spotify profile",
+    icon: FaSpotify,
   },
   {
     title: "Blog",
@@ -108,6 +144,7 @@ export const Links: Array<Link> = [
     handle: "@badcompiler",
     ranking: 10,
     about: "Personal Blog",
+    icon: FaTumblr,
   }
 ];
 
