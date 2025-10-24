@@ -1,5 +1,4 @@
 import "./terminal.css";
-import type { IconType } from "react-icons";
 import { Lab, Link, Tool } from "@/types";
 import { TerminalContent } from "./terminal-content";
 import { AiFillExperiment } from "react-icons/ai";
