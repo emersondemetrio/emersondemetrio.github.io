@@ -16,6 +16,7 @@ import { Camera } from "./pages/camera/camera";
 import { DevDaily } from "./pages/dev-daily/dev-daily";
 import { Pasteable } from "./pages/pasteable/pasteable";
 import { AudioFx } from "./pages/audio-fx/audio-fx";
+import { GenerateWhiteNoise } from "./pages/generate-white-noise/generate-white-noise";
 
 const oldRoutes = [
   {
@@ -68,6 +69,7 @@ export const App = () => {
             />
             <Route path="/labs/camera" element={<Camera />} />
             <Route path="/labs/audio-fx" element={<AudioFx />} />
+            <Route path="/labs/generate-white-noise" element={<GenerateWhiteNoise />} />
             {/* Old routes */}
             {oldRoutes.map(({ from, to }) => (
               <Route
