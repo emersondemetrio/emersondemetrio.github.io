@@ -31,7 +31,7 @@ export const AudioWave = ({
 
     // Get the first channel (or average if stereo)
     const channelData = buffer.getChannelData(0);
-    
+
     // If stereo, average both channels
     let dataToUse = channelData;
     if (buffer.numberOfChannels > 1) {
@@ -46,7 +46,7 @@ export const AudioWave = ({
     for (let i = 0; i < samples; i++) {
       const start = i * blockSize;
       const end = Math.min(start + blockSize, dataToUse.length);
-      
+
       // Calculate RMS (root mean square) for this block
       let sum = 0;
       for (let j = start; j < end; j++) {
@@ -59,7 +59,7 @@ export const AudioWave = ({
     // Normalize to 0-1 range
     const max = Math.max(...waveform, 0.001); // Avoid division by zero
     const normalizedWaveform = waveform.map((val) => val / max);
-    
+
     setWaveformData(normalizedWaveform);
   }, [buffer]);
 

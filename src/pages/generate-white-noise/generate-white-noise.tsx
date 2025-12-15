@@ -4,22 +4,31 @@ import { AudioWave } from "./AudioWave";
 
 export const GenerateWhiteNoise = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.4);
-  const [bufferDuration, setBufferDuration] = useState(3); // seconds
-  const [channels, setChannels] = useState(2); // 1 = mono, 2 = stereo
-  const [fadeDuration, setFadeDuration] = useState(0.1); // seconds
+  const [buffer, setBuffer] = useState<AudioBuffer | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
-  const sourceNodeRef = useRef<AudioBufferSourceNode | null>(null);
-  const gainNodeRef = useRef<GainNode | null>(null);
-  const bufferRef = useRef<AudioBuffer | null>(null);
+  
+  // White noise source
+  const whiteNoiseSourceRef = useRef<AudioBufferSourceNode | null>(null);
+  const whiteNoiseGainRef = useRef<GainNode | null>(null);
+  
+  // Rain layers - 10 different frequencies
+  const rainSourcesRef = useRef<AudioBufferSourceNode[]>([]);
+  const rainFiltersRef = useRef<BiquadFilterNode[]>([]);
+  const rainGainsRef = useRef<GainNode[]>([]);
+  const rainPannersRef = useRef<StereoPannerNode[]>([]);
+  
+  // Individual raindrops
+  const dropIntervalRef = useRef<number | null>(null);
+  
+  // Master gain
+  const masterGainRef = useRef<GainNode | null>(null);
 
-  // Initialize AudioContext (requires user gesture in modern browsers)
+  // Initialize AudioContext
   const initializeAudioContext = () => {
     if (audioContextRef.current) {
       return audioContextRef.current;
     }
 
-    // Cross-browser compatibility: AudioContext || webkitAudioContext
     const AudioContextClass =
       window.AudioContext ||
       (window as unknown as { webkitAudioContext: typeof AudioContext })
@@ -27,7 +36,6 @@ export const GenerateWhiteNoise = () => {
     const context = new AudioContextClass();
     audioContextRef.current = context;
 
-    // Resume context if suspended (required for autoplay policies)
     if (context.state === "suspended") {
       context.resume();
     }
@@ -35,248 +43,315 @@ export const GenerateWhiteNoise = () => {
     return context;
   };
 
-  // Create white noise buffer: uniform random samples
-  const createWhiteNoiseBuffer = (context: AudioContext): AudioBuffer => {
+  // Create white noise buffer
+  const createWhiteNoiseBuffer = (context: AudioContext, duration: number = 3): AudioBuffer => {
     const sampleRate = context.sampleRate;
-    const frameCount = sampleRate * bufferDuration;
-    const numberOfChannels = channels;
+    const frameCount = sampleRate * duration;
+    const buffer = context.createBuffer(2, frameCount, sampleRate);
 
-    // Create buffer
-    const buffer = context.createBuffer(numberOfChannels, frameCount, sampleRate);
-
-    // Fill each channel with uniform random samples: value = (Math.random() * 2) - 1
-    for (let channel = 0; channel < numberOfChannels; channel++) {
+    for (let channel = 0; channel < 2; channel++) {
       const channelData = buffer.getChannelData(channel);
       for (let i = 0; i < frameCount; i++) {
-        // Generate uniform random sample in range [-1, 1]
-        channelData[i] = Math.random() * 2 - 1;
+        channelData[i] = (Math.random() * 2 - 1) * 0.3;
       }
     }
 
     return buffer;
   };
 
-  // Fade function using linearRampToValueAtTime for smooth fades
-  const fade = (
-    gainNode: GainNode,
-    targetVolume: number
-  ) => {
-    const currentTime = gainNode.context.currentTime;
-    const currentVolume = gainNode.gain.value;
+  // Create brown noise buffer (for rain rumble)
+  const createBrownNoiseBuffer = (context: AudioContext, duration: number = 3): AudioBuffer => {
+    const sampleRate = context.sampleRate;
+    const frameCount = sampleRate * duration;
+    const buffer = context.createBuffer(2, frameCount, sampleRate);
 
-    // Set current value explicitly to avoid jumps
-    gainNode.gain.setValueAtTime(currentVolume, currentTime);
-    // Ramp to target volume over fade duration
-    gainNode.gain.linearRampToValueAtTime(
-      targetVolume,
-      currentTime + fadeDuration
-    );
+    let lastValueL = 0;
+    let lastValueR = 0;
+    
+    for (let i = 0; i < frameCount; i++) {
+      const whiteNoiseL = (Math.random() * 2 - 1) * 0.3;
+      const whiteNoiseR = (Math.random() * 2 - 1) * 0.3;
+      
+      lastValueL = lastValueL * 0.98 + whiteNoiseL * 0.02;
+      lastValueR = lastValueR * 0.98 + whiteNoiseR * 0.02;
+      
+      lastValueL = Math.max(-0.8, Math.min(0.8, lastValueL));
+      lastValueR = Math.max(-0.8, Math.min(0.8, lastValueR));
+      
+      buffer.getChannelData(0)[i] = lastValueL;
+      buffer.getChannelData(1)[i] = lastValueR;
+    }
+
+    return buffer;
   };
 
-  // Play white noise
+  // Create filtered rain noise buffer for specific frequency range
+  const createRainNoiseBuffer = (context: AudioContext, duration: number = 3): AudioBuffer => {
+    const sampleRate = context.sampleRate;
+    const frameCount = sampleRate * duration;
+    const buffer = context.createBuffer(2, frameCount, sampleRate);
+
+    for (let channel = 0; channel < 2; channel++) {
+      const channelData = buffer.getChannelData(channel);
+      for (let i = 0; i < frameCount; i++) {
+        channelData[i] = (Math.random() * 2 - 1) * 0.2;
+      }
+    }
+
+    return buffer;
+  };
+
+  // Create individual raindrop sound
+  const createRaindrop = (context: AudioContext): AudioBufferSourceNode => {
+    const duration = 0.01;
+    const sampleRate = context.sampleRate;
+    const frameCount = Math.floor(sampleRate * duration);
+    const buffer = context.createBuffer(2, frameCount, sampleRate);
+
+    const useImpulse = Math.random() > 0.5;
+    
+    if (useImpulse) {
+      const impulseLength = Math.floor(frameCount * 0.1);
+      for (let channel = 0; channel < 2; channel++) {
+        const channelData = buffer.getChannelData(channel);
+        for (let i = 0; i < impulseLength; i++) {
+          channelData[i] = (Math.random() * 2 - 1) * 0.3 * (1 - i / impulseLength);
+        }
+      }
+    } else {
+      const startFreq = 1000 + Math.random() * 2000;
+      const endFreq = 3000 + Math.random() * 2000;
+      for (let channel = 0; channel < 2; channel++) {
+        const channelData = buffer.getChannelData(channel);
+        for (let i = 0; i < frameCount; i++) {
+          const t = i / frameCount;
+          const freq = startFreq + (endFreq - startFreq) * t;
+          const phase = (freq * 2 * Math.PI * i) / sampleRate;
+          const envelope = Math.exp(-t * 50);
+          channelData[i] = Math.sin(phase) * envelope * 0.2;
+        }
+      }
+    }
+
+    const source = context.createBufferSource();
+    source.buffer = buffer;
+    return source;
+  };
+
+  // Play combined white noise and rain
   const play = () => {
     const context = initializeAudioContext();
 
-    // Resume context if suspended
     if (context.state === "suspended") {
       context.resume();
     }
 
-    // Always regenerate buffer with current parameters
-    bufferRef.current = createWhiteNoiseBuffer(context);
+    // Master gain
+    const masterGain = context.createGain();
+    masterGain.gain.value = 0;
+    masterGain.connect(context.destination);
+    masterGainRef.current = masterGain;
 
-    // Stop existing source if playing
-    if (sourceNodeRef.current) {
-      try {
-        sourceNodeRef.current.stop();
-      } catch (e) {
-        // Source may already be stopped
-      }
-      sourceNodeRef.current = null;
-    }
+    // ===== WHITE NOISE LAYER =====
+    const whiteNoiseBuffer = createWhiteNoiseBuffer(context, 3);
+    const whiteNoiseSource = context.createBufferSource();
+    whiteNoiseSource.buffer = whiteNoiseBuffer;
+    whiteNoiseSource.loop = true;
 
-    // Create AudioBufferSourceNode
-    const source = context.createBufferSource();
-    source.buffer = bufferRef.current;
-    source.loop = true; // Enable looping
+    const whiteNoiseGain = context.createGain();
+    whiteNoiseGain.gain.value = 0.15;
 
-    // Create GainNode for volume control (default 0.3-0.5 to avoid clipping)
-    const gainNode = context.createGain();
-    gainNode.gain.value = 0; // Start at 0 for fade in
+    whiteNoiseSource.connect(whiteNoiseGain);
+    whiteNoiseGain.connect(masterGain);
 
-    // Connect: source -> gain -> destination
-    source.connect(gainNode);
-    gainNode.connect(context.destination);
+    whiteNoiseSourceRef.current = whiteNoiseSource;
+    whiteNoiseGainRef.current = whiteNoiseGain;
 
-    // Store references
-    sourceNodeRef.current = source;
-    gainNodeRef.current = gainNode;
+    whiteNoiseSource.start(0);
 
-    // Start playback
-    source.start(0);
+    // ===== RAIN LAYERS - 10 different frequencies =====
+    const rainFrequencies = [
+      { low: 60, high: 120, gain: 0.35, pan: -0.4 },   // Deep rumble
+      { low: 100, high: 300, gain: 0.3, pan: -0.3 },  // Low rumble
+      { low: 200, high: 500, gain: 0.25, pan: -0.2 },  // Mid-low
+      { low: 400, high: 800, gain: 0.2, pan: -0.1 },   // Mid
+      { low: 800, high: 1500, gain: 0.18, pan: 0 },    // Center
+      { low: 1500, high: 2500, gain: 0.16, pan: 0.1 }, // Mid-high
+      { low: 2000, high: 4000, gain: 0.14, pan: 0.2 }, // High
+      { low: 3000, high: 6000, gain: 0.12, pan: 0.3 }, // Very high
+      { low: 5000, high: 8000, gain: 0.1, pan: 0.35 },  // Ultra high
+      { low: 7000, high: 12000, gain: 0.08, pan: 0.4 }, // Highest
+    ];
 
-    // Fade in
-    fade(gainNode, volume);
+    rainSourcesRef.current = [];
+    rainFiltersRef.current = [];
+    rainGainsRef.current = [];
+    rainPannersRef.current = [];
+
+    rainFrequencies.forEach((freqConfig, index) => {
+      // Create brown noise for lower frequencies, white noise for higher
+      const useBrownNoise = index < 3;
+      const rainBuffer = useBrownNoise 
+        ? createBrownNoiseBuffer(context, 3)
+        : createRainNoiseBuffer(context, 3);
+      
+      const rainSource = context.createBufferSource();
+      rainSource.buffer = rainBuffer;
+      rainSource.loop = true;
+
+      // Bandpass filter for specific frequency range
+      const filter = context.createBiquadFilter();
+      filter.type = "bandpass";
+      const centerFreq = (freqConfig.low + freqConfig.high) / 2;
+      const bandwidth = freqConfig.high - freqConfig.low;
+      filter.frequency.value = centerFreq;
+      filter.Q.value = centerFreq / bandwidth;
+
+      // Gain for this layer
+      const gain = context.createGain();
+      gain.gain.value = freqConfig.gain;
+
+      // Stereo panner for spatial width
+      const panner = context.createStereoPanner();
+      panner.pan.value = freqConfig.pan;
+
+      rainSource.connect(filter);
+      filter.connect(gain);
+      gain.connect(panner);
+      panner.connect(masterGain);
+
+      rainSourcesRef.current.push(rainSource);
+      rainFiltersRef.current.push(filter);
+      rainGainsRef.current.push(gain);
+      rainPannersRef.current.push(panner);
+
+      rainSource.start(0);
+    });
+
+    // ===== INDIVIDUAL RAINDROPS =====
+    const triggerRaindrop = () => {
+      if (!audioContextRef.current || !masterGainRef.current) return;
+
+      const dropSource = createRaindrop(audioContextRef.current);
+      const dropGain = audioContextRef.current.createGain();
+      dropGain.gain.value = 0.08;
+      
+      const dropPanner = audioContextRef.current.createStereoPanner();
+      dropPanner.pan.value = (Math.random() * 2 - 1) * 0.5; // Random panning
+      
+      dropSource.connect(dropGain);
+      dropGain.connect(dropPanner);
+      dropPanner.connect(masterGainRef.current);
+      
+      dropSource.start(0);
+      dropSource.stop(audioContextRef.current.currentTime + 0.1);
+    };
+
+    // Trigger raindrops randomly every 30-150ms
+    const scheduleNextDrop = () => {
+      const delay = 30 + Math.random() * 120;
+      dropIntervalRef.current = window.setTimeout(() => {
+        triggerRaindrop();
+        if (masterGainRef.current && audioContextRef.current) {
+          scheduleNextDrop();
+        }
+      }, delay);
+    };
+
+    scheduleNextDrop();
+
+    // Create a combined buffer for visualization (white noise + first rain layer)
+    const combinedBuffer = createWhiteNoiseBuffer(context, 3);
+    setBuffer(combinedBuffer);
+
+    // Fade in master gain
+    const fadeInTime = context.currentTime + 0.5;
+    masterGain.gain.setValueAtTime(0, context.currentTime);
+    masterGain.gain.linearRampToValueAtTime(1, fadeInTime);
 
     setIsPlaying(true);
   };
 
-  // Stop white noise with fade out
+  // Stop all sounds
   const stop = () => {
-    if (gainNodeRef.current && sourceNodeRef.current) {
-      const gainNode = gainNodeRef.current;
-      const source = sourceNodeRef.current;
+    if (dropIntervalRef.current) {
+      clearTimeout(dropIntervalRef.current);
+      dropIntervalRef.current = null;
+    }
 
-      // Fade out
-      fade(gainNode, 0);
+    if (masterGainRef.current && audioContextRef.current) {
+      const fadeOutTime = audioContextRef.current.currentTime + 0.5;
+      masterGainRef.current.gain.linearRampToValueAtTime(0, fadeOutTime);
 
-      // Stop source after fade completes
       setTimeout(() => {
-        try {
-          source.stop();
-        } catch (e) {
-          // Source may already be stopped
+        // Stop white noise
+        if (whiteNoiseSourceRef.current) {
+          try {
+            whiteNoiseSourceRef.current.stop();
+          } catch (e) {
+            // Source may already be stopped
+          }
+          whiteNoiseSourceRef.current = null;
         }
-        sourceNodeRef.current = null;
-        gainNodeRef.current = null;
+
+        // Stop all rain layers
+        rainSourcesRef.current.forEach((source) => {
+          try {
+            source.stop();
+          } catch (e) {
+            // Source may already be stopped
+          }
+        });
+        rainSourcesRef.current = [];
+        rainFiltersRef.current = [];
+        rainGainsRef.current = [];
+        rainPannersRef.current = [];
+
         setIsPlaying(false);
-      }, 150); // Slightly longer than fade duration
+      }, 600);
     } else {
       setIsPlaying(false);
     }
   };
 
-  // Update volume while playing
-  useEffect(() => {
-    if (gainNodeRef.current && isPlaying) {
-      const currentTime = gainNodeRef.current.context.currentTime;
-      gainNodeRef.current.gain.setValueAtTime(volume, currentTime);
-    }
-  }, [volume, isPlaying]);
-
-  // Regenerate buffer when buffer-related params change
-  useEffect(() => {
-    if (isPlaying && audioContextRef.current) {
-      // Restart with new buffer
-      const wasPlaying = isPlaying;
-      stop();
-      setTimeout(() => {
-        if (wasPlaying) {
-          play();
-        }
-      }, 200);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bufferDuration, channels]);
-
-  // Cleanup on unmount
+  // Cleanup
   useEffect(() => {
     return () => {
-      if (sourceNodeRef.current) {
-        try {
-          sourceNodeRef.current.stop();
-        } catch (e) {
-          // Ignore errors
-        }
+      if (dropIntervalRef.current) {
+        clearTimeout(dropIntervalRef.current);
       }
+      stop();
       if (audioContextRef.current) {
         audioContextRef.current.close();
       }
     };
   }, []);
 
-  const handleToggle = () => {
-    if (isPlaying) {
-      stop();
-    } else {
-      play();
-    }
-  };
-
   return (
-    <Page name="Generate White Noise" description="High-quality white noise generator using Web Audio API">
-      <div className="flex flex-col items-center gap-6 w-full max-w-md">
-        <button
-          className={`btn btn-lg ${isPlaying ? "btn-error" : "btn-primary"}`}
-          onClick={handleToggle}
-        >
-          {isPlaying ? "⏹ Stop" : "▶ Generate & Play"}
-        </button>
-
-        <div className="w-full space-y-4 max-w-md">
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Volume</span>
-              <span className="label-text-alt">{Math.round(volume * 100)}%</span>
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={(e) => setVolume(parseFloat(e.target.value))}
-              className="range range-primary"
-            />
+    <Page name="Generate White Noise" description="High-quality white noise and rain sound generator using Web Audio API">
+      <div className="flex flex-col items-center gap-6 w-full max-w-4xl">
+        {buffer && (
+          <div className="w-full">
+            <AudioWave buffer={buffer} width={800} height={200} />
           </div>
+        )}
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Buffer Duration</span>
-              <span className="label-text-alt">{bufferDuration.toFixed(1)}s</span>
-            </label>
-            <input
-              type="range"
-              min="0.5"
-              max="10"
-              step="0.1"
-              value={bufferDuration}
-              onChange={(e) => setBufferDuration(parseFloat(e.target.value))}
-              className="range range-primary"
-              disabled={isPlaying}
-            />
-            <label className="label">
-              <span className="label-text-alt">Length of the audio buffer (requires restart)</span>
-            </label>
-          </div>
-
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Channels</span>
-              <span className="label-text-alt">{channels === 1 ? "Mono" : "Stereo"}</span>
-            </label>
-            <select
-              className="select select-bordered w-full"
-              value={channels}
-              onChange={(e) => setChannels(parseInt(e.target.value))}
-              disabled={isPlaying}
+        <div className="flex flex-col items-center gap-4 w-full">
+          {!isPlaying ? (
+            <button
+              className="btn btn-lg btn-primary w-full max-w-md"
+              onClick={play}
             >
-              <option value={1}>Mono</option>
-              <option value={2}>Stereo</option>
-            </select>
-            <label className="label">
-              <span className="label-text-alt">Audio channels (requires restart)</span>
-            </label>
-          </div>
-
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Fade Duration</span>
-              <span className="label-text-alt">{(fadeDuration * 1000).toFixed(0)}ms</span>
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={fadeDuration}
-              onChange={(e) => setFadeDuration(parseFloat(e.target.value))}
-              className="range range-primary"
-            />
-            <label className="label">
-              <span className="label-text-alt">Fade in/out duration</span>
-            </label>
-          </div>
+              ▶ Play White Noise
+            </button>
+          ) : (
+            <button
+              className="btn btn-lg btn-error w-full max-w-md"
+              onClick={stop}
+            >
+              ⏹ Stop White Noise
+            </button>
+          )}
         </div>
       </div>
     </Page>
