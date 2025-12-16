@@ -256,4 +256,10 @@ export const experiments: Lab[] = [
     link: "#/labs/audio-fx",
     repo: `${githubBaseUrl}/pages/audio-fx/audio-fx.tsx`,
   },
+  {
+    title: "Generate White Noise",
+    description: "Generate white noise 🔊",
+    link: "#/labs/white-noise",
+    repo: `${githubBaseUrl}/pages/white-noise/white-noise.tsx`,
+  },
 ];
