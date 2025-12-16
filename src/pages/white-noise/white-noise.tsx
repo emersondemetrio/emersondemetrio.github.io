@@ -1,6 +1,7 @@
 import { Page } from "@/components/page/page";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AudioWave } from "./AudioWave";
+import { Effects } from "@/audio.types";
 
 type RainFrequencyConfig = {
   low: number;
@@ -35,6 +36,36 @@ const DEFAULT_RAIN_FREQUENCIES: RainFrequencyConfig[] = [
   { low: 7000, high: 12000, gain: 0.08, pan: 0.4 }, // Highest
 ];
 
+const defaultEffects: Effects = {
+  tempo: { enabled: false, playbackRate: 1.0 },
+  distortion: { enabled: false, amount: 0.4, oversample: "4x" },
+  chorus: { enabled: false, frequency: 1.5, delayTime: 3.5, depth: 0.7 },
+  phaser: { enabled: false, frequency: 0.5, octaves: 3, depth: 1 },
+  tremolo: { enabled: false, frequency: 10, depth: 0.9 },
+  vibrato: { enabled: false, frequency: 5, depth: 0.1 },
+  reverb: { enabled: false, decay: 1.5, wet: 0.3 },
+  delay: { enabled: false, delayTime: 0.25, feedback: 0.125, wet: 0.25 },
+  pingPongDelay: {
+    enabled: false,
+    delayTime: 0.25,
+    feedback: 0.125,
+    wet: 0.25,
+  },
+  filter: { enabled: false, frequency: 1000, type: "lowpass", Q: 1 },
+  autoFilter: { enabled: false, frequency: 1, depth: 1, baseFrequency: 200 },
+  compressor: {
+    enabled: false,
+    threshold: -24,
+    ratio: 12,
+    attack: 0.003,
+    release: 0.25,
+  },
+  limiter: { enabled: false, threshold: -20 },
+  pitchShift: { enabled: false, pitch: 0, wet: 1 },
+  eq3: { enabled: false, low: 0, mid: 0, high: 0 },
+  volume: { enabled: false, volume: 0 },
+};
+
 export const WhiteNoise = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [buffer, setBuffer] = useState<AudioBuffer | null>(null);
@@ -43,7 +74,11 @@ export const WhiteNoise = () => {
   const [raindropGain, setRaindropGain] = useState(DEFAULT_RAINDROP_GAIN);
   const [raindropDelayMin, setRaindropDelayMin] = useState(DEFAULT_RAINDROP_DELAY_MIN);
   const [raindropDelayMax, setRaindropDelayMax] = useState(DEFAULT_RAINDROP_DELAY_MAX);
+  const [effects, setEffects] = useState<Effects>(defaultEffects);
+  const [timerMinutes, setTimerMinutes] = useState<number>(0);
+  const [timeRemaining, setTimeRemaining] = useState<number>(0);
   const audioContextRef = useRef<AudioContext | null>(null);
+  const timerIntervalRef = useRef<number | null>(null);
 
   // White noise source
   const whiteNoiseSourceRef = useRef<AudioBufferSourceNode | null>(null);
@@ -60,6 +95,15 @@ export const WhiteNoise = () => {
 
   // Master gain
   const masterGainRef = useRef<GainNode | null>(null);
+
+  // Effect nodes
+  const eqLowRef = useRef<BiquadFilterNode | null>(null);
+  const eqMidRef = useRef<BiquadFilterNode | null>(null);
+  const eqHighRef = useRef<BiquadFilterNode | null>(null);
+  const filterRef = useRef<BiquadFilterNode | null>(null);
+  const compressorRef = useRef<DynamicsCompressorNode | null>(null);
+  const limiterRef = useRef<DynamicsCompressorNode | null>(null);
+  const effectsInputRef = useRef<AudioNode | null>(null);
 
   // Initialize AudioContext
   const initializeAudioContext = () => {
@@ -232,7 +276,7 @@ export const WhiteNoise = () => {
   };
 
   // Play combined white noise and rain
-  const play = () => {
+  const play = useCallback(() => {
     const context = initializeAudioContext();
 
     // Check if context is closed, recreate if needed
@@ -254,11 +298,82 @@ export const WhiteNoise = () => {
       return;
     }
 
-    // Master gain
+    // Master gain (create first)
     const masterGain = context.createGain();
     masterGain.gain.value = 0;
-    masterGain.connect(context.destination);
     masterGainRef.current = masterGain;
+
+    // Build effects chain (in reverse order, connecting to masterGain)
+    let effectsInput: AudioNode = masterGain;
+
+    // Limiter (last effect, closest to masterGain)
+    if (effects.limiter.enabled) {
+      const limiter = context.createDynamicsCompressor();
+      limiter.threshold.value = effects.limiter.threshold;
+      limiter.ratio.value = 20;
+      limiter.attack.value = 0.003;
+      limiter.release.value = 0.01;
+      limiterRef.current = limiter;
+      limiter.connect(masterGain);
+      effectsInput = limiter;
+    }
+
+    // Compressor
+    if (effects.compressor.enabled) {
+      const compressor = context.createDynamicsCompressor();
+      compressor.threshold.value = effects.compressor.threshold;
+      compressor.ratio.value = effects.compressor.ratio;
+      compressor.attack.value = effects.compressor.attack;
+      compressor.release.value = effects.compressor.release;
+      compressorRef.current = compressor;
+      compressor.connect(effectsInput);
+      effectsInput = compressor;
+    }
+
+    // Filter
+    if (effects.filter.enabled) {
+      const filter = context.createBiquadFilter();
+      filter.type = effects.filter.type as BiquadFilterType;
+      filter.frequency.value = effects.filter.frequency;
+      filter.Q.value = effects.filter.Q;
+      filterRef.current = filter;
+      filter.connect(effectsInput);
+      effectsInput = filter;
+    }
+
+    // EQ3 (first in chain)
+    let eqOutput: AudioNode = effectsInput;
+    if (effects.eq3.enabled) {
+      const eqLow = context.createBiquadFilter();
+      eqLow.type = "lowshelf";
+      eqLow.frequency.value = 250;
+      eqLow.gain.value = effects.eq3.low;
+      eqLowRef.current = eqLow;
+
+      const eqMid = context.createBiquadFilter();
+      eqMid.type = "peaking";
+      eqMid.frequency.value = 1000;
+      eqMid.Q.value = 1;
+      eqMid.gain.value = effects.eq3.mid;
+      eqMidRef.current = eqMid;
+
+      const eqHigh = context.createBiquadFilter();
+      eqHigh.type = "highshelf";
+      eqHigh.frequency.value = 4000;
+      eqHigh.gain.value = effects.eq3.high;
+      eqHighRef.current = eqHigh;
+
+      eqLow.connect(eqMid);
+      eqMid.connect(eqHigh);
+      eqHigh.connect(effectsInput);
+      eqOutput = eqLow;
+    }
+
+    // Store effects input for raindrops
+    effectsInputRef.current = eqOutput;
+
+    // Connect master gain to destination
+    masterGain.connect(context.destination);
 
     // ===== WHITE NOISE LAYER =====
     const whiteNoiseBuffer = createWhiteNoiseBuffer(context, DEFAULT_BUFFER_DURATION);
@@ -270,7 +385,12 @@ export const WhiteNoise = () => {
     whiteNoiseGainNode.gain.value = whiteNoiseGain;
 
     whiteNoiseSource.connect(whiteNoiseGainNode);
-    whiteNoiseGainNode.connect(masterGain);
+    // Connect to effects chain start
+    if (effectsInputRef.current) {
+      whiteNoiseGainNode.connect(effectsInputRef.current);
+    } else {
+      whiteNoiseGainNode.connect(masterGain);
+    }
 
     whiteNoiseSourceRef.current = whiteNoiseSource;
     whiteNoiseGainRef.current = whiteNoiseGainNode;
@@ -314,7 +434,12 @@ export const WhiteNoise = () => {
       rainSource.connect(filter);
       filter.connect(gain);
       gain.connect(panner);
-      panner.connect(masterGain);
+      // Connect to effects chain start
+      if (effectsInputRef.current) {
+        panner.connect(effectsInputRef.current);
+      } else {
+        panner.connect(masterGain);
+      }
 
       rainSourcesRef.current.push(rainSource);
       rainFiltersRef.current.push(filter);
@@ -337,7 +462,12 @@ export const WhiteNoise = () => {
 
       dropSource.connect(dropGain);
       dropGain.connect(dropPanner);
-      dropPanner.connect(masterGainRef.current);
+      // Connect raindrops to effects chain start
+      if (effectsInputRef.current) {
+        dropPanner.connect(effectsInputRef.current);
+      } else {
+        dropPanner.connect(masterGainRef.current!);
+      }
 
       dropSource.start(0);
       dropSource.stop(audioContextRef.current.currentTime + 0.1);
@@ -365,10 +495,42 @@ export const WhiteNoise = () => {
     masterGain.gain.linearRampToValueAtTime(1, fadeInTime);
 
     setIsPlaying(true);
-  };
+
+    // Update previous enabled states
+    prevEffectsEnabledRef.current = {
+      eq3: effects.eq3.enabled,
+      filter: effects.filter.enabled,
+      compressor: effects.compressor.enabled,
+      limiter: effects.limiter.enabled,
+    };
+
+    // Start timer if set
+    if (timerMinutes > 0) {
+      setTimeRemaining(timerMinutes * 60);
+      timerIntervalRef.current = window.setInterval(() => {
+        setTimeRemaining((prev) => {
+          if (prev <= 1) {
+            if (timerIntervalRef.current) {
+              clearInterval(timerIntervalRef.current);
+              timerIntervalRef.current = null;
+            }
+            stop();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+  }, [effects, timerMinutes, whiteNoiseGain, rainFrequencies, raindropGain, raindropDelayMin, raindropDelayMax, generatePreviewBuffer]);
 
   // Stop all sounds
   const stop = () => {
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+      timerIntervalRef.current = null;
+      setTimeRemaining(0);
+    }
+
     if (dropIntervalRef.current) {
       clearTimeout(dropIntervalRef.current);
       dropIntervalRef.current = null;
@@ -469,6 +631,19 @@ export const WhiteNoise = () => {
     }, 0);
   };
 
+  const updateEffect = (effectName: keyof Effects, updates: Partial<Effects[keyof Effects]>) => {
+    setEffects((prev) => ({
+      ...prev,
+      [effectName]: { ...prev[effectName], ...updates },
+    }));
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
   // Generate initial preview buffer when parameters change
   useEffect(() => {
     if (!isPlaying) {
@@ -476,9 +651,89 @@ export const WhiteNoise = () => {
     }
   }, [whiteNoiseGain, rainFrequencies, raindropGain, isPlaying, generatePreviewBuffer]);
 
+  // Track previous enabled states to detect toggles
+  const prevEffectsEnabledRef = useRef({
+    eq3: false,
+    filter: false,
+    compressor: false,
+    limiter: false,
+  });
+
+  // Update effects while playing
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    // Check if any effect was enabled/disabled (requires chain rebuild)
+    const effectToggled =
+      prevEffectsEnabledRef.current.eq3 !== effects.eq3.enabled ||
+      prevEffectsEnabledRef.current.filter !== effects.filter.enabled ||
+      prevEffectsEnabledRef.current.compressor !== effects.compressor.enabled ||
+      prevEffectsEnabledRef.current.limiter !== effects.limiter.enabled;
+
+    // If effect was toggled, restart playback to rebuild chain
+    if (effectToggled) {
+      prevEffectsEnabledRef.current = {
+        eq3: effects.eq3.enabled,
+        filter: effects.filter.enabled,
+        compressor: effects.compressor.enabled,
+        limiter: effects.limiter.enabled,
+      };
+
+      const wasPlaying = isPlaying;
+      stop();
+      setTimeout(() => {
+        if (wasPlaying) {
+          play();
+        }
+      }, 200);
+      return;
+    }
+
+    // Update previous enabled states for parameter changes
+    prevEffectsEnabledRef.current = {
+      eq3: effects.eq3.enabled,
+      filter: effects.filter.enabled,
+      compressor: effects.compressor.enabled,
+      limiter: effects.limiter.enabled,
+    };
+
+    // Update parameters in real-time (only if effects are enabled)
+    if (eqLowRef.current && effects.eq3.enabled) {
+      eqLowRef.current.gain.value = effects.eq3.low;
+    }
+    if (eqMidRef.current && effects.eq3.enabled) {
+      eqMidRef.current.gain.value = effects.eq3.mid;
+    }
+    if (eqHighRef.current && effects.eq3.enabled) {
+      eqHighRef.current.gain.value = effects.eq3.high;
+    }
+
+    if (filterRef.current && effects.filter.enabled) {
+      filterRef.current.frequency.value = effects.filter.frequency;
+      filterRef.current.Q.value = effects.filter.Q;
+      filterRef.current.type = effects.filter.type as BiquadFilterType;
+    }
+
+    if (compressorRef.current && effects.compressor.enabled) {
+      compressorRef.current.threshold.value = effects.compressor.threshold;
+      compressorRef.current.ratio.value = effects.compressor.ratio;
+      compressorRef.current.attack.value = effects.compressor.attack;
+      compressorRef.current.release.value = effects.compressor.release;
+    }
+
+    if (limiterRef.current && effects.limiter.enabled) {
+      limiterRef.current.threshold.value = effects.limiter.threshold;
+    }
+  }, [effects, isPlaying, play]);
+
   // Cleanup - only on unmount
   useEffect(() => {
     return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
+
       if (dropIntervalRef.current) {
         clearTimeout(dropIntervalRef.current);
         dropIntervalRef.current = null;
@@ -542,6 +797,248 @@ export const WhiteNoise = () => {
             <AudioWave buffer={buffer} width={800} height={200} />
           </div>
         )}
+
+        {/* Timer Control */}
+        <div className="w-full max-w-md space-y-4">
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Timer (minutes)</span>
+              {timeRemaining > 0 && (
+                <span className="label-text-alt text-primary font-bold">
+                  {formatTime(timeRemaining)} remaining
+                </span>
+              )}
+            </label>
+            <input
+              type="number"
+              min="0"
+              max="120"
+              step="1"
+              value={timerMinutes}
+              onChange={(e) => setTimerMinutes(Math.max(0, parseInt(e.target.value) || 0))}
+              className="input input-bordered w-full"
+              disabled={isPlaying}
+              placeholder="0 = no timer"
+            />
+            <label className="label">
+              <span className="label-text-alt">Set timer to auto-stop playback (0 to disable)</span>
+            </label>
+          </div>
+        </div>
+
+        {/* Effects Controls */}
+        <div className="w-full max-w-2xl space-y-4">
+          <h3 className="text-xl font-bold text-center">Effects</h3>
+
+          {/* EQ3 */}
+          <div className="card bg-base-200 shadow-xl">
+            <div className="card-body">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="card-title text-lg">EQ3</h4>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-primary"
+                  checked={effects.eq3.enabled}
+                  onChange={(e) => updateEffect("eq3", { enabled: e.target.checked })}
+                />
+              </div>
+              {effects.eq3.enabled && (
+                <div className="space-y-2">
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Low</span>
+                      <span className="label-text-alt">{effects.eq3.low.toFixed(1)} dB</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="-30"
+                      max="30"
+                      step="1"
+                      value={effects.eq3.low}
+                      onChange={(e) => updateEffect("eq3", { low: parseFloat(e.target.value) })}
+                      className="range range-primary"
+                    />
+                  </div>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Mid</span>
+                      <span className="label-text-alt">{effects.eq3.mid.toFixed(1)} dB</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="-30"
+                      max="30"
+                      step="1"
+                      value={effects.eq3.mid}
+                      onChange={(e) => updateEffect("eq3", { mid: parseFloat(e.target.value) })}
+                      className="range range-primary"
+                    />
+                  </div>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">High</span>
+                      <span className="label-text-alt">{effects.eq3.high.toFixed(1)} dB</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="-30"
+                      max="30"
+                      step="1"
+                      value={effects.eq3.high}
+                      onChange={(e) => updateEffect("eq3", { high: parseFloat(e.target.value) })}
+                      className="range range-primary"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Filter */}
+          <div className="card bg-base-200 shadow-xl">
+            <div className="card-body">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="card-title text-lg">Filter</h4>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-primary"
+                  checked={effects.filter.enabled}
+                  onChange={(e) => updateEffect("filter", { enabled: e.target.checked })}
+                />
+              </div>
+              {effects.filter.enabled && (
+                <div className="space-y-2">
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Type</span>
+                    </label>
+                    <select
+                      className="select select-bordered w-full"
+                      value={effects.filter.type}
+                      onChange={(e) => updateEffect("filter", { type: e.target.value })}
+                    >
+                      <option value="lowpass">Low Pass</option>
+                      <option value="highpass">High Pass</option>
+                      <option value="bandpass">Band Pass</option>
+                      <option value="notch">Notch</option>
+                    </select>
+                  </div>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Frequency</span>
+                      <span className="label-text-alt">{effects.filter.frequency.toFixed(0)} Hz</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="20"
+                      max="20000"
+                      step="10"
+                      value={effects.filter.frequency}
+                      onChange={(e) => updateEffect("filter", { frequency: parseFloat(e.target.value) })}
+                      className="range range-primary"
+                    />
+                  </div>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Q</span>
+                      <span className="label-text-alt">{effects.filter.Q.toFixed(2)}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="0.1"
+                      max="10"
+                      step="0.1"
+                      value={effects.filter.Q}
+                      onChange={(e) => updateEffect("filter", { Q: parseFloat(e.target.value) })}
+                      className="range range-primary"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Compressor */}
+          <div className="card bg-base-200 shadow-xl">
+            <div className="card-body">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="card-title text-lg">Compressor</h4>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-primary"
+                  checked={effects.compressor.enabled}
+                  onChange={(e) => updateEffect("compressor", { enabled: e.target.checked })}
+                />
+              </div>
+              {effects.compressor.enabled && (
+                <div className="space-y-2">
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Threshold</span>
+                      <span className="label-text-alt">{effects.compressor.threshold.toFixed(1)} dB</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="-60"
+                      max="0"
+                      step="1"
+                      value={effects.compressor.threshold}
+                      onChange={(e) => updateEffect("compressor", { threshold: parseFloat(e.target.value) })}
+                      className="range range-primary"
+                    />
+                  </div>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Ratio</span>
+                      <span className="label-text-alt">{effects.compressor.ratio.toFixed(1)}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="1"
+                      max="20"
+                      step="0.1"
+                      value={effects.compressor.ratio}
+                      onChange={(e) => updateEffect("compressor", { ratio: parseFloat(e.target.value) })}
+                      className="range range-primary"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Limiter */}
+          <div className="card bg-base-200 shadow-xl">
+            <div className="card-body">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="card-title text-lg">Limiter</h4>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-primary"
+                  checked={effects.limiter.enabled}
+                  onChange={(e) => updateEffect("limiter", { enabled: e.target.checked })}
+                />
+              </div>
+              {effects.limiter.enabled && (
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Threshold</span>
+                    <span className="label-text-alt">{effects.limiter.threshold.toFixed(1)} dB</span>
+                  </label>
+                  <input
+                    type="range"
+                    min="-40"
+                    max="0"
+                    step="1"
+                    value={effects.limiter.threshold}
+                    onChange={(e) => updateEffect("limiter", { threshold: parseFloat(e.target.value) })}
+                    className="range range-primary"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </Page>
   );
