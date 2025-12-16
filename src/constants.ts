@@ -259,7 +259,7 @@ export const experiments: Lab[] = [
   {
     title: "Generate White Noise",
     description: "Generate white noise 🔊",
-    link: "#/labs/generate-white-noise",
-    repo: `${githubBaseUrl}/pages/generate-white-noise/generate-white-noise.tsx`,
+    link: "#/labs/white-noise",
+    repo: `${githubBaseUrl}/pages/white-noise/white-noise.tsx`,
   },
 ];
