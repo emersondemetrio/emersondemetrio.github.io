@@ -26,7 +26,6 @@ export const useCamera = (): CameraHook => {
 
   const [isFlipped, setIsFlipped] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
-  const [stream, setStream] = useState<MediaStream | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [track, setTrack] = useState<MediaStreamTrack | null>(null);
   const [hasZoom, setHasZoom] = useState(false);
@@ -39,6 +38,9 @@ export const useCamera = (): CameraHook => {
   );
 
   useEffect(() => {
+    let currentStream: MediaStream | null = null;
+    let isMounted = true;
+
     const startCamera = async () => {
       try {
         const mediaStream = await navigator.mediaDevices.getUserMedia({
@@ -49,7 +51,12 @@ export const useCamera = (): CameraHook => {
           audio: false,
         });
 
-        setStream(mediaStream);
+        if (!isMounted) {
+          mediaStream.getTracks().forEach((t) => t.stop());
+          return;
+        }
+
+        currentStream = mediaStream;
 
         if (videoRef.current) {
           videoRef.current.srcObject = mediaStream;
@@ -70,17 +77,21 @@ export const useCamera = (): CameraHook => {
 
         setError(null);
         setIsLoading(false);
-      } catch (error) {
-        console.error("Error accessing camera:", error);
-        setError((error as Error).message);
+      } catch (err) {
+        if (isMounted) {
+          console.error("Error accessing camera:", err);
+          setError((err as Error).message);
+          setIsLoading(false);
+        }
       }
     };
 
     startCamera();
 
     return () => {
-      if (stream) {
-        stream.getTracks().forEach((track) => track.stop());
+      isMounted = false;
+      if (currentStream) {
+        currentStream.getTracks().forEach((t) => t.stop());
       }
     };
   }, []);
