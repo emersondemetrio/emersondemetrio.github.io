@@ -1,3 +1,4 @@
+import "./canvas-game.css";
 import { Page } from "@/components/page/page";
 import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
 import { useEffect, useRef, useState } from "react";
@@ -257,102 +258,99 @@ export const CanvasGame = () => {
   }, [gameStarted, winner]);
 
   return (
-    <Page name="Canvas Game (Rock, Paper, Scissors)">
-      <audio
-        src="/sounds/impact.mp3"
-        ref={audioRef}
-        style={{ display: "none" }}
-      />
-      <div className="container mx-auto text-center my-10">
-        <ul className="list-none space-y-4">
-          {/* Run For Input */}
-          <li className="flex items-center gap-2">
-            <label className="inline-block text-sm mr-2">Run For (s)</label>
+    <Page name="Canvas Game">
+      <audio src="/sounds/impact.mp3" ref={audioRef} style={{ display: "none" }} />
+      <div className="cg-layout">
+        {/* Settings */}
+        <div className="cg-settings">
+          <div className="cg-field">
+            <span className="cg-label">Run for</span>
             <input
               type="number"
               disabled={gameStarted}
               value={runFor}
+              min={5}
+              max={120}
               onChange={(e) => {
                 const value = parseInt(e.target.value);
                 setRunFor(value);
                 setRemainingTime(value);
               }}
-              className="grow input input-sm"
-              placeholder="Daisy"
+              className="cg-input-num"
             />
-          </li>
-          <li className="flex items-center justify-between">
-            <label className="inline-block text-sm mr-2">
-              Number of Elements
-            </label>
-            <div className="flex items-center space-x-2">
-              <input
-                disabled={gameStarted}
-                min={10}
-                step="0"
-                max="50"
-                type="range"
-                value={numberOfElements}
-                className="range input-sm"
-                onChange={(e) => {
-                  const value = parseInt(e.target.value);
-                  setNumberOfElements(value);
-                  setRockCount(value);
-                  setPaperCount(value);
-                  setScissorsCount(value);
-                }}
-              />
+            <span className="cg-label">sec</span>
+          </div>
+          <div className="cg-field">
+            <span className="cg-label">Elements — {numberOfElements}</span>
+            <input
+              disabled={gameStarted}
+              min={5}
+              step={1}
+              max={50}
+              type="range"
+              value={numberOfElements}
+              className="range"
+              style={{ flex: 1 }}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                setNumberOfElements(value);
+                setRockCount(value);
+                setPaperCount(value);
+                setScissorsCount(value);
+              }}
+            />
+          </div>
+          <button className="cg-start-btn" onClick={resetGame}>
+            {gameStarted ? "↺ Restart" : "▶ Start"}
+          </button>
+        </div>
+
+        {/* Game area */}
+        <div className="cg-game-area">
+          <div className="cg-canvas-wrap">
+            <canvas
+              ref={canvasRef}
+              width={!isMobile ? 600 : 340}
+              height={!isMobile ? 400 : 240}
+              className="cg-canvas"
+            />
+          </div>
+          <div className="cg-sidebar">
+            <div className="cg-score">
+              <div className="cg-score-row">
+                <span className="cg-score-label">🪨 Rock</span>
+                <span className="cg-score-value">{rockCount}</span>
+              </div>
+              <div className="cg-score-row">
+                <span className="cg-score-label">📄 Paper</span>
+                <span className="cg-score-value">{paperCount}</span>
+              </div>
+              <div className="cg-score-row">
+                <span className="cg-score-label">✂️ Scissors</span>
+                <span className="cg-score-value">{scissorsCount}</span>
+              </div>
             </div>
-          </li>
-        </ul>
-      </div>
-      <div className="flex flex-col-reverse md:flex-row md:items-center">
-        <div className="justify-self-end w-52 md:w-full">
-          <div>
-            <table className="table">
-              <tbody>
-                <tr>
-                  <td className="text-right">Rock Count</td>
-                  <td>{rockCount}</td>
-                </tr>
-                <tr>
-                  <td className="text-right">Paper Count</td>
-                  <td>{paperCount}</td>
-                </tr>
-                <tr>
-                  <td className="text-right">Scissors Count</td>
-                  <td>{scissorsCount}</td>
-                </tr>
-              </tbody>
-            </table>
-            {winner && <div>Winner: {winner}</div>}
-            <button className="btn btn-primary mt-4" onClick={resetGame}>
-              Reset Game
-            </button>
+            {winner && (
+              <div className="cg-winner">
+                <div className="cg-winner-label">Winner</div>
+                <div className="cg-winner-name">{winner}</div>
+              </div>
+            )}
+            <div className="cg-timer">
+              Time <span className="cg-timer-value">{remainingTime}s</span>
+            </div>
           </div>
         </div>
-        <div className="justify-self-start w-full md:w-1/2">
-          <canvas
-            ref={canvasRef}
-            width={!isMobile ? 600 : "auto"}
-            height={!isMobile ? 400 : "auto"}
-            style={{ objectFit: "contain" }}
-            className="mx-auto block border border-black rounded-lg bg-white"
-          />
-        </div>
-      </div>
 
-      <div className="flex mt-4">
-        <h3>Remaining Time: {remainingTime}</h3>
-      </div>
-      <div className="text-center p-10">
-        <a
-          className="underline"
-          target="blank"
-          href="https://www.instagram.com/p/C48bvLiIXM0/"
-        >
-          Based on this
-        </a>
+        <p className="cg-credit">
+          <a
+            href="https://www.instagram.com/p/C48bvLiIXM0/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Based on this
+          </a>
+        </p>
       </div>
     </Page>
   );

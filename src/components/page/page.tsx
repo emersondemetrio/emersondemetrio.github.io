@@ -70,7 +70,7 @@ export const Page = ({
       ref={pageRef}
       tabIndex={-1}
       data-page={`page-${name.toLowerCase().replace(/\s/g, "-")}`}
-      className={`grid place-items-center py-20 px-4 sm:px-8 text-center ${padding} ${className}`}
+      className={`grid place-items-center ${withoutPadding ? "" : "py-20"} px-4 sm:px-8 text-center ${padding} ${className}`}
     >
       <div className="container mx-auto flex flex-wrap">
         {withoutName
@@ -78,7 +78,7 @@ export const Page = ({
           : (
             <div className="w-full flex justify-between items-center flex-col md:flex-row gap-6">
               {!landing && (
-                <h2 className="my-2 text-lg font-bold leading-tight text-center text-white-800">
+                <h2 className="my-2 text-lg leading-tight text-center font-['Archivo'] font-bold text-[var(--mx-ink)]">
                   {name}
                 </h2>
               )}
@@ -86,7 +86,7 @@ export const Page = ({
                 <Link
                   to={repo}
                   target="_blank"
-                  className="text-center text-white-800 items-center"
+                  className="text-center text-[var(--mx-accent)] text-sm items-center"
                 >
                   📋 Show me the code
                 </Link>

@@ -1,0 +1,71 @@
+.cd-card {
+  border: 1px solid var(--mx-line);
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 440px;
+  width: 100%;
+  background: var(--mx-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cd-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cd-label {
+  font-family: 'Archivo', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mx-muted);
+}
+
+.cd-day-picker .rdp {
+  --rdp-cell-size: 36px;
+}
+
+.cd-day-picker .rdp-button:hover:not([disabled]) {
+  background: var(--mx-hover);
+}
+
+.cd-day-picker .rdp-day_selected .rdp-button {
+  background: var(--mx-accent);
+  color: #fff;
+}
+
+.cd-day-picker .rdp-day_today .rdp-button {
+  color: var(--mx-accent);
+}
+
+.cd-btn {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1.5px solid var(--mx-accent);
+  background: transparent;
+  color: var(--mx-accent);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cd-btn:hover:not(:disabled) {
+  background: var(--mx-accent);
+  color: #fff;
+}
+
+.cd-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cd-error {
+  font-size: 13px;
+  color: var(--mx-muted);
+}

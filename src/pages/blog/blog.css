@@ -1,0 +1,113 @@
+.bl-page {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+/* ===== Post card ===== */
+
+.bl-post {
+  border: 1px solid var(--mx-line);
+  border-radius: 12px;
+  padding: 22px 24px 16px;
+  background: var(--mx-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: border-color 0.12s, background 0.12s;
+  cursor: default;
+}
+
+.bl-post:hover {
+  border-color: var(--mx-accent);
+  background: var(--mx-hover);
+}
+
+.bl-body {
+  font-family: 'Spectral', 'Georgia', serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--mx-ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.bl-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid var(--mx-line);
+}
+
+.bl-handle {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--mx-muted);
+}
+
+.bl-date {
+  font-size: 12px;
+  color: var(--mx-muted);
+  text-decoration: none;
+  transition: color 0.12s;
+}
+
+.bl-date:hover { color: var(--mx-accent); }
+
+/* ===== Pager ===== */
+
+.bl-pager {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0 0;
+  border-top: 1px solid var(--mx-line);
+  margin-top: 8px;
+}
+
+.bl-pager-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--mx-line);
+  background: transparent;
+  color: var(--mx-ink);
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+}
+
+.bl-pager-btn:hover:not(:disabled) {
+  border-color: var(--mx-accent);
+  color: var(--mx-accent);
+}
+
+.bl-pager-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.bl-pager-count {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mx-muted);
+}
+
+/* ===== Mobile ===== */
+
+@media (max-width: 719px) {
+  .bl-page { padding: 20px 16px 48px; }
+  .bl-post { padding: 18px 18px 14px; }
+  .bl-body { font-size: 15px; }
+}

@@ -8,6 +8,7 @@ import "react-day-picker/dist/style.css";
 import { Link, useParams } from "react-router-dom";
 import { ViewCountdown } from "./components/view-countdown";
 import { dateToQueryParam, getIntervalFromId } from "./utils";
+import "./countdown.css";
 
 const dateIsToday = (date: Date) => {
   return (
@@ -43,7 +44,7 @@ export const Countdown = () => {
     if (!d1 || !d2) {
       return (
         <Page name="View Countdown" description="Invalid countdown">
-          <Link to="/labs/countdown" className="btn btn-black text-blue-600">
+          <Link to="/labs/countdown" className="btn btn-outline">
             Create one here.
           </Link>
         </Page>
@@ -78,33 +79,33 @@ export const Countdown = () => {
 
   return (
     <Page name="Countdown" className="flex items-center justify-center">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 max-w-md w-full">
-        <div className="mb-6">
+      <div className="cd-card">
+        <div className="cd-field">
+          <label className="cd-label" htmlFor="first_name">Countdown name</label>
           <input
             type="text"
             id="first_name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="input input-bordered w-full"
             placeholder="Enter countdown name"
             required
             maxLength={30}
             minLength={5}
           />
         </div>
-        <div className="mb-6">
-          <DayPicker mode="single" selected={end} onSelect={setEnd} />
+        <div className="cd-field">
+          <div className="cd-day-picker">
+            <DayPicker mode="single" selected={end} onSelect={setEnd} />
+          </div>
           {!end && (
-            <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+            <p className="cd-error">
               Please select a different ending date.
             </p>
           )}
         </div>
-        <div className="mb-6">
-          <label
-            htmlFor="theTime"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
+        <div className="cd-field">
+          <label htmlFor="theTime" className="cd-label">
             Select time
           </label>
           <select
@@ -112,7 +113,7 @@ export const Countdown = () => {
             id="theTime"
             name="theTime"
             onChange={(e) => setTime(e.target.value)}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="select select-bordered w-full"
           >
             {Array.from({ length: 24 }, (_, i) => i).map((hour) => (
               <option key={hour} value={hour}>
@@ -123,11 +124,7 @@ export const Countdown = () => {
         </div>
         <button
           disabled={!isValid(end) || !name}
-          className={`w-full py-2 px-4 rounded ${
-            !end || dateIsToday(end) || dateIsInThePast(end) || !name
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-700 text-white"
-          }`}
+          className="cd-btn"
           onClick={createCountdown}
         >
           Create Countdown

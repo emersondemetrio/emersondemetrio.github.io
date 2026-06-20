@@ -27,7 +27,7 @@ const ActionRow = ({ file, index, result }: ActionRowProps) => {
         {result && (
           <a
             href={result.url}
-            className="btn btn-dark"
+            className="btn btn-outline btn-sm"
             download={result.download}
           >
             Download
@@ -102,7 +102,6 @@ export const RemoveBackground = () => {
 
   return (
     <Page
-      className="table"
       onPaste={handlePaste}
       name="Remove Background"
       description="Select a file or paste it"

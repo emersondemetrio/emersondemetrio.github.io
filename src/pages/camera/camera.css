@@ -1,0 +1,53 @@
+.cam-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.cam-video-wrap {
+  position: relative;
+  border: 1px solid var(--mx-line);
+  border-radius: 12px;
+  padding: 16px;
+  background: var(--mx-hover);
+}
+
+.cam-controls {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cam-btn {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1.5px solid var(--mx-accent);
+  background: transparent;
+  color: var(--mx-accent);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cam-btn:hover:not(:disabled) {
+  background: var(--mx-accent);
+  color: #fff;
+}
+
+.cam-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cam-error {
+  color: var(--mx-accent);
+  margin-bottom: 12px;
+}

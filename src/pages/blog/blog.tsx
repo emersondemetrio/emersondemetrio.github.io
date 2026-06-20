@@ -1,3 +1,4 @@
+import "./blog.css";
 import { Page } from "@/components/page/page";
 import { TweetView } from "./components/tweet-view";
 import { Pager } from "./components/pager";
@@ -23,27 +24,18 @@ export const Blog = () => {
   };
 
   return (
-    <Page name="Blog">
-      <div className="mx-auto px-4 bg-black min-h-screen">
-        <div className="space-y-4 flex flex-col items-center">
-          {currentTweets.map((data) => (
-            <div key={data.id} className="w-full max-w-[500px] sm:w-[500px]">
-              <TweetView
-                tweet={data.tweet}
-                onClick={() => {}}
-              />
-            </div>
-          ))}
-        </div>
+    <Page name="Blog" withoutPadding>
+      <div className="bl-page">
+        {currentTweets.map((data) => (
+          <TweetView key={data.id} tweet={data.tweet} onClick={() => {}} />
+        ))}
         {currentTweets.length > 0 && (
-          <div className="flex justify-center">
-            <Pager
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPrev={() => handlePageChange(currentPage - 1)}
-              onNext={() => handlePageChange(currentPage + 1)}
-            />
-          </div>
+          <Pager
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPrev={() => handlePageChange(currentPage - 1)}
+            onNext={() => handlePageChange(currentPage + 1)}
+          />
         )}
       </div>
     </Page>

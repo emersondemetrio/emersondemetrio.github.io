@@ -16,20 +16,20 @@ export const Pasteable = () => {
           <h2 className="text-xl font-semibold">
             {isLoading ? "Processing..." : "Paste an image (Ctrl+V)"}
           </h2>
-          {error && <p className="text-red-500">Error: {error}</p>}
+          {error && <p style={{ color: '#ef4444' }}>Error: {error}</p>}
         </div>
 
         {image
           ? (
             <div className="space-y-4">
-              <div className="border border-slate-200 rounded-lg overflow-hidden">
+              <div className="border border-[var(--mx-line)] rounded-lg overflow-hidden">
                 <img
                   src={image.url}
                   alt={image.fileName}
                   className="w-full max-h-[70vh] object-contain"
                 />
-                <div className="p-2 flex justify-between items-center bg-slate-50">
-                  <span className="text-sm text-gray-500 truncate">
+                <div className="p-2 flex justify-between items-center bg-[var(--mx-hover)]">
+                  <span className="text-sm text-[var(--mx-muted)] truncate">
                     {image.fileName}
                   </span>
                   <button
@@ -43,8 +43,8 @@ export const Pasteable = () => {
             </div>
           )
           : (
-            <div className="border-2 border-dashed border-slate-300 rounded-lg p-12">
-              <div className="text-center text-slate-500">
+            <div className="border-2 border-dashed border-[var(--mx-line)] rounded-lg p-12">
+              <div className="text-center text-[var(--mx-muted)]">
                 No image pasted yet
               </div>
             </div>

@@ -4,6 +4,7 @@ import "react";
 import { Link } from "react-router-dom";
 import { getForecastUrl, getNewsURL, titleCase } from "../../weather-app/utils";
 import CountdownTimer from "./countdown-timer";
+import "../view-countdown.css";
 
 type ViewCountdownProps = {
   end: Date;
@@ -23,44 +24,43 @@ export const ViewCountdown = ({
 
   return (
     <Page landing name={countdownName}>
-      <div className="my-[5px] md:my-[50px] flex items-start justify-center text-white">
-        <div className="shadow rounded-lg p-6 max-w-sm w-full bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-          <h1 className="text-2xl font-bold text-center mb-4 capitalize">
+      <div className="my-[5px] md:my-[50px] flex items-start justify-center">
+        <div className="vcd-card">
+          <h1 className="vcd-title capitalize">
             {countdownName}
           </h1>
-          <div className="text-center mb-4">
+          <div className="vcd-desc">
             {description.map((line) => (
               <div className="my-2" key={line}>
                 {line}
               </div>
             ))}
-            <CountdownTimer end={end} />
+            <div className="vcd-timer">
+              <CountdownTimer end={end} />
+            </div>
           </div>
-          <div className="mt-20 w-full">
+          <div className="w-full flex flex-col gap-4">
             {name && (
-              <div className="flex flex-col justify-between">
+              <>
                 <Link
                   target="_blank"
                   to={getNewsURL(title)}
-                  className="w-full bg-green-700 text-white py-2 px-4 rounded"
+                  className="vcd-link vcd-link-primary"
                 >
                   What's going on in over there?
                 </Link>
-
                 <Link
                   target="_blank"
                   to={getForecastUrl(title, end)}
-                  className="mt-10 w-full text-white py-2 px-4 rounded hover:bg-blue-700"
+                  className="vcd-link"
                 >
                   Forecast for the day
                 </Link>
-              </div>
+              </>
             )}
-          </div>
-          <div className="mt-20 w-full">
             <Link
               to="/labs/countdown"
-              className="w-full text-white py-2 px-4 rounded hover:bg-blue-700"
+              className="vcd-link"
             >
               Click to create a countdown
             </Link>

@@ -1,5 +1,6 @@
 import { Page } from "@/components/page/page";
 import { REPOS } from "@/constants";
+import "./code-pen.css";
 import { useIsMobile } from "@/hooks/use-is-mobile/use-is-mobile";
 import { copyToClipboard, noop } from "@/utils/utils";
 import { useState } from "react";
@@ -36,38 +37,31 @@ export const CodePen = () => {
       name="Code Pens"
       withoutPadding={isMobile}
       repo={REPOS.codepen.url}
-      className="bg-gray-200 text-black"
     >
-      <div className="flex flex-col items-center">
-        <div className="w-full bg-grey-50 mt-3">
-          <h3 className="text-black text-lg font-bold cursor-pointer">URL to JSON</h3>
-          <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3">
-              <input
-                type="text"
-                placeholder="Paste URL"
-                className="appearance-none block w-full text-black border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                onChange={(e) => setResult(url2JSON(e.target.value))}
-              />
-            </div>
-            <div className="w-full px-3">
-              <label className="block text-black text-lg font-bold cursor-pointer">
-                Results
-              </label>
-              <textarea
-                rows={10}
-                placeholder="Paste above ^"
-                value={result ? JSON.stringify(result, null, 4) : ""}
-                onClick={() => result ? copy(JSON.stringify(result, null, 4)) : noop}
-                className="appearance-none block w-full text-black border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              />
-            </div>
-          </div>
+      <div className="cp-layout">
+        <div className="cp-section">
+          <h3 className="font-bold text-[var(--mx-ink)]">URL to JSON</h3>
+          <input
+            type="text"
+            placeholder="Paste URL"
+            className="input input-bordered w-full"
+            onChange={(e) => setResult(url2JSON(e.target.value))}
+          />
+          <label className="font-bold text-[var(--mx-ink)] cursor-pointer">
+            Results
+          </label>
+          <textarea
+            rows={10}
+            placeholder="Paste above ^"
+            value={result ? JSON.stringify(result, null, 4) : ""}
+            onClick={() => result ? copy(JSON.stringify(result, null, 4)) : noop}
+            className="input input-bordered w-full"
+          />
         </div>
-        <div className="w-full bg-grey-50 mt-3">
-          <h3 className="text-black text-lg font-bold">Slacker ({slackColor})</h3>
-          <div className="flex flex-wrap mx-3 mb-6 space-x-4 mt-4">
-            <div>
+        <div className="cp-section">
+          <h3 className="font-bold text-[var(--mx-ink)]">Slacker ({slackColor})</h3>
+          <div className="cp-radio-group">
+            <div className="cp-radio-group">
               <input
                 type="radio"
                 id="yellow"
@@ -76,9 +70,9 @@ export const CodePen = () => {
                 defaultChecked
                 onChange={() => updateTextColor("yellow")}
               />
-              <label htmlFor="yellow">Yellow</label>
+              <label htmlFor="yellow" className="cp-radio-label">Yellow</label>
             </div>
-            <div className="flex items-center ml-2">
+            <div className="cp-radio-group">
               <input
                 type="radio"
                 id="white"
@@ -86,35 +80,29 @@ export const CodePen = () => {
                 value="white"
                 onChange={() => updateTextColor("white")}
               />
-              <label htmlFor="white">White</label>
+              <label htmlFor="white" className="cp-radio-label">White</label>
             </div>
           </div>
-          <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3">
-              <input
-                placeholder="Type Something"
-                onChange={(e) =>
-                  debounce(() => setSlackMessage(createSlackAlphabet(e.target.value, slackColor)))}
-                type="text"
-                className="appearance-none block w-full text-black border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              />
-            </div>
-            <div className="w-full px-3">
-              <label
-                className="block text-black text-lg font-bold cursor-pointer"
-                onClick={() => copy(slackMessage)}
-              >
-                Results 📋
-              </label>
-              <textarea
-                rows={5}
-                value={slackMessage}
-                placeholder="Type above ^"
-                onClick={() => copy(slackMessage)}
-                className="appearance-none block w-full text-black border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              />
-            </div>
-          </div>
+          <input
+            placeholder="Type Something"
+            onChange={(e) =>
+              debounce(() => setSlackMessage(createSlackAlphabet(e.target.value, slackColor)))}
+            type="text"
+            className="input input-bordered w-full"
+          />
+          <label
+            className="font-bold text-[var(--mx-ink)] cursor-pointer"
+            onClick={() => copy(slackMessage)}
+          >
+            Results 📋
+          </label>
+          <textarea
+            rows={5}
+            value={slackMessage}
+            placeholder="Type above ^"
+            onClick={() => copy(slackMessage)}
+            className="input input-bordered w-full"
+          />
         </div>
       </div>
     </Page>

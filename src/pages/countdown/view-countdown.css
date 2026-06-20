@@ -1,0 +1,64 @@
+.vcd-card {
+  border: 1px solid var(--mx-line);
+  border-radius: 14px;
+  padding: 32px;
+  max-width: 420px;
+  width: 100%;
+  background: var(--mx-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+}
+
+.vcd-title {
+  font-family: 'Archivo', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--mx-ink);
+  margin: 0;
+}
+
+.vcd-desc {
+  font-family: 'Spectral', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--mx-muted);
+  line-height: 1.6;
+}
+
+.vcd-timer {
+  font-family: 'Archivo', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--mx-accent);
+  letter-spacing: -0.02em;
+  margin: 8px 0;
+}
+
+.vcd-link {
+  display: block;
+  width: 100%;
+  text-align: center;
+  border: 1px solid var(--mx-line);
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: var(--mx-ink);
+  background: transparent;
+  transition: background 0.15s, border-color 0.15s;
+  text-decoration: none;
+}
+
+.vcd-link:hover {
+  background: var(--mx-hover);
+}
+
+.vcd-link-primary {
+  border-color: var(--mx-accent);
+  color: var(--mx-accent);
+}
+
+.vcd-link-primary:hover {
+  background: var(--mx-accent);
+  color: #fff;
+}

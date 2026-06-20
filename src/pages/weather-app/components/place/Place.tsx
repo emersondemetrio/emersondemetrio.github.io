@@ -59,24 +59,8 @@ const Place = ({ name, timeZone, city, current }: PlaceProps) => {
   const merge = (...a: string[]) => a.join(" ");
   const showWeather = weather && weather.current && !isLoading && !error;
 
-  const classList = [
-    `${isMobile ? "h-full" : "h-40"}`,
-    "w-full",
-    "border-2",
-    "flex",
-    flexDir,
-    justify,
-    `${isMobile ? "p-10" : "p-1"}`,
-    "my-4",
-    "rounded-lg",
-    "items-center",
-    "bg-slate-600",
-    "shadow-lg",
-    `${current ? "border-amber-50" : "border-transparent"}`,
-  ].join(" ");
-
   return (
-    <div className={classList}>
+    <div className={`border border-[var(--mx-line)] rounded-xl p-4 my-3 flex ${flexDir} ${justify} items-center w-full ${isMobile ? "h-full" : "h-40"} ${current ? "border-[var(--mx-accent)]" : ""}`}>
       <div className={merge("ml-2", itemWidth, spacing)}>
         <h3>
           {name} {isLoading ? "Loading..." : ""}
@@ -107,12 +91,12 @@ const Place = ({ name, timeZone, city, current }: PlaceProps) => {
       )}
       {!showWeather && !error && (
         <div className={merge(itemWidth, spacing)}>
-          <div className="bg-slate-600 skeleton h-32 w-full" />
+          <div className="h-32 w-full rounded-lg bg-[var(--mx-hover)] animate-pulse" />
         </div>
       )}
       {showWeather && (
         <div className={merge(itemWidth, spacing, "p-4")}>
-          <h3 className="text-gray-50 flex justify-start lg:justify-end md:justify-end">
+          <h3 className="text-[var(--mx-ink)] flex justify-start lg:justify-end md:justify-end">
             {feelsLike(weather.current)}
           </h3>
           <div className="flex flex-row items-center justify-end">
@@ -127,14 +111,14 @@ const Place = ({ name, timeZone, city, current }: PlaceProps) => {
             </div>
             <div className="left-40 ml-5">
               <button
-                className="btn btn-circle btn-info"
+                className="w-8 h-8 rounded-full border border-[var(--mx-line)] bg-transparent text-[var(--mx-muted)] hover:border-[var(--mx-accent)] hover:text-[var(--mx-accent)] transition-colors cursor-pointer flex items-center justify-center"
                 disabled={isLoading}
                 onClick={() => refetch(city)}
               >
                 <Reload />
               </button>
               <button
-                className="btn btn-circle btn-info"
+                className="w-8 h-8 rounded-full border border-[var(--mx-line)] bg-transparent text-[var(--mx-muted)] hover:border-[var(--mx-accent)] hover:text-[var(--mx-accent)] transition-colors cursor-pointer flex items-center justify-center"
                 onClick={() => openNews(getNewsURL(city))}
               >
                 <Info />
