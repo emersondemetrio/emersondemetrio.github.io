@@ -1,46 +1,22 @@
-import daisyui from 'daisyui';
-
 export default {
   content: ['./src/**/*.{html,js,tsx}'],
   theme: {
-    extend: {},
-  },
-  plugins: [daisyui],
-  darkMode: 'selector',
-  daisyui: {
-    themes: [
-      {
-        'emerson.run': {
-          primary: '#0068ff',
-          'primary-content': '#ffffff',
-
-          secondary: '#6f9600',
-          'secondary-content': '#ffffff',
-
-          accent: '#007200',
-          'accent-content': '#ffffff',
-
-          neutral: '#003335',
-          'neutral-content': '#ffffff',
-
-          'base-100': '#000000',
-          'base-200': '#1a1a1a',
-          'base-300': '#333333',
-          'base-content': '#ffffff',
-
-          info: '#00e3ff',
-          'info-content': '#000000',
-
-          success: '#1cb024',
-          'success-content': '#000000',
-
-          warning: '#fab000',
-          'warning-content': '#000000',
-
-          error: '#ff4c57',
-          'error-content': '#000000',
-        },
+    extend: {
+      colors: {
+        'base-100': 'rgb(var(--mx-bg-rgb) / <alpha-value>)',
+        'base-200': 'rgb(var(--mx-hover-rgb) / <alpha-value>)',
+        'base-300': 'rgb(var(--mx-line-rgb) / <alpha-value>)',
+        'base-content': 'rgb(var(--mx-ink-rgb) / <alpha-value>)',
+        'primary': 'rgb(var(--mx-accent-rgb) / <alpha-value>)',
+        'primary-content': '#ffffff',
+        'secondary': 'rgb(var(--mx-muted-rgb) / <alpha-value>)',
+        'accent': 'rgb(var(--mx-accent-rgb) / <alpha-value>)',
+        'success': '#22c55e',
+        'error': '#ef4444',
+        'warning': '#f59e0b',
+        'info': '#38bdf8',
       },
-    ],
+    },
   },
+  plugins: [],
 };

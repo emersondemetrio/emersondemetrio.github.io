@@ -17,6 +17,7 @@ import { DevDaily } from "./pages/dev-daily/dev-daily";
 import { Pasteable } from "./pages/pasteable/pasteable";
 import { AudioFx } from "./pages/audio-fx/audio-fx";
 import { WhiteNoise } from "./pages/white-noise/white-noise";
+import { ThemeProvider } from "./context/theme-context";
 
 const oldRoutes = [
   {
@@ -34,14 +35,13 @@ const oldRoutes = [
 ]
   .map(({ from, to }) => {
     if (typeof from === "string") return { from, to };
-
     return from.map((path) => ({ from: path, to }));
   })
   .flat();
 
-export const App = () => {
-  return (
-    <HashRouter basename={"/"}>
+export const App = () => (
+  <HashRouter basename="/">
+    <ThemeProvider>
       <div className="grid min-h-[100dvh] grid-rows-[auto_1fr_auto]">
         <Navbar />
         <main>
@@ -70,6 +70,7 @@ export const App = () => {
             <Route path="/labs/camera" element={<Camera />} />
             <Route path="/labs/audio-fx" element={<AudioFx />} />
             <Route path="/labs/white-noise" element={<WhiteNoise />} />
+
             {/* Old routes */}
             {oldRoutes.map(({ from, to }) => (
               <Route
@@ -79,13 +80,12 @@ export const App = () => {
               />
             ))}
 
-            {/* Defaults */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
         <ToastContainer />
         <Footer />
       </div>
-    </HashRouter>
-  );
-};
+    </ThemeProvider>
+  </HashRouter>
+);

@@ -86,7 +86,7 @@ const Waveform = ({
           } else if (isPast) {
             fillColor = "#4ECDC4"; // Teal for played sections
           } else {
-            fillColor = "hsl(var(--b3))"; // Default for unplayed
+            fillColor = "var(--mx-line)"; // Default for unplayed
           }
 
           return (
