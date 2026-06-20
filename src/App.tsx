@@ -1,7 +1,13 @@
 import "react";
 import "./index.css";
 import { ToastContainer } from "react-toastify";
-import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  HashRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import { Footer } from "./components/footer/footer";
 import { Home } from "@/pages/home/home";
 import { Blog } from "@/pages/blog/blog";
@@ -39,53 +45,74 @@ const oldRoutes = [
   })
   .flat();
 
-export const App = () => {
-  return (
-    <HashRouter basename={"/"}>
-      <div className="grid min-h-[100dvh] grid-rows-[auto_1fr_auto]">
-        <Navbar />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<Resume />} />
-            <Route path="/resume" element={<Resume />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/dev" element={<DevDaily />} />
-            <Route path="/pasteable" element={<Pasteable />} />
-            <Route path="/paste" element={<Pasteable />} />
+const AppRoutes = () => (
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/about" element={<Resume />} />
+    <Route path="/resume" element={<Resume />} />
+    <Route path="/blog" element={<Blog />} />
+    <Route path="/dev" element={<DevDaily />} />
+    <Route path="/pasteable" element={<Pasteable />} />
+    <Route path="/paste" element={<Pasteable />} />
 
-            {/* Experiments */}
-            <Route path="/labs/background" element={<RemoveBackground />} />
-            <Route path="/labs/game" element={<CanvasGame />} />
-            <Route path="/labs/timezones" element={<WeatherApp />} />
-            <Route path="/labs/weather" element={<WeatherApp />} />
-            <Route path="/labs/code-pen" element={<CodePen />} />
-            <Route path="/labs/countdown" element={<Countdown />} />
-            <Route path="/labs/paste" element={<Pasteable />} />
-            <Route path="/labs/pasteable" element={<Pasteable />} />
-            <Route
-              path="/labs/countdown/:id/:countdownName?"
-              element={<Countdown />}
-            />
-            <Route path="/labs/camera" element={<Camera />} />
-            <Route path="/labs/audio-fx" element={<AudioFx />} />
-            <Route path="/labs/white-noise" element={<WhiteNoise />} />
-            {/* Old routes */}
-            {oldRoutes.map(({ from, to }) => (
-              <Route
-                key={`${from}-${to}`}
-                path={from}
-                element={<Navigate to={to} />}
-              />
-            ))}
+    {/* Experiments */}
+    <Route path="/labs/background" element={<RemoveBackground />} />
+    <Route path="/labs/game" element={<CanvasGame />} />
+    <Route path="/labs/timezones" element={<WeatherApp />} />
+    <Route path="/labs/weather" element={<WeatherApp />} />
+    <Route path="/labs/code-pen" element={<CodePen />} />
+    <Route path="/labs/countdown" element={<Countdown />} />
+    <Route path="/labs/paste" element={<Pasteable />} />
+    <Route path="/labs/pasteable" element={<Pasteable />} />
+    <Route
+      path="/labs/countdown/:id/:countdownName?"
+      element={<Countdown />}
+    />
+    <Route path="/labs/camera" element={<Camera />} />
+    <Route path="/labs/audio-fx" element={<AudioFx />} />
+    <Route path="/labs/white-noise" element={<WhiteNoise />} />
 
-            {/* Defaults */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </main>
+    {/* Old routes */}
+    {oldRoutes.map(({ from, to }) => (
+      <Route
+        key={`${from}-${to}`}
+        path={from}
+        element={<Navigate to={to} />}
+      />
+    ))}
+
+    {/* Defaults */}
+    <Route path="*" element={<Navigate to="/" />} />
+  </Routes>
+);
+
+const AppLayout = () => {
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
+
+  if (isHome) {
+    return (
+      <>
+        <AppRoutes />
         <ToastContainer />
-        <Footer />
-      </div>
-    </HashRouter>
+      </>
+    );
+  }
+
+  return (
+    <div className="grid min-h-[100dvh] grid-rows-[auto_1fr_auto]">
+      <Navbar />
+      <main>
+        <AppRoutes />
+      </main>
+      <ToastContainer />
+      <Footer />
+    </div>
   );
 };
+
+export const App = () => (
+  <HashRouter basename="/">
+    <AppLayout />
+  </HashRouter>
+);
