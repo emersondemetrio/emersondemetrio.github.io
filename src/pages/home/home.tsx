@@ -1,6 +1,6 @@
 import "./home.css";
 import { useState, useEffect } from "react";
-import { Links } from "@/constants";
+import { Links, experiments } from "@/constants";
 import { CurrencyNow } from "@/components/currency-now/currency-now";
 import { Modal } from "@/components/modal/modal";
 
@@ -27,7 +27,7 @@ const labelOverrides: Record<string, string> = {
 };
 
 const handleOverrides: Record<string, string> = {
-  Blog: "badcompiler.dev",
+  Blog: "badcompiler",
   Playlists: "curated on YouTube",
 };
 
@@ -38,22 +38,15 @@ const mixtapeLinks = Links.map((l) => ({
   href: l.url,
 }));
 
-const featuredExperiments = [
-  {
-    title: "Currency Tools",
-    blurb: "A tiny FX converter that does one thing well.",
-    href: null,
-  },
-  {
-    title: "Remove Background",
-    blurb: "Client-side image cutout - nothing leaves the tab.",
-    href: "#/labs/background",
-  },
-  {
-    title: "Canvas Game",
-    blurb: "A small thing you can actually play.",
-    href: "#/labs/game",
-  },
+const currencyCard = {
+  title: "Currency Tools",
+  blurb: "A tiny FX converter that does one thing well.",
+  href: null as string | null,
+};
+
+const allExperiments = [
+  currencyCard,
+  ...experiments.map((e) => ({ title: e.title, blurb: e.description, href: e.link })),
 ];
 
 export const Home = () => {
@@ -143,7 +136,7 @@ export const Home = () => {
               </span>
             </div>
             <div className="mx-experiments-grid">
-              {featuredExperiments.map((exp) =>
+              {allExperiments.map((exp) =>
                 exp.href ? (
                   <a key={exp.title} href={exp.href} className="mx-exp-card">
                     <div className="mx-exp-card-content">
