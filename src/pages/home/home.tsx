@@ -1,8 +1,9 @@
 import "./home.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Links, experiments } from "@/constants";
 import { CurrencyNow } from "@/components/currency-now/currency-now";
 import { Modal } from "@/components/modal/modal";
+import { usePasteable } from "@/pages/pasteable/hooks/use-pasteable";
 
 type FilterKey = "all" | "social" | "professional" | "arts";
 
@@ -52,17 +53,14 @@ const allExperiments = [
 export const Home = () => {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [showCurrency, setShowCurrency] = useState(false);
-
-  useEffect(() => {
-    document.title = "emerson.run";
-  }, []);
+  const { handlePaste } = usePasteable(true);
 
   const visibleSections = sections.filter(
     (s) => filter === "all" || filter === s.cat
   );
 
   return (
-    <div className="mx-home">
+    <div className="mx-home" onPaste={handlePaste}>
       <div className="mx-inner">
         {/* Intro */}
         <div className="mx-intro">
