@@ -1,182 +1,203 @@
-import "react";
+import "./remove-background.css";
 import { Page } from "@/components/page/page";
-import { FilePicker } from "@/components/file-picker/file-picker";
 import { useRemoveBackground } from "@/hooks/use-remove-background/use-remove-background";
 import { Loading } from "@/components/loading/loading";
 import { useState } from "react";
-import ImageViewer from "./image-viewer";
+import { randomUUID } from "@/utils/utils";
+import { Dropzone } from "./dropzone";
+import ImagePreviewModal from "./image-viewer";
 
-type ProcessingFile = {
-  fileName: string;
-  download: string;
-  url: string;
-};
+type ItemStatus = "processing" | "done" | "error";
 
-type ActionRowProps = {
-  index: number;
+type ProcessingItem = {
+  id: string;
   file: File;
-  result?: ProcessingFile;
+  originalUrl: string;
+  status: ItemStatus;
+  resultUrl?: string;
+  downloadName?: string;
   error?: string;
 };
 
-const errorMessage = (error: unknown): string =>
-  error instanceof Error ? error.message : "Failed to remove background.";
+const errorDetail = (error: unknown): string =>
+  error instanceof Error ? error.message : String(error);
 
-const ActionRow = ({ file, index, result, error }: ActionRowProps) => {
+type ImageCardProps = {
+  item: ProcessingItem;
+  onPreview: () => void;
+  onRetry: () => void;
+};
+
+const ImageCard = ({ item, onPreview, onRetry }: ImageCardProps) => {
+  const isDone = item.status === "done";
+
   return (
-    <tr key={file.name}>
-      <th scope="row">{index + 1}</th>
-      <td>{file.name}</td>
-      <td>
-        {result && (
-          <a
-            href={result.url}
-            className="btn btn-outline btn-sm"
-            download={result.download}
-          >
-            Download
-          </a>
+    <div className="rb-card">
+      <button
+        type="button"
+        className="rb-thumb rb-checkerboard"
+        onClick={isDone ? onPreview : undefined}
+        disabled={!isDone}
+      >
+        <img
+          src={isDone ? item.resultUrl : item.originalUrl}
+          alt={item.file.name}
+          className={`rb-thumb-img${item.status === "processing" ? " is-dimmed" : ""}`}
+        />
+        {item.status === "processing" && (
+          <div className="rb-thumb-overlay">
+            <Loading />
+          </div>
         )}
-        {!result && error && (
-          <span className="text-error text-sm">{error}</span>
+        {item.status === "error" && (
+          <div className="rb-thumb-overlay rb-thumb-overlay-error">⚠️</div>
         )}
-        {!result && !error && <Loading />}
-      </td>
-      <td>
-        {result && (
-          <ImageViewer
-            download={result.download}
-            src={result.url}
-            alt={file.name}
-          />
+      </button>
+      <div className="rb-card-body">
+        <p className="rb-card-name" title={item.file.name}>
+          {item.file.name}
+        </p>
+        {item.status === "processing" && (
+          <span className="rb-status rb-status-processing">Removing background…</span>
         )}
-        {!result && error && (
-          <span className="text-error text-sm">{error}</span>
+        {isDone && (
+          <div className="rb-card-actions">
+            <a
+              href={item.resultUrl}
+              download={item.downloadName}
+              className="btn btn-primary btn-sm"
+            >
+              Download
+            </a>
+            <button type="button" className="btn btn-outline btn-sm" onClick={onPreview}>
+              View
+            </button>
+          </div>
         )}
-        {!result && !error && <Loading />}
-      </td>
-    </tr>
+        {item.status === "error" && (
+          <div className="rb-card-error">
+            <span className="rb-status rb-status-error">Couldn't remove the background</span>
+            <button type="button" className="btn btn-outline btn-sm" onClick={onRetry}>
+              Try again
+            </button>
+            {item.error && (
+              <details className="rb-error-details">
+                <summary>Details</summary>
+                {item.error}
+              </details>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
 export const RemoveBackground = () => {
   const { removeBackground, isLoading, progress } = useRemoveBackground();
-  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-  const [pastedFile, setPastedFile] = useState<ProcessingFile | null>(null);
-  const [urls, setUrls] = useState<ProcessingFile[]>([]);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [items, setItems] = useState<ProcessingItem[]>([]);
+  const [previewId, setPreviewId] = useState<string | null>(null);
 
-  const handleFileChange = async (files: FileList | null) => {
-    if (files) {
-      setSelectedFiles(files);
-      for (const file of files) {
-        try {
-          const result = await removeBackground({ file });
+  const updateItem = (id: string, patch: Partial<ProcessingItem>) => {
+    setItems((prev) => prev.map((item) => (item.id === id ? { ...item, ...patch } : item)));
+  };
 
-          if (!result) continue;
+  const processItem = async (item: ProcessingItem, forceRetry = false) => {
+    try {
+      const result = await removeBackground({ file: item.file, forceRetry });
 
-          setUrls((prev) => [
-            ...prev,
-            {
-              fileName: file.name,
-              download: result.name,
-              url: result.url,
-            },
-          ]);
-        } catch (error) {
-          setErrors((prev) => ({ ...prev, [file.name]: errorMessage(error) }));
-        }
-      }
+      if (!result) return;
+
+      updateItem(item.id, {
+        status: "done",
+        resultUrl: result.url,
+        downloadName: result.name,
+        error: undefined,
+      });
+    } catch (error) {
+      updateItem(item.id, { status: "error", error: errorDetail(error) });
     }
+  };
+
+  const addFiles = async (files: FileList | File[]) => {
+    const newItems: ProcessingItem[] = Array.from(files).map((file) => ({
+      id: randomUUID(),
+      file,
+      originalUrl: URL.createObjectURL(file),
+      status: "processing",
+    }));
+
+    if (!newItems.length) return;
+
+    setItems((prev) => [...newItems, ...prev]);
+
+    for (const item of newItems) {
+      await processItem(item);
+    }
+  };
+
+  const retryItem = (id: string) => {
+    const item = items.find((it) => it.id === id);
+
+    if (!item) return;
+
+    updateItem(id, { status: "processing", error: undefined });
+    processItem({ ...item, status: "processing" }, true);
   };
 
   const handlePaste = async (event: React.ClipboardEvent) => {
-    const items = event.clipboardData?.items;
-    if (items) {
-      for (const item of items) {
-        if (item.kind === "file") {
-          const file = item.getAsFile();
+    const clipboardItems = event.clipboardData?.items;
 
-          if (file) {
-            try {
-              const result = await removeBackground({
-                file,
-              });
+    if (!clipboardItems) return;
 
-              if (!result) continue;
+    const files = Array.from(clipboardItems)
+      .filter((item) => item.kind === "file")
+      .map((item) => item.getAsFile())
+      .filter((file): file is File => file !== null);
 
-              setPastedFile({
-                fileName: file.name,
-                download: result.name,
-                url: result.url,
-              });
-            } catch (error) {
-              setErrors((prev) => ({
-                ...prev,
-                [file.name]: errorMessage(error),
-              }));
-            }
-          }
-        }
-      }
-    }
+    if (files.length) await addFiles(files);
   };
+
+  const previewItem = items.find((item) => item.id === previewId && item.status === "done");
+  const isDownloadingModel = isLoading && progress?.toLowerCase().includes("download");
 
   return (
     <Page
       onPaste={handlePaste}
       name="Remove Background"
-      description="Select a file or paste it"
+      description="Drop an image, paste one, or choose a file — everything happens in your browser."
     >
-      <div className="flex flex-col md:flex-row">
-        {progress && (
-          <div className="mt-2">
-            <span>{progress}</span>
+      <div className="rb-page">
+        <Dropzone onFiles={addFiles} />
+        {isDownloadingModel && (
+          <div className="rb-model-status">
+            <Loading />
+            <span>Setting up the model, this only happens once — {progress}</span>
           </div>
         )}
-        {isLoading && <Loading />}
-        <FilePicker onFileChange={handleFileChange} />
-        <div
-          className="container"
-          style={{
-            display: "flex",
-            marginTop: "1rem",
-          }}
-        >
-          <table className="table table-light relative overflow-x-auto">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">File Name</th>
-                <th scope="col">Actions</th>
-                <th scope="col">Preview</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pastedFile && (
-                <ActionRow
-                  index={1}
-                  file={new File([], pastedFile.fileName)}
-                  result={pastedFile}
-                />
-              )}
-              {selectedFiles &&
-                Array.from(selectedFiles).map((file, index) => {
-                  const result = urls.find((u) => u.fileName === file.name);
-                  return (
-                    <ActionRow
-                      key={file.name}
-                      file={file}
-                      index={index}
-                      result={result}
-                      error={errors[file.name]}
-                    />
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
+        {items.length === 0 ? (
+          <div className="rb-empty">No images yet — drop one above to get started.</div>
+        ) : (
+          <div className="rb-grid">
+            {items.map((item) => (
+              <ImageCard
+                key={item.id}
+                item={item}
+                onPreview={() => setPreviewId(item.id)}
+                onRetry={() => retryItem(item.id)}
+              />
+            ))}
+          </div>
+        )}
       </div>
+      {previewItem?.resultUrl && (
+        <ImagePreviewModal
+          src={previewItem.resultUrl}
+          alt={previewItem.file.name}
+          download={previewItem.downloadName ?? previewItem.file.name}
+          onClose={() => setPreviewId(null)}
+        />
+      )}
     </Page>
   );
 };

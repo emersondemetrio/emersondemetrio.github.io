@@ -1,36 +1,25 @@
 import { Modal } from "@/components/modal/modal";
-import { useState } from "react";
 
-type ImageViewerProps = {
+type ImagePreviewModalProps = {
   src: string;
   alt: string;
   download: string;
+  onClose: () => void;
 };
 
-const ImageViewer = ({ src, alt, download }: ImageViewerProps) => {
-  const [showImage, setShowImage] = useState<boolean>(false);
-
+const ImagePreviewModal = ({ src, alt, download, onClose }: ImagePreviewModalProps) => {
   return (
-    <div className="avatar">
-      <div className="w-24 rounded-xl" onClick={() => setShowImage(true)}>
-        <img src={src} alt={alt} />
-      </div>
-      <Modal
-        title="Image"
-        visible={showImage}
-        onClose={() => setShowImage(false)}
-      >
-        <div className="flex flex-col items-center gap-4 card bg-base-100 w-full max-w-sm mx-auto shadow-xl p-4">
-          <figure>
-            <img src={src} alt={alt} />
-          </figure>
-          <a href={src} className="btn btn-black" download={download}>
-            Download
-          </a>
+    <Modal title={alt} visible onClose={onClose}>
+      <div className="rb-preview">
+        <div className="rb-preview-image rb-checkerboard">
+          <img src={src} alt={alt} />
         </div>
-      </Modal>
-    </div>
+        <a href={src} className="btn btn-black" download={download}>
+          Download
+        </a>
+      </div>
+    </Modal>
   );
 };
 
-export default ImageViewer;
+export default ImagePreviewModal;
