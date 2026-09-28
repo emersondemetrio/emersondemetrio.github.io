@@ -1,0 +1,212 @@
+.rb-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.rb-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 40px 20px;
+  border: 1.5px dashed var(--mx-line);
+  border-radius: 12px;
+  background: var(--mx-hover);
+  cursor: pointer;
+  transition: border-color 0.15s, filter 0.15s;
+  text-align: center;
+}
+
+.rb-dropzone:hover,
+.rb-dropzone:focus-visible {
+  border-color: var(--mx-accent);
+  outline: none;
+}
+
+.rb-dropzone.is-dragover {
+  border-color: var(--mx-accent);
+  filter: brightness(1.05);
+}
+
+.rb-dropzone-input {
+  display: none;
+}
+
+.rb-dropzone-icon {
+  font-size: 28px;
+}
+
+.rb-dropzone-title {
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--mx-ink);
+  margin: 0;
+}
+
+.rb-dropzone-sub {
+  font-size: 0.8rem;
+  color: var(--mx-muted);
+  margin: 0;
+}
+
+.rb-model-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--mx-line);
+  border-radius: 8px;
+  background: var(--mx-hover);
+  font-size: 0.85rem;
+  color: var(--mx-muted);
+}
+
+.rb-empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--mx-muted);
+  border: 1px dashed var(--mx-line);
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+.rb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.rb-card {
+  border: 1px solid var(--mx-line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--mx-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.rb-thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border: none;
+  padding: 0;
+  cursor: default;
+  background: none;
+}
+
+.rb-thumb:not(:disabled) {
+  cursor: zoom-in;
+}
+
+.rb-checkerboard {
+  background-image: linear-gradient(45deg, var(--mx-line) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--mx-line) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--mx-line) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--mx-line) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+  background-color: var(--mx-hover);
+}
+
+.rb-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.rb-thumb-img.is-dimmed {
+  opacity: 0.35;
+}
+
+.rb-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(var(--mx-bg-rgb) / 55%);
+}
+
+.rb-thumb-overlay-error {
+  font-size: 1.5rem;
+}
+
+.rb-card-body {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rb-card-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--mx-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.rb-status {
+  font-size: 0.75rem;
+}
+
+.rb-status-processing {
+  color: var(--mx-muted);
+}
+
+.rb-status-error {
+  color: #ef4444;
+}
+
+.rb-card-actions,
+.rb-card-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rb-error-details {
+  font-size: 0.7rem;
+  color: var(--mx-muted);
+  width: 100%;
+}
+
+.rb-error-details summary {
+  cursor: pointer;
+}
+
+.rb-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.rb-preview-image {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rb-preview-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
