@@ -224,7 +224,7 @@ export const AudioFx = () => {
     >
       <div className="min-h-screen bg-base-100 w-full">
         <Modal title="Downloading file" visible={isLoading}>
-          <div className="text-gray-500">Please wait...</div>
+          <div className="text-secondary">Please wait...</div>
         </Modal>
         {/* Header */}
         <div className="text-primary-content p-4 mb-6">

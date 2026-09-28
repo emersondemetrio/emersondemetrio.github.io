@@ -57,6 +57,8 @@ export const useRemoveBackground = () => {
     } catch (error) {
       setError(error);
       setIsLoading(false);
+      setProgress(null);
+      throw error;
     }
   };
 
