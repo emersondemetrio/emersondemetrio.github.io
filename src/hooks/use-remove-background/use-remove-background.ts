@@ -14,6 +14,15 @@ export const useRemoveBackground = () => {
 
   const REMOVE_MASK_MODEL = "isnet";
 
+  const runRemoveBackground = (file: ImageSource, device: "cpu" | "gpu") =>
+    removeBackgroundFromImage(file, {
+      model: REMOVE_MASK_MODEL,
+      device,
+      progress: (key, current, total) => {
+        setProgress(`Downloading ${key}: ${current} of ${total}`);
+      },
+    });
+
   const removeBackground = async ({
     file,
     output = "no-bg",
@@ -27,13 +36,20 @@ export const useRemoveBackground = () => {
       setProgress("Started.");
       setIsLoading(true);
 
-      const blob = await removeBackgroundFromImage(file, {
-        model: REMOVE_MASK_MODEL,
-        device: isMobile ? "cpu" : "gpu",
-        progress: (key, current, total) => {
-          setProgress(`Downloading ${key}: ${current} of ${total}`);
-        },
-      });
+      const preferredDevice = isMobile ? "cpu" : "gpu";
+      let blob;
+      try {
+        blob = await runRemoveBackground(file, preferredDevice);
+      } catch (deviceError) {
+        // The WebGPU/JSEP backend can fail to resolve its worker-proxied wasm
+        // (e.g. "Failed to parse URL from ort-wasm-simd.jsep.wasm") on some
+        // browsers/bundler setups. Fall back to the CPU backend before giving up.
+        if (preferredDevice !== "cpu") {
+          blob = await runRemoveBackground(file, "cpu");
+        } else {
+          throw deviceError;
+        }
+      }
 
       const url = URL.createObjectURL(blob);
       setIsLoading(false);
