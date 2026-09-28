@@ -16,9 +16,13 @@ type ActionRowProps = {
   index: number;
   file: File;
   result?: ProcessingFile;
+  error?: string;
 };
 
-const ActionRow = ({ file, index, result }: ActionRowProps) => {
+const errorMessage = (error: unknown): string =>
+  error instanceof Error ? error.message : "Failed to remove background.";
+
+const ActionRow = ({ file, index, result, error }: ActionRowProps) => {
   return (
     <tr key={file.name}>
       <th scope="row">{index + 1}</th>
@@ -33,7 +37,10 @@ const ActionRow = ({ file, index, result }: ActionRowProps) => {
             Download
           </a>
         )}
-        {!result && <Loading />}
+        {!result && error && (
+          <span className="text-error text-sm">{error}</span>
+        )}
+        {!result && !error && <Loading />}
       </td>
       <td>
         {result && (
@@ -43,7 +50,10 @@ const ActionRow = ({ file, index, result }: ActionRowProps) => {
             alt={file.name}
           />
         )}
-        {!result && <Loading />}
+        {!result && error && (
+          <span className="text-error text-sm">{error}</span>
+        )}
+        {!result && !error && <Loading />}
       </td>
     </tr>
   );
@@ -54,23 +64,28 @@ export const RemoveBackground = () => {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [pastedFile, setPastedFile] = useState<ProcessingFile | null>(null);
   const [urls, setUrls] = useState<ProcessingFile[]>([]);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleFileChange = async (files: FileList | null) => {
     if (files) {
       setSelectedFiles(files);
       for (const file of files) {
-        const result = await removeBackground({ file });
+        try {
+          const result = await removeBackground({ file });
 
-        if (!result) return;
+          if (!result) continue;
 
-        setUrls((prev) => [
-          ...prev,
-          {
-            fileName: file.name,
-            download: result.name,
-            url: result.url,
-          },
-        ]);
+          setUrls((prev) => [
+            ...prev,
+            {
+              fileName: file.name,
+              download: result.name,
+              url: result.url,
+            },
+          ]);
+        } catch (error) {
+          setErrors((prev) => ({ ...prev, [file.name]: errorMessage(error) }));
+        }
       }
     }
   };
@@ -83,17 +98,24 @@ export const RemoveBackground = () => {
           const file = item.getAsFile();
 
           if (file) {
-            const result = await removeBackground({
-              file,
-            });
+            try {
+              const result = await removeBackground({
+                file,
+              });
 
-            if (!result) return;
+              if (!result) continue;
 
-            setPastedFile({
-              fileName: file.name,
-              download: result.name,
-              url: result.url,
-            });
+              setPastedFile({
+                fileName: file.name,
+                download: result.name,
+                url: result.url,
+              });
+            } catch (error) {
+              setErrors((prev) => ({
+                ...prev,
+                [file.name]: errorMessage(error),
+              }));
+            }
           }
         }
       }
@@ -147,6 +169,7 @@ export const RemoveBackground = () => {
                       file={file}
                       index={index}
                       result={result}
+                      error={errors[file.name]}
                     />
                   );
                 })}

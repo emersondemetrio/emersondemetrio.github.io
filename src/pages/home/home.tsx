@@ -23,7 +23,6 @@ const filterLabels: Record<FilterKey, string> = {
 
 const labelOverrides: Record<string, string> = {
   email: "Email",
-  Whatsapp: "WhatsApp",
   "x (Twitter)": "X / Twitter",
 };
 

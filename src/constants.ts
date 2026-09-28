@@ -1,7 +1,6 @@
 import { CurrencyProvider, Lab, Link, Repo } from "./types";
 import {
   FaInstagram,
-  FaWhatsapp,
   FaEnvelope,
   FaTwitter,
   FaLinkedin,
@@ -35,16 +34,6 @@ const Instagram: Link = {
 };
 
 export const Links: Array<Link> = [
-  {
-    title: "Whatsapp",
-    url: `https://wa.me/${atob('KzU1NDg5OTk0NTM1ODE=')}?text=Hey,%20Emerson!`,
-    category: "social",
-    handle: "@emersondemetrio",
-    ranking: 0,
-    keepFocus: false,
-    about: "Whatsapp",
-    icon: FaWhatsapp,
-  },
   {
     title: "email",
     url: `mailto:${atob('ZW1lci5kZW1ldHJpb0BnbWFpbC5jb20=')}`,

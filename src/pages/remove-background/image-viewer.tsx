@@ -20,11 +20,11 @@ const ImageViewer = ({ src, alt, download }: ImageViewerProps) => {
         visible={showImage}
         onClose={() => setShowImage(false)}
       >
-        <div className="flex justify-center card bg-base-100 w-96 shadow-xl">
+        <div className="flex flex-col items-center gap-4 card bg-base-100 w-full max-w-sm mx-auto shadow-xl p-4">
           <figure>
             <img src={src} alt={alt} />
           </figure>
-          <a href={src} className="btn btn-dark" download={download}>
+          <a href={src} className="btn btn-black" download={download}>
             Download
           </a>
         </div>
