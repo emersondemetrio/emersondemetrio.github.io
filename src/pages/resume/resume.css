@@ -133,3 +133,50 @@ a.rv-card:hover { background: var(--mx-hover); border-color: var(--mx-accent); }
   .rv-pills { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
   .rv-pills .mx-filter-pill { min-height: 36px; flex: none; }
 }
+
+.rv-job-company { text-decoration: none; display: inline-block; }
+.rv-muted { font-size: 14px; color: var(--mx-muted); }
+.rv-underline { text-decoration: underline; text-underline-offset: 3px; }
+
+.rv-card-wide { grid-column: 1 / -1; }
+
+.rv-details { margin-top: 8px; }
+.rv-details summary {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mx-accent);
+}
+
+.rv-achievements {
+  margin: 10px 0 0;
+  padding-left: 10px;
+  border-left: 2px solid var(--mx-accent);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--mx-muted);
+}
+
+.rv-card-links { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; }
+.rv-card-links a {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mx-accent);
+  text-decoration: none;
+}
+
+.rv-skills { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.rv-skill-group { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+
+.rv-plain { list-style: none; margin: 0; padding: 0; font-size: 15px; line-height: 1.7; }
+
+.rv-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+
+@media (max-width: 719px) {
+  .rv-skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rv-columns { grid-template-columns: 1fr; gap: 0; }
+}

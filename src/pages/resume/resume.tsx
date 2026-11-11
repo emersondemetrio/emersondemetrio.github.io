@@ -1,23 +1,21 @@
 import "./resume.css";
-import { useMemo, useState } from "react";
-import {
-  certifications,
-  education,
-  jobs,
-  profile,
-  projects,
-  ProjectKind,
-  spokenLanguages,
-} from "./profile";
+import { useEffect, useMemo, useState } from "react";
+import data from "./resume.json";
+import { ProjectKind, ResumeData } from "./types";
+
+const resume = data as ResumeData;
+const { profile, experience, projects, skills, publications, education, certifications, languages, interests } =
+  resume;
 
 const ALL = "All";
 
-const uniqueSorted = (values: string[]) =>
-  [...new Set(values)].sort((a, b) => a.localeCompare(b));
+const uniqueSorted = (values: string[]) => [...new Set(values)].sort((a, b) => a.localeCompare(b));
 
 const allLanguages = uniqueSorted(projects.flatMap((p) => p.languages));
 const allStacks = uniqueSorted(projects.flatMap((p) => p.stack));
-const kinds: (ProjectKind | typeof ALL)[] = [ALL, "Work", "Personal", "University"];
+const kinds: ProjectKind[] = ["Work", "Research", "Personal", "University"];
+
+const external = { target: "_blank", rel: "noopener noreferrer" };
 
 const Pills = ({
   label,
@@ -33,7 +31,7 @@ const Pills = ({
   <div className="rv-filter-row">
     <span className="rv-filter-label">{label}</span>
     <div className="rv-pills">
-      {[ALL, ...options.filter((o) => o !== ALL)].map((o) => (
+      {[ALL, ...options].map((o) => (
         <button
           key={o}
           className={`mx-filter-pill${value === o ? " active" : ""}`}
@@ -46,8 +44,8 @@ const Pills = ({
   </div>
 );
 
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <section className="rv-section">
+const Section = ({ id, title, children }: { id?: string; title: string; children: React.ReactNode }) => (
+  <section id={id} className="rv-section">
     <div className="rv-section-header">
       <span className="rv-section-label">{title}</span>
       <span className="rv-section-rule" />
@@ -62,25 +60,36 @@ export const Resume = () => {
   const [stack, setStack] = useState<string>(ALL);
   const [search, setSearch] = useState("");
 
+  useEffect(() => {
+    document.title = "About | emerson.run";
+  }, []);
+
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     return projects
       .filter((p) => kind === ALL || p.kind === kind)
       .filter((p) => language === ALL || p.languages.includes(language))
       .filter((p) => stack === ALL || p.stack.includes(stack))
-      .filter(
-        (p) =>
-          !q ||
-          `${p.name} ${p.description} ${p.languages.join(" ")} ${p.stack.join(" ")}`
-            .toLowerCase()
-            .includes(q),
-      )
-      .sort((a, b) => b.year - a.year);
+      .filter((p) => {
+        if (!q) return true;
+        const haystack = [p.name, p.company, p.description, p.achievements, ...(p.highlights ?? []), ...p.languages, ...p.stack]
+          .join(" ")
+          .toLowerCase();
+        return haystack.includes(q);
+      })
+      .sort((a, b) => kinds.indexOf(a.kind) - kinds.indexOf(b.kind) || b.year - a.year);
   }, [kind, language, stack, search]);
 
   const pickTag = (tag: string) => {
-    if (allLanguages.includes(tag)) setLanguage(tag);
-    else if (allStacks.includes(tag)) setStack(tag);
+    setKind(ALL);
+    setSearch("");
+    if (allLanguages.includes(tag)) {
+      setLanguage(tag);
+      setStack(ALL);
+    } else {
+      setStack(tag);
+      setLanguage(ALL);
+    }
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -91,7 +100,12 @@ export const Resume = () => {
     setSearch("");
   };
 
-  document.title = "About | emerson.run";
+  const isFilterable = (tag: string) => allLanguages.includes(tag) || allStacks.includes(tag);
+
+  const Tag = ({ tag }: { tag: string }) =>
+    isFilterable(tag)
+      ? <button className="rv-tag rv-tag-link" onClick={() => pickTag(tag)}>{tag}</button>
+      : <span className="rv-tag">{tag}</span>;
 
   return (
     <div className="mx-home rv">
@@ -101,23 +115,31 @@ export const Resume = () => {
           <p className="mx-subline">
             {profile.headline} · {profile.location}
           </p>
-          <p className="rv-summary">{profile.summary}</p>
+          {profile.summary.map((p) => <p key={p} className="rv-summary">{p}</p>)}
           <div className="rv-links">
             {profile.links.map((l) => (
-              <a key={l.url} href={l.url} target="_blank" rel="noopener noreferrer">
+              <a key={l.url} href={l.url} {...external}>
                 {l.label} ↗
               </a>
             ))}
+            <a href="#projects" onClick={(e) => {
+              e.preventDefault();
+              document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+            }}>
+              Projects ↓
+            </a>
           </div>
         </header>
 
         <Section title="Experience">
-          {jobs.map((j) => (
+          {experience.map((j) => (
             <article key={`${j.company}-${j.role}`} className="rv-job">
               <div className="rv-job-head">
                 <div>
                   <h3 className="rv-job-role">{j.role}</h3>
-                  <div className="rv-job-company">{j.company}</div>
+                  {j.url
+                    ? <a className="rv-job-company" href={j.url} {...external}>{j.company}</a>
+                    : <div className="rv-job-company">{j.company}</div>}
                 </div>
                 <div className="rv-job-meta">
                   <div>{j.period}</div>
@@ -131,27 +153,13 @@ export const Resume = () => {
                 </ul>
               )}
               <div className="rv-tags">
-                {j.stack.map((s) => {
-                  const clickable = allLanguages.includes(s) || allStacks.includes(s);
-                  return clickable
-                    ? (
-                      <button key={s} className="rv-tag rv-tag-link" onClick={() => pickTag(s)}>
-                        {s}
-                      </button>
-                    )
-                    : <span key={s} className="rv-tag">{s}</span>;
-                })}
+                {j.stack.map((s) => <Tag key={s} tag={s} />)}
               </div>
             </article>
           ))}
         </Section>
 
-        <section id="projects" className="rv-section">
-          <div className="rv-section-header">
-            <span className="rv-section-label">Projects · {visible.length}</span>
-            <span className="rv-section-rule" />
-          </div>
-
+        <Section id="projects" title={`Projects · ${visible.length}`}>
           <div className="rv-filters">
             <input
               className="rv-search"
@@ -171,32 +179,69 @@ export const Resume = () => {
           )}
 
           <div className="rv-grid">
-            {visible.map((p) => {
-              const body = (
-                <>
-                  <div className="rv-card-head">
-                    <span className="rv-card-name">{p.name}</span>
-                    <span className="rv-card-year">{p.year}</span>
-                  </div>
-                  <p className="rv-text">{p.description}</p>
-                  <div className="rv-tags">
-                    <span className="rv-tag rv-tag-kind">{p.kind}</span>
-                    {[...p.languages, ...p.stack].map((t) => (
-                      <span key={t} className="rv-tag">{t}</span>
+            {visible.map((p) => (
+              <article key={p.name} className={`rv-card${p.highlights ? " rv-card-wide" : ""}`}>
+                <div className="rv-card-head">
+                  <span className="rv-card-name">{p.name}</span>
+                  <span className="rv-card-year">
+                    {p.company ? `${p.company} · ` : ""}
+                    {p.year}
+                  </span>
+                </div>
+                <p className="rv-text">{p.description}</p>
+                {p.highlights && (
+                  <details className="rv-details">
+                    <summary>What I built</summary>
+                    <ul className="rv-list">
+                      {p.highlights.map((h) => <li key={h}>{h}</li>)}
+                    </ul>
+                  </details>
+                )}
+                {p.achievements && <p className="rv-achievements">{p.achievements}</p>}
+                <div className="rv-tags">
+                  <span className="rv-tag rv-tag-kind">{p.kind}</span>
+                  {[...p.languages, ...p.stack].map((t) => <Tag key={t} tag={t} />)}
+                </div>
+                {p.links && (
+                  <div className="rv-card-links">
+                    {p.links.map((l) => (
+                      <a key={l.url} href={l.url} {...external}>
+                        {l.label} ↗
+                      </a>
                     ))}
                   </div>
-                </>
-              );
-              return p.url
-                ? (
-                  <a key={p.name} className="rv-card" href={p.url} target="_blank" rel="noopener noreferrer">
-                    {body}
-                  </a>
-                )
-                : <div key={p.name} className="rv-card">{body}</div>;
-            })}
+                )}
+              </article>
+            ))}
           </div>
-        </section>
+        </Section>
+
+        <Section title="Skills">
+          <div className="rv-skills">
+            {skills.map((s) => (
+              <div key={s.group}>
+                <div className="rv-skill-group">{s.group}</div>
+                <ul className="rv-plain">
+                  {s.items.map((i) => <li key={i}>{i}</li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section title="Publications">
+          {publications.map((p) => (
+            <div key={p.title} className="rv-row">
+              <div>
+                <div className="rv-job-role">“{p.title}”</div>
+                <div className="rv-muted">
+                  {p.authors} · {p.venue}
+                </div>
+              </div>
+              <div className="rv-job-meta">{p.year}</div>
+            </div>
+          ))}
+        </Section>
 
         <Section title="Education">
           {education.map((e) => (
@@ -204,23 +249,40 @@ export const Resume = () => {
               <div>
                 <div className="rv-job-role">{e.title}</div>
                 <div className="rv-job-company">{e.school}</div>
+                {e.note && (
+                  e.url
+                    ? <a className="rv-muted rv-underline" href={e.url} {...external}>{e.note} ↗</a>
+                    : <div className="rv-muted">{e.note}</div>
+                )}
               </div>
               <div className="rv-job-meta">{e.period}</div>
             </div>
           ))}
         </Section>
 
-        <Section title="Certifications">
-          <ul className="rv-list">
-            {certifications.map((c) => <li key={c}>{c}</li>)}
-          </ul>
-        </Section>
+        <div className="rv-columns">
+          <Section title="Certifications">
+            <ul className="rv-plain">
+              {certifications.map((c) => <li key={c}>{c}</li>)}
+            </ul>
+          </Section>
 
-        <Section title="Languages">
-          <ul className="rv-list">
-            {spokenLanguages.map((l) => <li key={l}>{l}</li>)}
-          </ul>
-        </Section>
+          <Section title="Languages">
+            <ul className="rv-plain">
+              {languages.map((l) => (
+                <li key={l.name}>
+                  {l.name} <span className="rv-muted">· {l.level}</span>
+                </li>
+              ))}
+            </ul>
+          </Section>
+
+          <Section title="Interests">
+            <ul className="rv-plain">
+              {interests.map((i) => <li key={i}>{i}</li>)}
+            </ul>
+          </Section>
+        </div>
       </div>
     </div>
   );
