@@ -1,23 +1,135 @@
-.ResumeViewer {
+@import "../home/home.css";
+
+.rv { text-align: left; }
+
+.rv-summary {
+  margin: 18px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--mx-ink);
+  max-width: 640px;
+}
+
+.rv-links { display: flex; gap: 18px; margin-top: 14px; }
+
+.rv-links a {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mx-accent);
+  text-decoration: none;
+}
+
+.rv-section { margin-top: 40px; scroll-margin-top: 20px; }
+
+.rv-section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+
+.rv-section-label {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mx-muted);
+  white-space: nowrap;
+}
+
+.rv-section-rule { flex: 1; height: 1px; background: var(--mx-line); }
+
+.rv-job { padding: 16px 0; border-bottom: 1px solid var(--mx-line); }
+.rv-job:last-child { border-bottom: none; }
+
+.rv-job-head, .rv-row {
   display: flex;
-  flex-direction: column;
-  border: solid 1px #ddd;
-  width: 80%;
-  padding: 10px;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
 }
 
-.SectionFieldViewer {
-  border: solid 1px blue;
+.rv-row { padding: 10px 0; }
+
+.rv-job-role { font-size: 18px; font-weight: 700; margin: 0; color: var(--mx-ink); }
+.rv-job-company { font-size: 15px; color: var(--mx-accent); font-weight: 600; }
+
+.rv-job-meta { font-size: 13px; color: var(--mx-muted); text-align: right; flex: none; }
+
+.rv-text { font-size: 15px; line-height: 1.55; color: var(--mx-ink); margin: 8px 0 0; }
+
+.rv-list { margin: 8px 0 0; padding-left: 18px; list-style: disc; font-size: 15px; line-height: 1.6; }
+
+.rv-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+.rv-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--mx-line);
+  color: var(--mx-muted);
+  background: transparent;
 }
 
-.RecordViewer {
-  padding: 10px;
-  border: solid 1px yellow;
+.rv-tag-link { cursor: pointer; }
+.rv-tag-link:hover { border-color: var(--mx-accent); color: var(--mx-accent); }
+.rv-tag-kind { border-color: var(--mx-accent); color: var(--mx-accent); }
+
+.rv-filters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+
+.rv-search {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 9px;
+  border: 1.5px solid var(--mx-line);
+  background: transparent;
+  color: var(--mx-ink);
+  font-size: 15px;
 }
 
-.SectionViewer {
-  border: solid 1px white;
+.rv-search:focus { outline: none; border-color: var(--mx-accent); }
+
+.rv-filter-row { display: flex; gap: 12px; align-items: baseline; }
+
+.rv-filter-label {
+  flex: none;
+  width: 72px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mx-muted);
 }
 
-.ResumeViewer {}
+.rv-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.rv-pills .mx-filter-pill { padding: 5px 11px; font-size: 10px; }
+
+.rv-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+
+.rv-card {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid var(--mx-line);
+  border-radius: 10px;
+  color: var(--mx-ink);
+  text-decoration: none;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+a.rv-card:hover { background: var(--mx-hover); border-color: var(--mx-accent); }
+
+.rv-card-head { display: flex; justify-content: space-between; gap: 10px; }
+.rv-card-name { font-weight: 700; font-size: 16px; overflow-wrap: anywhere; }
+.rv-card-year { font-size: 12px; color: var(--mx-muted); flex: none; }
+
+.rv-empty { color: var(--mx-muted); font-size: 15px; }
+.rv-reset { color: var(--mx-accent); font-weight: 700; background: none; border: none; cursor: pointer; }
+
+@media (max-width: 719px) {
+  .rv .mx-inner { padding: 24px 16px 40px; }
+  .rv-grid { grid-template-columns: 1fr; }
+  .rv-job-head, .rv-row { flex-direction: column; gap: 4px; }
+  .rv-job-meta { text-align: left; }
+  .rv-filter-row { flex-direction: column; gap: 6px; }
+  .rv-pills { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+  .rv-pills .mx-filter-pill { min-height: 36px; flex: none; }
+}
