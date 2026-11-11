@@ -1,0 +1,432 @@
+{
+  "profile": {
+    "name": "Emerson Demetrio",
+    "headline": "Senior Product & AI Engineer · Tech Lead",
+    "location": "Florianópolis, Brazil · Remote",
+    "summary": [
+      "Senior Full-Stack Engineer with twelve years across LATAM, Europe, and the US, working at the intersection of product, business, and engineering. Core stack: TypeScript, Node.js, React, Python and AWS, with the last few years focused on production AI and agentic systems.",
+      "I own problems from architecture to production. I treat engineering as a product problem first. I evaluate what's worth building, own it end to end, and think in systems. Code quality and catching issues early are how I work."
+    ],
+    "links": [
+      { "label": "LinkedIn", "url": "https://linkedin.com/in/emersondemetrio" },
+      { "label": "GitHub", "url": "https://github.com/emersondemetrio" }
+    ]
+  },
+
+  "experience": [
+    {
+      "role": "Senior Product Engineer (contractor)",
+      "company": "Arist",
+      "url": "https://arist.com",
+      "period": "Mar 2026 – Present",
+      "location": "New York, US · Remote",
+      "summary": "Led frontend architecture for the Diagnostic agent: interaction design, conversation flow, CopilotKit integration into a Vue.js/Rails app, cross-framework architecture, and bundle optimization. Contributed to system prompt design, agentic definitions, and agent improvements alongside the backend team (Rails); work spans sync features and async background jobs (Sidekiq).",
+      "highlights": [
+        "Part of the team building the agentic engineering pipeline: ticket triage, scoping, implementation, self-review, agent-review, and deploy",
+        "Built skills for code review, deploy pipeline automation, and work reporting"
+      ],
+      "stack": ["Rails", "Vue.js", "React", "TypeScript", "Python", "LLMs", "AG-UI", "CopilotKit", "Claude Code", "CI/CD", "GitHub Actions"]
+    },
+    {
+      "role": "Founding Engineer",
+      "company": "HoneyBee",
+      "url": "https://withhoneybee.com",
+      "period": "Nov 2025 – Present",
+      "location": "San Francisco, US · Remote",
+      "summary": "Sole developer of the entire back-office and CRM platform for matchmakers. Owned the full stack end to end.",
+      "highlights": [
+        "Designed and shipped the AI subsystem from scratch: multi-provider LLM gateway, per-feature model routing, usage logging, and a control framework for AI settings per matchmaker profile",
+        "Production AI features across text (bio generation, document summarization), audio (transcription + sentiment analysis), video analysis, and web scraping for profile enrichment",
+        "Integrated Rekognition for face detection and photo orientation correction (Lambda triggered on S3 upload), plus a local OpenCV equivalent with Haar cascades and weighted confidence scoring across all 4 rotations",
+        "Built the data infrastructure: bidirectional sync between a no-code platform and Supabase on AWS ECS, photo/video/document media pipelines, and a full migration to a multi-tenant SaaS with row-level security"
+      ],
+      "stack": ["Next.js", "Python", "Supabase", "PostgreSQL", "CloudFront", "Rekognition", "Vercel", "LLMs", "OpenCV", "SpeakAI", "AWS"]
+    },
+    {
+      "role": "Senior Full Stack Engineer",
+      "company": "ae.studio",
+      "url": "https://ae.studio",
+      "period": "Jan 2025 – Nov 2025",
+      "location": "Los Angeles, US · Remote",
+      "summary": "Worked across multiple client projects as a full-stack engineer and occasional tech lead, building AI-powered products from the ground up in Python and TypeScript.",
+      "highlights": [
+        "Financial RAG system over Brazilian Central Bank data: text-embedding-3-small, FAISS, GPT-4o, hybrid retrieval across two indices and a rules-based market-context layer",
+        "ML experiments: RandomForest + XGBoost ensemble for loan/investment risk; fine-tuned microsoft/phi-2 with LoRA/PEFT on financial Q&A",
+        "Multimedia AI search pipeline: Whisper transcription, GPT-4o frame captioning, local Ollama/llava path for cost-free iteration",
+        "AI English tutor avatar: Twilio + ElevenLabs for real-time voice and lesson delivery for early readers"
+      ],
+      "stack": ["Python", "TypeScript", "AWS", "OpenAI", "FAISS", "scikit-learn", "XGBoost", "Hugging Face", "PyTorch", "LangChain", "Twilio", "ElevenLabs"]
+    },
+    {
+      "role": "Senior Software Engineer",
+      "company": "Kyte",
+      "url": "https://kyte.com",
+      "period": "Dec 2021 – Dec 2024",
+      "location": "Munich, Germany",
+      "summary": "Senior full-stack engineer across multiple teams at a VC-backed mobility startup. Worked primarily in React Native and Next.js, with recurrent backend contributions (FastAPI, NestJS). Onboarded team members, set up tooling, ran code reviews, and documented patterns adopted across teams.",
+      "highlights": [
+        "Led the Consumer portal: Additional Drivers, Vehicle Condition report (cross-team architecture), Async Checkout, ID/Passport verification",
+        "Surfer (driver) app: joined mid-project under a tight timeline; Live Location and Vehicle inspection flow",
+        "Growth/Ops: Auth0 integration and online travel agency (OTA) integrations"
+      ],
+      "stack": ["React Native", "Next.js", "NestJS", "FastAPI", "AWS", "Kotlin", "Swift", "Auth0", "CI/CD"]
+    },
+    {
+      "role": "Technical Leader",
+      "company": "CondoConta",
+      "url": "https://condoconta.com.br",
+      "period": "Mar 2019 – Aug 2021",
+      "location": "Florianópolis, Brazil",
+      "summary": "Led the development and publishing of the banking app, managed the team as Product Owner, handled recruiting and interviews, integrated third-party APIs, and led the internship program.",
+      "highlights": [
+        "Led the 1.0 app launch: architecture planning, CI/CD automation, Java API development, AWS integration and store publishing",
+        "Led development of the web portal (condoconta.com.br)",
+        "CodePush strategy for over-the-air app updates",
+        "Lambda deployment automations; contributed to security checks and quality"
+      ],
+      "stack": ["AWS", "Java", "Node.js", "TypeScript", "React", "React Native"]
+    },
+    {
+      "role": "Senior Full Stack Engineer",
+      "company": "Salsa Technology",
+      "url": "https://salsatechnology.com/company/",
+      "period": "Nov 2018 – Jul 2019",
+      "location": "Florianópolis, Brazil",
+      "summary": "Led the AngularJS → Angular 2+ migration for a gaming/lottery platform: ramped up on the Java/AngularJS codebase, introduced Angular 2+ to the team, architected the migration path, and kicked off the transition. Also built and integrated Spring MVC APIs with third-party providers.",
+      "highlights": [
+        "InfoBip integration (back end and front end)",
+        "Front-end team lead; introduced Git flow and code review"
+      ],
+      "stack": ["Spring MVC", "Jenkins", "Node.js", "TypeScript", "Angular", "Java"]
+    },
+    {
+      "role": "Full Stack Developer",
+      "company": "Dimension Data (now NTT)",
+      "url": "https://services.global.ntt/en-us/",
+      "period": "Apr 2017 – Oct 2018",
+      "location": "Florianópolis, Brazil",
+      "summary": "Full-stack developer across multiple enterprise clients. Built the real-time data pipeline and map visualization layer for the Tour de France and other cycling tours, and developed Atajo Office, a multi-tenant survey and CRM platform for Britehouse serving clients including Lenmed and Audi.",
+      "stack": ["Angular", "Node.js", "TypeScript", "React", "Socket.IO", "OpenStreetMap", "Python", "CI/CD"]
+    },
+    {
+      "role": "Developer Analyst",
+      "company": "AeroTD",
+      "period": "Jun 2015 – Apr 2017",
+      "location": "Florianópolis, Brazil",
+      "summary": "Web systems, systems integration and legacy maintenance, mainly learning management systems like Moodle. CI/CD with Python and Node.js.",
+      "stack": ["CakePHP", "PHP", "Node.js", "Python", "Moodle"]
+    },
+    {
+      "role": "Web Developer · Front-end Lead",
+      "company": "INCOD (Brazilian Nat. Institute for Digital Convergence)",
+      "period": "Mar 2013 – Jun 2015",
+      "location": "Florianópolis, Brazil · Part-time",
+      "summary": "Full-stack development and front-end lead on web applications and services.",
+      "stack": ["CakePHP", "Spring MVC", "PHP", "Java"]
+    },
+    {
+      "role": "Web Developer",
+      "company": "inc48",
+      "period": "Nov 2013 – Jul 2014",
+      "location": "Florianópolis, Brazil · Part-time",
+      "summary": "Maintained client MVC sites and in-house products, like an event-driven social media tool integrated with Twitter and Instagram.",
+      "stack": ["CodeIgniter", "PHP", "Bootstrap"]
+    },
+    {
+      "role": "Web Developer · IT Support",
+      "company": "Audiovisual Lab, UFSC",
+      "period": "2010 – 2013",
+      "location": "Florianópolis, Brazil",
+      "summary": "Web development with PHP and Moodle; hardware and software support.",
+      "stack": ["PHP", "Moodle"]
+    }
+  ],
+
+  "projects": [
+    {
+      "name": "Arist Diagnostic",
+      "kind": "Work",
+      "company": "Arist",
+      "year": 2026,
+      "description": "AI-powered needs analysis for corporate L&D teams. Replaces manual stakeholder interviews with an automated conversational workflow that interviews every employee by voice or text and generates a research-grade insights report.",
+      "highlights": [
+        "Led frontend architecture for the entire Diagnostic product",
+        "Owned evaluation and integration of CopilotKit into an existing Vue.js/Rails stack, from a Vue adapter to Vite plugin embedding to the native Vue SDK",
+        "Agentic chat interface over Server-Sent Events via the AG-UI protocol, with state snapshots driving the UI",
+        "The LLM (Claude via Anthropic's API) is the only thing that advances the workflow: no next-step button, the agent calls a tool when a phase is done",
+        "Voice interviews through ElevenLabs, phone provisioning via Twilio, Rails on Falcon for non-blocking LLM concurrency"
+      ],
+      "achievements": "Deployed at large pharma, retail, med device and energy companies. 350% employee preference over other intake methods, 95% faster insights, 2% of traditional cost.",
+      "languages": ["TypeScript", "Ruby", "Python"],
+      "stack": ["Vue.js", "React", "Rails", "Falcon", "Pydantic AI", "CopilotKit", "AG-UI", "Claude API", "ElevenLabs", "Twilio", "AWS", "LLMs", "Agents"],
+      "links": [
+        { "label": "arist.co", "url": "https://arist.co" },
+        { "label": "Announcement", "url": "https://www.linkedin.com/feed/update/urn:li:activity:7483158303045505024/" }
+      ]
+    },
+    {
+      "name": "Arist Messenger app",
+      "kind": "Work",
+      "company": "Arist",
+      "year": 2026,
+      "description": "Rescued and shipped the Arist mobile app to the App Store and Google Play, taking over from an engineer who hadn't shipped in 6 months, including Sign in with Apple from scratch to pass review.",
+      "languages": ["TypeScript"],
+      "stack": ["Mobile", "iOS", "Android"],
+      "links": [
+        { "label": "App Store", "url": "https://apps.apple.com/br/app/arist-messenger/id6759101601" },
+        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.messenger.ui.app" }
+      ]
+    },
+    {
+      "name": "HoneyBee back-office platform",
+      "kind": "Work",
+      "company": "HoneyBee",
+      "year": 2025,
+      "description": "AI-enabled CRM and data processing platform that saves professional matchmakers 10+ hours per week. Built the entire back office from scratch.",
+      "highlights": [
+        "Full back-office monorepo from zero in Next.js and Python, including a complete refactor of the monorepo architecture",
+        "Ingestion pipeline for gigabytes of profile exports from third-party matchmaking platforms: photos, client records, match histories, large CSVs",
+        "Amazon Rekognition photo processing at scale (rotation, resizing, face detection) with idempotent retries",
+        "SpeakAI transcription and sentiment analysis of screening calls",
+        "Async pipeline on AWS Lambda and CloudWatch with per-file webhooks; Supabase for a Dual Publish sync mechanism",
+        "Multi-provider LLM gateway with per-feature model routing and usage logging"
+      ],
+      "achievements": "Onboarding takes hours instead of days; new customers sync across all platforms automatically; zero rotated-photo issues.",
+      "languages": ["TypeScript", "Python"],
+      "stack": ["Next.js", "AWS", "Lambda", "Rekognition", "SpeakAI", "Supabase", "PostgreSQL", "OpenCV", "LLMs"],
+      "links": [
+        { "label": "withhoneybee.com", "url": "https://withhoneybee.com" },
+        { "label": "Match", "url": "https://withhoneybee.com/products/match" },
+        { "label": "Events", "url": "https://withhoneybee.com/products/events" }
+      ]
+    },
+    {
+      "name": "Alpha School",
+      "kind": "Work",
+      "company": "ae.studio",
+      "year": 2025,
+      "description": "AI-first school where students finish core academics in 2 hours a day with personalized AI.",
+      "highlights": [
+        "Built Dream Launcher, an iOS-integrated platform tracking student progress and time across the 2-hour model",
+        "Contributed to an AI avatar that teaches kids to read using conversational AI (Twilio + ElevenLabs)",
+        "Contributed to an on-demand educational video generation pipeline driven by prompts and feedback loops"
+      ],
+      "languages": ["TypeScript", "Python"],
+      "stack": ["iOS", "LLMs", "Twilio", "ElevenLabs", "AWS"],
+      "links": [{ "label": "alpha.school", "url": "https://alpha.school" }]
+    },
+    {
+      "name": "Instill",
+      "kind": "Work",
+      "company": "ae.studio",
+      "year": 2025,
+      "description": "Platform and accelerator that launches branded iOS and Android apps for fitness, nutrition and wellness creators. Full-stack feature work and core integrations with LLMs, embeddings and Python tooling.",
+      "languages": ["TypeScript", "Python"],
+      "stack": ["React Native", "LLMs", "Embeddings", "AWS", "CI/CD"],
+      "links": [{ "label": "instillvideo.com", "url": "https://instillvideo.com/en" }]
+    },
+    {
+      "name": "Financial RAG system",
+      "kind": "Work",
+      "company": "ae.studio",
+      "year": 2025,
+      "description": "End-to-end RAG over Brazilian Central Bank data: text-embedding-3-small embeddings in FAISS, nearest-neighbor retrieval, GPT-4o synthesis, hybrid retrieval across two indices and a weighted market-context layer (SELIC trend, election cycle, regional risk). Plus RandomForest + XGBoost risk models and a LoRA fine-tune of phi-2.",
+      "languages": ["Python"],
+      "stack": ["RAG", "OpenAI", "FAISS", "Embeddings", "scikit-learn", "XGBoost", "Hugging Face", "PyTorch", "LLMs"]
+    },
+    {
+      "name": "Multimedia AI search",
+      "kind": "Work",
+      "company": "ae.studio",
+      "year": 2025,
+      "description": "Search over video and audio: Whisper transcription, GPT-4o frame captioning, and a local Ollama/llava path for cost-free iteration.",
+      "languages": ["Python"],
+      "stack": ["OpenAI", "Whisper", "Ollama", "LLMs"]
+    },
+    {
+      "name": "Kyte Surfer app",
+      "kind": "Work",
+      "company": "Kyte",
+      "year": 2024,
+      "description": "Driver app for a Series B car rental startup that delivers cars to your door. Joined mid-product, ramped up in under a month and was the primary engineer for two years.",
+      "highlights": [
+        "Fixed live location tracking by moving from WebSockets to HTTP updates, touching native iOS and Android code",
+        "Custom embedded notification engine with any sound and vibration pattern",
+        "Migrated to Expo Camera, drastically reducing crash reports",
+        "Full vehicle inspection flow and Right of First Refusal for bookings",
+        "Feature-flag-driven dynamic copy via Flagr, no releases needed",
+        "Fixed deployment and publishing pipelines; Auth0 in the internal Fleet Tool"
+      ],
+      "achievements": "Photo rejection down 50% with a native blurriness/brightness module bridged to React Native; feature shipping time down 30% with a cross-platform design system.",
+      "languages": ["TypeScript", "Kotlin", "Swift"],
+      "stack": ["React Native", "Expo", "Node.js", "AWS", "Socket.IO", "Auth0"],
+      "links": [
+        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.umi.surfer" },
+        { "label": "About Kyte", "url": "https://jenyangwong.substack.com/p/kyte-series-b-disrupting-the-54b" }
+      ]
+    },
+    {
+      "name": "Kyte Consumer app & portal",
+      "kind": "Work",
+      "company": "Kyte",
+      "year": 2023,
+      "description": "Consumer-facing platform: Additional Drivers, Vehicle Condition report, Async Checkout, ID/Passport verification, real-usage updates and metasearch integrations with Kayak and Skyscanner.",
+      "achievements": "+1% conversion through A/B testing.",
+      "languages": ["TypeScript", "Python"],
+      "stack": ["Next.js", "React Native", "NestJS", "FastAPI", "AWS"],
+      "links": [{ "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.umi.kyte" }]
+    },
+    {
+      "name": "CondoConta banking app",
+      "kind": "Work",
+      "company": "CondoConta",
+      "year": 2020,
+      "description": "Fintech banking for Brazilian condominiums (R$19.4M raised, 550k+ users). Led the product from conception to the 1.0 launch and beyond.",
+      "highlights": [
+        "Shipped 1.0 to both stores end to end: architecture, CI/CD, Java backend, AWS",
+        "Third-party financial APIs for banking, payments and Pix",
+        "PDF generator for bank statements",
+        "Migrated the app (3k+ files) from JavaScript to TypeScript",
+        "CodePush for over-the-air fixes in minutes instead of days"
+      ],
+      "languages": ["TypeScript", "Java"],
+      "stack": ["React Native", "Node.js", "AWS", "Lambda", "CI/CD"],
+      "links": [
+        { "label": "condoconta.com.br", "url": "https://condoconta.com.br" },
+        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.condoconta.bank" }
+      ]
+    },
+    {
+      "name": "Angular 2+ migration",
+      "kind": "Work",
+      "company": "Salsa Technology",
+      "year": 2019,
+      "description": "Architected and kicked off the AngularJS → Angular 2+ migration for a gaming/lottery platform, plus Spring MVC APIs with third-party providers.",
+      "languages": ["TypeScript", "Java"],
+      "stack": ["Angular", "AngularJS", "Spring MVC", "Jenkins"]
+    },
+    {
+      "name": "Tour de France real-time tracking",
+      "kind": "Work",
+      "company": "Dimension Data",
+      "year": 2017,
+      "description": "Real-time racer position tracking for one of the world's most watched sporting events: live GPS events streamed with Socket.IO and Node.js to a race progress visualization built in Angular.",
+      "languages": ["TypeScript", "JavaScript"],
+      "stack": ["Node.js", "Socket.IO", "Angular", "OpenStreetMap"]
+    },
+    {
+      "name": "Atajo Office",
+      "kind": "Work",
+      "company": "Dimension Data",
+      "year": 2018,
+      "description": "Multi-tenant survey and CRM platform for Britehouse, adopted by Lenmed, Audi and other enterprise clients, with location-aware survey delivery.",
+      "languages": ["TypeScript", "JavaScript"],
+      "stack": ["Node.js", "Angular", "PostgreSQL", "OpenStreetMap", "AWS"]
+    },
+
+    {
+      "name": "Are We Paying Attention?",
+      "kind": "Research",
+      "year": 2025,
+      "description": "Measuring first-person subject claims in LLMs under self-referential prompts. Built an experiment harness with a recursive self-reference loop, dual LLM-as-judge classification with disagreement tracking, and cross-provider support. Self-reference produced subjective-experience claims in 28% of trials vs. 6% in controls, stable across a temperature sweep.",
+      "languages": ["Python"],
+      "stack": ["LLMs", "OpenAI", "Claude API", "Gemini", "AI Alignment"]
+    },
+    {
+      "name": "Music Style Prediction with AI Models",
+      "kind": "Research",
+      "year": 2018,
+      "description": "BSc thesis at UFSC: classifying music genres with machine learning.",
+      "languages": ["Python", "JavaScript"],
+      "stack": ["Machine Learning"],
+      "links": [
+        { "label": "Thesis", "url": "https://repositorio.ufsc.br/bitstream/handle/123456789/187873/EMERSON-DEMETRIO-SIN_ENTREGA_FINAL_18.1_CORRIGIDA.pdf?sequence=1&isAllowed=y" },
+        { "label": "Code", "url": "https://github.com/emersondemetrio/tcc" }
+      ]
+    },
+
+    { "name": "emerson.run", "kind": "Personal", "year": 2026, "description": "This site: links, labs and experiments.", "languages": ["TypeScript"], "stack": ["React", "Vite", "Tailwind", "DaisyUI"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/emersondemetrio.github.io" }] },
+    { "name": "claude-code-mods", "kind": "Personal", "year": 2026, "description": "Customizations for Claude Code.", "languages": ["TypeScript"], "stack": ["Claude Code"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/claude-code-mods" }] },
+    { "name": "local-agent", "kind": "Personal", "year": 2026, "description": "A local AI agent.", "languages": ["Python"], "stack": ["Agents", "LLMs"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/local-agent" }] },
+    { "name": "slideaway", "kind": "Personal", "year": 2026, "description": "An interactive presentation tool.", "languages": ["Python", "JavaScript"], "stack": ["Svelte", "Docker"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/slideaway" }] },
+    { "name": "python-course", "kind": "Personal", "year": 2026, "description": "Python course material.", "languages": ["Python"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/python-course" }] },
+    { "name": "decision-matrix", "kind": "Personal", "year": 2026, "description": "A decision matrix tool.", "languages": ["TypeScript"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/decision-matrix" }] },
+    { "name": "dotfiles", "kind": "Personal", "year": 2026, "description": "A collection of useful bash shortcuts and commands.", "languages": ["Shell", "Python", "Go"], "stack": ["Bash"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/dotfiles" }] },
+    { "name": "task-api", "kind": "Personal", "year": 2026, "description": "An API for a task application.", "languages": ["TypeScript"], "stack": ["Node.js", "Docker"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/task-api" }] },
+    { "name": "ts-advanced-types", "kind": "Personal", "year": 2026, "description": "A collection of advanced TypeScript code.", "languages": ["TypeScript"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/ts-advanced-types" }] },
+    { "name": "advanced-dev-topics", "kind": "Personal", "year": 2026, "description": "Advanced TypeScript topics.", "languages": ["TypeScript", "Python"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/advanced-dev-topics" }] },
+    { "name": "game-theory", "kind": "Personal", "year": 2025, "description": "Game theory experiments.", "languages": ["TypeScript"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/game-theory" }] },
+    { "name": "experiments-api", "kind": "Personal", "year": 2025, "description": "An API for experiments.", "languages": ["JavaScript"], "stack": ["Node.js"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/experiments-api" }] },
+    { "name": "openfinance", "kind": "Personal", "year": 2025, "description": "Open finance experiments.", "languages": ["TypeScript"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/openfinance" }] },
+    { "name": "breathly", "kind": "Personal", "year": 2025, "description": "Breath pacing app: inhale for N seconds, exhale for 2N.", "languages": ["TypeScript"], "stack": ["React"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/breathly" }] },
+    { "name": "semantic-date-api", "kind": "Personal", "year": 2024, "description": "Semantic date API.", "languages": ["TypeScript"], "stack": ["Node.js"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/semantic-date-api" }] },
+    { "name": "simple-mock-server", "kind": "Personal", "year": 2024, "description": "Simple mock server.", "languages": ["JavaScript"], "stack": ["Node.js"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/simple-mock-server" }] },
+    { "name": "puzze-galme", "kind": "Personal", "year": 2024, "description": "Puzzle game.", "languages": ["TypeScript"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/puzze-galme" }] },
+    { "name": "docker-trainning", "kind": "Personal", "year": 2024, "description": "Docker training.", "languages": ["JavaScript"], "stack": ["Docker", "Node.js"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/docker-trainning" }] },
+    { "name": "node-pipelines", "kind": "Personal", "year": 2024, "description": "Experimenting with Node.js stream pipelines.", "languages": ["JavaScript"], "stack": ["Node.js"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/node-pipelines" }] },
+    { "name": "tvfx", "kind": "Personal", "year": 2024, "description": "CSS + JS TV off-air effect.", "languages": ["JavaScript", "CSS"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/tvfx" }] },
+    { "name": "weather-api", "kind": "Personal", "year": 2024, "description": "Weather API.", "languages": ["JavaScript"], "stack": ["Node.js"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/weather-api" }] },
+    { "name": "timezones", "kind": "Personal", "year": 2024, "description": "Timezones app.", "languages": ["JavaScript"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/timezones" }] },
+    { "name": "python-threads", "kind": "Personal", "year": 2024, "description": "Python threads experiments.", "languages": ["Python"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/python-threads" }] },
+    { "name": "number-puzze-game", "kind": "Personal", "year": 2022, "description": "Number puzzle game.", "languages": ["TypeScript"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/number-puzze-game" }] },
+    { "name": "random-color-palette", "kind": "Personal", "year": 2022, "description": "Random color palette generator.", "languages": ["TypeScript"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/random-color-palette" }] },
+    { "name": "l33t", "kind": "Personal", "year": 2021, "description": "l33t text converter.", "languages": ["TypeScript"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/l33t" }] },
+    { "name": "mp3Recorder", "kind": "Personal", "year": 2020, "description": "Mobile MP3 recorder.", "languages": ["Dart"], "stack": ["Flutter"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/mp3Recorder" }] },
+    { "name": "chess", "kind": "Personal", "year": 2019, "description": "Yet another chess implementation.", "languages": ["JavaScript"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/chess" }] },
+    { "name": "tetris", "kind": "Personal", "year": 2019, "description": "Yet another Tetris implementation.", "languages": ["JavaScript"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/tetris" }] },
+    { "name": "tcp-io", "kind": "Personal", "year": 2019, "description": "TCP data stream experiments.", "languages": ["JavaScript"], "stack": ["Node.js"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/tcp-io" }] },
+    { "name": "upcoming-movies", "kind": "Personal", "year": 2019, "description": "Upcoming movies web app.", "languages": ["TypeScript"], "stack": ["Angular"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/upcoming-movies" }] },
+    { "name": "angularMVP", "kind": "Personal", "year": 2019, "description": "Angular 7+ MVP.", "languages": ["TypeScript"], "stack": ["Angular"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/angularMVP" }] },
+    { "name": "socketIOServer", "kind": "Personal", "year": 2019, "description": "Socket.IO server.", "languages": ["JavaScript"], "stack": ["Node.js", "Socket.IO"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/socketIOServer" }] },
+    { "name": "branch-removing-tool", "kind": "Personal", "year": 2017, "description": "Removes old branches from your local copy.", "languages": ["Shell"], "stack": ["Bash", "Git"], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/branch-removing-tool" }] },
+
+    { "name": "ine5633_trabalhos", "kind": "University", "year": 2015, "description": "Coursework for INE5633.", "languages": ["Java"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/ine5633_trabalhos" }] },
+    { "name": "finalaps", "kind": "University", "year": 2014, "description": "University project.", "languages": ["Java"], "stack": [], "links": [{ "label": "Code", "url": "https://github.com/emersondemetrio/finalaps" }] }
+  ],
+
+  "skills": [
+    { "group": "Agentic", "items": ["Claude Code", "RAG", "LLMs", "Embeddings", "OpenAI APIs", "Vercel AI Gateway", "Spec Driven Design", "MCP", "Vector Databases"] },
+    { "group": "Front-end", "items": ["Mobile development", "JavaScript", "TypeScript", "React / React Native", "Angular", "Vue.js", "Kotlin", "Swift"] },
+    { "group": "Back-end", "items": ["Node.js", "Python", "Java", "SQL (MySQL, MSSQL, PostgreSQL)", "NoSQL (MongoDB, CouchDB, DynamoDB)", "TDD"] },
+    { "group": "DevOps", "items": ["Linux / Bash", "Git", "GitHub Actions", "Scrum", "AWS", "TCP / Data streams", "ActiveMQ", "Docker"] }
+  ],
+
+  "publications": [
+    {
+      "title": "Are We Paying Attention: Measuring First-Person Subject Claims in LLMs Under Self-Referential Prompts",
+      "authors": "Demetrio, Backes",
+      "venue": "ae.studio AI alignment retreat",
+      "year": 2025
+    }
+  ],
+
+  "education": [
+    {
+      "title": "BSc, Information Systems",
+      "school": "Federal University of Santa Catarina (UFSC)",
+      "period": "2010 – 2018",
+      "note": "Thesis: Music Style Prediction with AI Models",
+      "url": "https://repositorio.ufsc.br/bitstream/handle/123456789/187873/EMERSON-DEMETRIO-SIN_ENTREGA_FINAL_18.1_CORRIGIDA.pdf?sequence=1&isAllowed=y"
+    },
+    {
+      "title": "Bilingual Professional Certification, English",
+      "school": "Wizard by Pearson",
+      "period": "2020 – 2021"
+    }
+  ],
+
+  "certifications": [
+    "Agile Scrum Foundation, Universidade Estabilis (2019)",
+    "DevOps Essentials Professional Certificate (DEPC), CertiProf",
+    "AngularJS Basics (Shaping up with AngularJS), Code School"
+  ],
+
+  "languages": [
+    { "name": "Portuguese", "level": "Native" },
+    { "name": "English", "level": "C1" },
+    { "name": "Spanish", "level": "A1" },
+    { "name": "German", "level": "A1" }
+  ],
+
+  "interests": ["Mobile apps", "IoT", "AI alignment", "Distributed systems", "Functional programming", "Data security", "Music (composer, interpreter)", "Writing (fiction)"]
+}
